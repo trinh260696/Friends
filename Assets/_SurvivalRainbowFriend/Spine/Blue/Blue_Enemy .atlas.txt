@@ -1,0 +1,43 @@
+Blue_Enemy.png
+size:2048,256
+filter:Linear,Linear
+pma:true
+Group 6
+bounds:495,2,96,123
+rotate:90
+Group 7
+bounds:620,2,96,123
+rotate:90
+Head
+bounds:322,42,206,171
+rotate:90
+L_eye
+bounds:322,15,23,25
+L_eye1
+bounds:1070,18,54,52
+rotate:90
+L_eye_red
+bounds:347,15,23,25
+L_hand
+bounds:495,100,148,259
+rotate:90
+L_leg
+bounds:808,18,88,260
+rotate:90
+R_leg
+bounds:808,18,88,260
+rotate:90
+Layer 125
+bounds:1039,134,114,87
+rotate:90
+Layer 148
+bounds:1070,74,46,58
+R_eye
+bounds:745,9,89,61
+rotate:90
+R_hand
+bounds:756,108,140,281
+rotate:90
+body
+bounds:2,12,236,318
+rotate:90

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_SurvivalRainbowFriend/Scripts/UI/UISpin/LeanTweenUISpin.cs.meta
+guid: 5c045baa189400748ab7f5cdaed2d9db
+========
+guid: b685a6f005e35a24795b4c801197b40f
+>>>>>>>> dev_demo_0.2:Assets/_SurvivalRainbowFriend/Scripts/WinArea/WinAreaScript.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

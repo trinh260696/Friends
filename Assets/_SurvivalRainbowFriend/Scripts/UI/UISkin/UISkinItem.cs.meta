@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_SurvivalRainbowFriend/Scripts/UI/UISkin/UISkinItem.cs.meta
+guid: f98ec9d159053084c8d10d15dfe59073
+========
+guid: 1c5c0b8cd3e3b4f43ae8d1d9cd5de3dc
+>>>>>>>> dev_demo_0.2:Assets/2DDL/2DLight/Core/OccludedUR_passToShader.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_SurvivalRainbowFriend/Scripts/UI/UIDailyReward/SubItem.cs.meta
+guid: fbab4f3ac1b79cf47ad41671022a4243
+========
+guid: 7f958a26d6b2854418f02a5911809edb
+>>>>>>>> dev_demo_0.2:Assets/_SurvivalRainbowFriend/Scripts/ContainAssistant/ContainAssistant.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

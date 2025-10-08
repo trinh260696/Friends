@@ -1,0 +1,25 @@
+rainbow_orange.png
+size:1024,512
+filter:Linear,Linear
+pma:true
+Body
+bounds:2,112,398,520
+rotate:90
+L_foot
+bounds:859,364,157,146
+R_foot
+bounds:859,364,157,146
+L_hand
+bounds:524,2,272,117
+Layer 194 copy
+bounds:798,38,121,81
+Layer 216
+bounds:413,55,51,55
+Mouth_1
+bounds:2,21,409,89
+Mouth_2
+bounds:524,121,365,98
+R_eye
+bounds:859,268,140,94
+R_hand
+bounds:524,221,333,289

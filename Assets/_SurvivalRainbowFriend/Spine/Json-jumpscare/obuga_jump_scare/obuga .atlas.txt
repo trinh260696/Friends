@@ -1,0 +1,29 @@
+obuga.png
+size:2048,2048
+filter:Linear,Linear
+pma:true
+Body
+bounds:2,2,1122,847
+Ellipse 1
+bounds:1126,24,115,106
+Ellipse 2
+bounds:1126,24,115,106
+L_eye
+bounds:1126,132,179,165
+L_hand
+bounds:1490,266,328,507
+Mouth
+bounds:1813,1588,376,173
+rotate:90
+R_eye
+bounds:1813,1407,179,165
+rotate:90
+R_hand_1
+bounds:1126,299,362,474
+R_hand_2
+bounds:1269,775,467,558
+rotate:90
+head
+bounds:1269,1244,542,720
+weapon
+bounds:2,851,1265,1113

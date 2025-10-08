@@ -1,0 +1,35 @@
+blue_jump_scare.png
+size:4096,1024
+filter:Linear,Linear
+pma:true
+Body
+bounds:2620,321,1178,701
+Ellipse 2
+bounds:602,36,190,174
+rotate:90
+Group 2
+bounds:3800,441,234,334
+Group 3
+bounds:2180,2,266,245
+rotate:90
+Head
+bounds:2,63,959,598
+rotate:90
+L_eye
+bounds:2427,2,266,245
+rotate:90
+L_hand
+bounds:602,228,794,787
+rotate:90
+Layer 1
+bounds:2180,270,752,438
+rotate:90
+R_eye
+bounds:3800,777,266,245
+R_eye2
+bounds:778,69,324,157
+R_hand
+bounds:1391,228,794,787
+rotate:90
+crown
+bounds:2674,22,429,297

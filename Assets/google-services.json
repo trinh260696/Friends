@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "116407133351",
+    "project_id": "suvivor-among-rainbow-monsters",
+    "storage_bucket": "suvivor-among-rainbow-monsters.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116407133351:android:1755b93494f353e3c56782",
+        "android_client_info": {
+          "package_name": "com.grus.survivor.rainbow.monsters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116407133351-6f3lm8thfgtpbasm5p1309kmv68dfgqg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM6IM4SWP8gBwNWJqZ6Mu93DjPaIWXdB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116407133351-6f3lm8thfgtpbasm5p1309kmv68dfgqg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "116407133351-o3b65d6qp89u53ahn9s70qa26ru78ije.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.grus.survivor.rainbow.monsters"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

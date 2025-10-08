@@ -1,0 +1,70 @@
+skin3.png
+size:2048,2048
+filter:Linear,Linear
+pma:true
+Batman/Body
+bounds:915,564,252,358
+Batman/Box
+bounds:414,34,368,487
+rotate:90
+Batman/Carton
+bounds:903,2,415,418
+Batman/Gift box
+bounds:432,1000,448,452
+Batman/Glass
+bounds:1090,1879,165,117
+rotate:90
+Batman/Glass_2
+bounds:882,1305,163,115
+rotate:90
+Batman/L_ear
+bounds:432,916,82,96
+rotate:90
+Batman/L_hand
+bounds:747,1470,89,173
+rotate:90
+Batman/L_leg
+bounds:915,442,120,195
+rotate:90
+Batman/Pack
+bounds:518,1460,93,227
+rotate:90
+Batman/Pinetree
+bounds:2,910,428,542
+Batman/R_ear
+bounds:704,918,61,80
+Batman/R_hand
+bounds:530,918,80,172
+rotate:90
+Batman/R_leg
+bounds:1112,442,120,194
+rotate:90
+Batman/Shape 1
+bounds:2,26,410,376
+Batman/Shape 4
+bounds:518,1798,246,244
+rotate:90
+Batman/Shape 5
+bounds:764,1816,228,178
+rotate:90
+Batman/Shape 6
+bounds:944,1845,199,144
+rotate:90
+Batman/Shape 7
+bounds:687,1561,235,205
+rotate:90
+Batman/Shape 8
+bounds:894,1588,226,195
+rotate:90
+Batman/Shape 9
+bounds:518,1555,241,167
+rotate:90
+Batman/Shove
+bounds:428,422,486,485
+rotate:90
+Batman/Snowman
+bounds:2,1454,514,590
+Batman/TNT
+bounds:2,404,424,504
+Batman/belt
+bounds:767,924,247,74

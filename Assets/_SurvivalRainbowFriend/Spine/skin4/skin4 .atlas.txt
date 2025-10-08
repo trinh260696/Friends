@@ -1,0 +1,74 @@
+skin4.png
+size:2048,2048
+filter:Linear,Linear
+pma:true
+mine_craft/1_2
+bounds:719,1075,141,227
+rotate:90
+mine_craft/2_2
+bounds:372,359,115,208
+mine_craft/3
+bounds:1370,677,78,158
+mine_craft/4
+bounds:948,1086,71,130
+mine_craft/Body
+bounds:1456,921,243,308
+mine_craft/Box
+bounds:2,80,368,487
+mine_craft/Carton
+bounds:1062,1231,415,418
+rotate:90
+mine_craft/Gift box
+bounds:490,606,448,452
+rotate:90
+mine_craft/Glass
+bounds:1450,595,165,117
+mine_craft/Glass_2
+bounds:372,194,163,115
+rotate:90
+mine_craft/L_ear
+bounds:868,524,61,80
+mine_craft/L_foot
+bounds:1062,1109,120,195
+rotate:90
+mine_craft/L_hand
+bounds:372,19,89,173
+mine_craft/Pack
+bounds:1065,2,93,227
+mine_craft/Pinetree
+bounds:518,1218,428,542
+rotate:90
+mine_craft/R_ear
+bounds:1370,1011,82,96
+mine_craft/R_hand
+bounds:1370,837,80,172
+mine_craft/R_leg
+bounds:1259,1109,120,195
+rotate:90
+mine_craft/Shape 1
+bounds:490,194,410,376
+rotate:90
+mine_craft/Shape 4
+bounds:1296,321,246,244
+rotate:90
+mine_craft/Shape 5
+bounds:1482,1235,228,178
+mine_craft/Shape 6
+bounds:518,1072,199,144
+mine_craft/Shape 7
+bounds:1452,714,235,205
+mine_craft/Shape 8
+bounds:868,3,226,195
+rotate:90
+mine_craft/Shape 9
+bounds:1296,152,241,167
+mine_craft/Shove
+bounds:2,569,486,485
+mine_craft/Snowman
+bounds:2,1056,514,590
+mine_craft/TNT
+bounds:944,569,424,504
+mine_craft/head
+bounds:1482,1415,266,231
+mine_craft/thing
+bounds:931,231,363,336
