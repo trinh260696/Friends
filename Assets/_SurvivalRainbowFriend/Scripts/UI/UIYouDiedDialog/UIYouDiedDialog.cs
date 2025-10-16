@@ -108,13 +108,12 @@ public class UIYouDiedDialog : VKLayer
     }
 
     #endregion
-    [System.Obsolete]
+   
     public void Init(List<ItemObject> StatusMissions, List<ItemObject> TotalMissions)
     {
         StartCoroutine(ShowJumScare(StatusMissions, TotalMissions));
     }
 
-    [System.Obsolete]
     IEnumerator ShowJumScare(List<ItemObject> StatusMissions, List<ItemObject> TotalMissions)
     {
         uiDialog.gameObject.SetActive(false);
@@ -126,12 +125,12 @@ public class UIYouDiedDialog : VKLayer
         if (StaticData.ENEMY_STRING == "")
         {
             StaticData.ENEMY_STRING = StaticData.ENEMY_ARR[GameManager.Instance.levelData.level - 1];
-            uiJumScare.FindChild(StaticData.ENEMY_STRING).gameObject.SetActive(true);          
+            uiJumScare.Find(StaticData.ENEMY_STRING).gameObject.SetActive(true);          
         }
         else
         {
             AudioManager.instance.Play(StaticData.ENEMY_STRING);
-            uiJumScare.FindChild(StaticData.ENEMY_STRING).gameObject.SetActive(true);
+            uiJumScare.Find(StaticData.ENEMY_STRING).gameObject.SetActive(true);
         }
         StaticData.ENEMY_STRING = "";
         yield return new WaitForSeconds(3f);

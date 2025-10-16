@@ -1,0 +1,27 @@
+
+Canin.png
+size: 400,400
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 0
+  rotate: false
+  xy: 98, 275
+  size: 134, 120
+  orig: 136, 122
+  offset: 1, 1
+  index: -1
+Layer 0 copy
+  rotate: false
+  xy: 234, 247
+  size: 161, 148
+  orig: 163, 150
+  offset: 1, 1
+  index: -1
+Star
+  rotate: false
+  xy: 2, 301
+  size: 94, 94
+  orig: 96, 96
+  offset: 1, 1
+  index: -1

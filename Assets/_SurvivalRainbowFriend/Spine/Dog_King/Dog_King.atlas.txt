@@ -1,0 +1,293 @@
+
+Dog_King.png
+size: 700,700
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0
+  rotate: true
+  xy: 676, 625
+  size: 34, 15
+  orig: 34, 15
+  offset: 0, 0
+  index: -1
+1
+  rotate: true
+  xy: 676, 587
+  size: 36, 14
+  orig: 36, 14
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 260, 13
+  size: 37, 15
+  orig: 37, 15
+  offset: 0, 0
+  index: -1
+Ao_chong_1
+  rotate: false
+  xy: 2, 30
+  size: 277, 293
+  orig: 277, 293
+  offset: 0, 0
+  index: -1
+Ao_chong_2
+  rotate: true
+  xy: 415, 585
+  size: 112, 259
+  orig: 115, 259
+  offset: 0, 0
+  index: -1
+Ao_chong_3
+  rotate: true
+  xy: 412, 109
+  size: 138, 192
+  orig: 138, 192
+  offset: 0, 0
+  index: -1
+Ban_tay_T
+  rotate: false
+  xy: 606, 118
+  size: 66, 56
+  orig: 66, 56
+  offset: 0, 0
+  index: -1
+Gay
+  rotate: true
+  xy: 415, 249
+  size: 117, 209
+  orig: 117, 209
+  offset: 0, 0
+  index: -1
+L HAND
+  rotate: false
+  xy: 355, 11
+  size: 48, 54
+  orig: 48, 54
+  offset: 0, 0
+  index: -1
+La_co
+  rotate: false
+  xy: 214, 364
+  size: 199, 333
+  orig: 199, 333
+  offset: 0, 0
+  index: -1
+Layer 69
+  rotate: true
+  xy: 24, 3
+  size: 25, 14
+  orig: 25, 14
+  offset: 0, 0
+  index: -1
+Layer 69 copy
+  rotate: true
+  xy: 189, 8
+  size: 20, 15
+  orig: 20, 15
+  offset: 0, 0
+  index: -1
+Mat_P1
+  rotate: false
+  xy: 113, 8
+  size: 38, 20
+  orig: 38, 20
+  offset: 0, 0
+  index: -1
+Mat_P2
+  rotate: false
+  xy: 206, 3
+  size: 6, 7
+  orig: 6, 7
+  offset: 0, 0
+  index: -1
+Mat_T2
+  rotate: false
+  xy: 206, 3
+  size: 6, 7
+  orig: 6, 7
+  offset: 0, 0
+  index: -1
+Mat_P3
+  rotate: true
+  xy: 40, 4
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+Mat_T1
+  rotate: true
+  xy: 2, 3
+  size: 25, 20
+  orig: 25, 20
+  offset: 0, 0
+  index: -1
+Mat_T3
+  rotate: true
+  xy: 246, 12
+  size: 16, 12
+  orig: 16, 12
+  offset: 0, 0
+  index: -1
+Mieng1
+  rotate: true
+  xy: 676, 534
+  size: 51, 12
+  orig: 51, 12
+  offset: 0, 0
+  index: -1
+Mieng2
+  rotate: true
+  xy: 321, 2
+  size: 63, 32
+  orig: 63, 32
+  offset: 0, 0
+  index: -1
+Mieng3
+  rotate: false
+  xy: 153, 8
+  size: 34, 20
+  orig: 34, 20
+  offset: 0, 0
+  index: -1
+Mieng4
+  rotate: false
+  xy: 626, 231
+  size: 70, 41
+  orig: 70, 41
+  offset: 0, 0
+  index: -1
+Mui
+  rotate: false
+  xy: 54, 5
+  size: 33, 23
+  orig: 33, 23
+  offset: 0, 0
+  index: -1
+Tai
+  rotate: false
+  xy: 626, 274
+  size: 71, 92
+  orig: 71, 92
+  offset: 0, 0
+  index: -1
+Tay_P
+  rotate: false
+  xy: 305, 190
+  size: 105, 172
+  orig: 105, 172
+  offset: 0, 0
+  index: -1
+Tay_T
+  rotate: false
+  xy: 281, 67
+  size: 126, 121
+  orig: 126, 121
+  offset: 0, 0
+  index: -1
+Tay_T2
+  rotate: true
+  xy: 214, 326
+  size: 36, 89
+  orig: 36, 89
+  offset: 0, 0
+  index: -1
+Than
+  rotate: true
+  xy: 415, 368
+  size: 215, 253
+  orig: 215, 253
+  offset: 0, 0
+  index: -1
+Vuong_niem
+  rotate: false
+  xy: 409, 5
+  size: 119, 102
+  orig: 119, 121
+  offset: 0, 15
+  index: -1
+cc
+  rotate: false
+  xy: 2, 325
+  size: 210, 372
+  orig: 210, 372
+  offset: 0, 0
+  index: -1
+charge/0
+  rotate: false
+  xy: 530, 42
+  size: 32, 29
+  orig: 34, 31
+  offset: 1, 1
+  index: -1
+charge/1
+  rotate: false
+  xy: 606, 73
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
+charge/2
+  rotate: false
+  xy: 562, 4
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
+charge/3
+  rotate: true
+  xy: 651, 42
+  size: 36, 38
+  orig: 36, 38
+  offset: 0, 0
+  index: -1
+charge/4
+  rotate: true
+  xy: 651, 80
+  size: 36, 39
+  orig: 36, 39
+  offset: 0, 0
+  index: -1
+charge/5
+  rotate: true
+  xy: 281, 30
+  size: 35, 38
+  orig: 36, 40
+  offset: 0, 1
+  index: -1
+charge/6
+  rotate: false
+  xy: 530, 2
+  size: 30, 38
+  orig: 36, 40
+  offset: 3, 1
+  index: -1
+charge/7
+  rotate: true
+  xy: 206, 12
+  size: 16, 38
+  orig: 18, 40
+  offset: 0, 1
+  index: -1
+charge/8
+  rotate: false
+  xy: 676, 661
+  size: 15, 36
+  orig: 18, 40
+  offset: 1, 2
+  index: -1
+holy grail
+  rotate: true
+  xy: 606, 176
+  size: 53, 80
+  orig: 53, 80
+  offset: 0, 0
+  index: -1
+venom
+  rotate: false
+  xy: 89, 6
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1

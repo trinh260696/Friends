@@ -1,0 +1,202 @@
+
+upgrade.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Hole/00
+  rotate: false
+  xy: 2, 1181
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+Hole/do
+  rotate: false
+  xy: 117, 1181
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+Hole/lam
+  rotate: false
+  xy: 232, 1181
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+Hole/luc
+  rotate: false
+  xy: 347, 1181
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+Hole/tim
+  rotate: false
+  xy: 462, 1181
+  size: 113, 101
+  orig: 113, 101
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/0
+  rotate: false
+  xy: 1656, 1124
+  size: 193, 158
+  orig: 193, 158
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/1
+  rotate: false
+  xy: 1544, 884
+  size: 334, 238
+  orig: 334, 238
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/2
+  rotate: false
+  xy: 1544, 620
+  size: 364, 262
+  orig: 364, 262
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/3
+  rotate: false
+  xy: 516, 211
+  size: 382, 276
+  orig: 382, 276
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/4
+  rotate: false
+  xy: 1296, 50
+  size: 406, 292
+  orig: 406, 292
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/5
+  rotate: false
+  xy: 900, 187
+  size: 394, 284
+  orig: 394, 284
+  offset: 0, 0
+  index: -1
+bombexplosiondodge.img/6
+  rotate: false
+  xy: 1544, 344
+  size: 384, 274
+  orig: 384, 274
+  offset: 0, 0
+  index: -1
+khung
+  rotate: true
+  xy: 2, 2
+  size: 312, 477
+  orig: 312, 477
+  offset: 0, 0
+  index: -1
+set/1
+  rotate: true
+  xy: 2, 1008
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set/2
+  rotate: true
+  xy: 577, 1181
+  size: 101, 534
+  orig: 101, 534
+  offset: 0, 0
+  index: -1
+set/3
+  rotate: true
+  xy: 1113, 1165
+  size: 117, 541
+  orig: 117, 541
+  offset: 0, 0
+  index: -1
+set_tim/1
+  rotate: true
+  xy: 516, 1008
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_tim/2
+  rotate: true
+  xy: 1030, 992
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_tim/3
+  rotate: true
+  xy: 2, 835
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhlam/1
+  rotate: true
+  xy: 516, 835
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhlam/2
+  rotate: true
+  xy: 1030, 819
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhlam/3
+  rotate: true
+  xy: 2, 662
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhluc/1
+  rotate: true
+  xy: 516, 662
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhluc/2
+  rotate: true
+  xy: 1030, 646
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+set_xanhluc/3
+  rotate: true
+  xy: 2, 489
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+setdo/1
+  rotate: true
+  xy: 516, 489
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+setdo/2
+  rotate: true
+  xy: 1030, 473
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1
+setdo/3
+  rotate: true
+  xy: 2, 316
+  size: 171, 512
+  orig: 171, 512
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,174 @@
+
+Mad_King.png
+size: 780,780
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0
+  rotate: false
+  xy: 262, 12
+  size: 34, 15
+  orig: 34, 15
+  offset: 0, 0
+  index: -1
+1
+  rotate: true
+  xy: 298, 8
+  size: 36, 14
+  orig: 36, 14
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 259, 29
+  size: 37, 15
+  orig: 37, 15
+  offset: 0, 0
+  index: -1
+Ao_choang_1
+  rotate: false
+  xy: 2, 325
+  size: 181, 452
+  orig: 216, 461
+  offset: 35, 0
+  index: -1
+Ao_choang_2
+  rotate: false
+  xy: 185, 468
+  size: 172, 309
+  orig: 172, 309
+  offset: 0, 0
+  index: -1
+Ao_choang_3
+  rotate: true
+  xy: 336, 13
+  size: 138, 192
+  orig: 138, 192
+  offset: 0, 0
+  index: -1
+Ban_tay_P
+  rotate: false
+  xy: 2, 14
+  size: 102, 54
+  orig: 102, 54
+  offset: 0, 0
+  index: -1
+Ban_tay_T
+  rotate: false
+  xy: 106, 10
+  size: 79, 58
+  orig: 79, 58
+  offset: 0, 0
+  index: -1
+Mat_P1
+  rotate: false
+  xy: 187, 5
+  size: 38, 20
+  orig: 38, 20
+  offset: 0, 0
+  index: -1
+Mat_P3
+  rotate: false
+  xy: 395, 469
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+Mat_T1
+  rotate: true
+  xy: 314, 19
+  size: 25, 20
+  orig: 25, 20
+  offset: 0, 0
+  index: -1
+Mat_T3
+  rotate: false
+  xy: 421, 469
+  size: 16, 12
+  orig: 16, 12
+  offset: 0, 0
+  index: -1
+Mieng1
+  rotate: false
+  xy: 395, 483
+  size: 51, 12
+  orig: 51, 12
+  offset: 0, 0
+  index: -1
+Mieng2
+  rotate: false
+  xy: 259, 46
+  size: 63, 32
+  orig: 63, 32
+  offset: 0, 0
+  index: -1
+Mieng3
+  rotate: false
+  xy: 359, 475
+  size: 34, 20
+  orig: 34, 20
+  offset: 0, 0
+  index: -1
+Mieng4
+  rotate: false
+  xy: 187, 27
+  size: 70, 41
+  orig: 70, 41
+  offset: 0, 0
+  index: -1
+Mui
+  rotate: false
+  xy: 227, 2
+  size: 33, 23
+  orig: 33, 23
+  offset: 0, 0
+  index: -1
+Qua_cau
+  rotate: false
+  xy: 396, 209
+  size: 122, 122
+  orig: 122, 122
+  offset: 0, 0
+  index: -1
+Scepter
+  rotate: false
+  xy: 359, 497
+  size: 151, 280
+  orig: 151, 280
+  offset: 0, 0
+  index: -1
+Tai
+  rotate: true
+  xy: 219, 80
+  size: 71, 92
+  orig: 71, 92
+  offset: 0, 0
+  index: -1
+Tay_P
+  rotate: true
+  xy: 185, 333
+  size: 133, 237
+  orig: 136, 237
+  offset: 3, 0
+  index: -1
+Tay_T
+  rotate: false
+  xy: 219, 153
+  size: 175, 178
+  orig: 175, 178
+  offset: 0, 0
+  index: -1
+Than
+  rotate: false
+  xy: 2, 70
+  size: 215, 253
+  orig: 215, 253
+  offset: 0, 0
+  index: -1
+Vuong_niem
+  rotate: false
+  xy: 424, 347
+  size: 118, 120
+  orig: 119, 121
+  offset: 1, 0
+  index: -1

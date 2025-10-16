@@ -1,0 +1,146 @@
+
+Mine.png
+size: 596,1048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+5/hero dragon fireThrow explosion1_10
+  rotate: true
+  xy: 470, 795
+  size: 100, 112
+  orig: 180, 240
+  offset: 38, 18
+  index: -1
+5/hero dragon fireThrow explosion1_11
+  rotate: false
+  xy: 452, 512
+  size: 126, 186
+  orig: 180, 240
+  offset: 22, 9
+  index: -1
+5/hero dragon fireThrow explosion1_12
+  rotate: false
+  xy: 2, 2
+  size: 126, 186
+  orig: 180, 240
+  offset: 22, 9
+  index: -1
+5/hero dragon fireThrow explosion1_13
+  rotate: true
+  xy: 2, 227
+  size: 154, 211
+  orig: 180, 240
+  offset: 13, 5
+  index: -1
+5/hero dragon fireThrow explosion1_14
+  rotate: true
+  xy: 215, 225
+  size: 154, 211
+  orig: 180, 240
+  offset: 13, 5
+  index: -1
+5/hero dragon fireThrow explosion1_15
+  rotate: true
+  xy: 2, 383
+  size: 165, 219
+  orig: 180, 240
+  offset: 7, 4
+  index: -1
+5/hero dragon fireThrow explosion1_16
+  rotate: true
+  xy: 223, 381
+  size: 165, 219
+  orig: 180, 240
+  offset: 7, 4
+  index: -1
+5/hero dragon fireThrow explosion1_17
+  rotate: true
+  xy: 2, 880
+  size: 166, 232
+  orig: 180, 240
+  offset: 8, 2
+  index: -1
+5/hero dragon fireThrow explosion1_18
+  rotate: true
+  xy: 236, 880
+  size: 166, 232
+  orig: 180, 240
+  offset: 8, 2
+  index: -1
+5/hero dragon fireThrow explosion1_19
+  rotate: true
+  xy: 2, 550
+  size: 161, 222
+  orig: 180, 240
+  offset: 11, 18
+  index: -1
+5/hero dragon fireThrow explosion1_20
+  rotate: true
+  xy: 228, 548
+  size: 164, 222
+  orig: 180, 240
+  offset: 8, 18
+  index: -1
+5/hero dragon fireThrow explosion1_21
+  rotate: true
+  xy: 2, 713
+  size: 165, 224
+  orig: 180, 240
+  offset: 8, 16
+  index: -1
+5/hero dragon fireThrow explosion1_22
+  rotate: true
+  xy: 228, 714
+  size: 164, 224
+  orig: 180, 240
+  offset: 9, 16
+  index: -1
+5/hero dragon fireThrow explosion1_23
+  rotate: true
+  xy: 428, 190
+  size: 160, 163
+  orig: 180, 240
+  offset: 9, 76
+  index: -1
+5/hero dragon fireThrow explosion1_24
+  rotate: false
+  xy: 210, 29
+  size: 159, 159
+  orig: 180, 240
+  offset: 10, 80
+  index: -1
+5/hero dragon fireThrow explosion1_25
+  rotate: true
+  xy: 371, 30
+  size: 158, 153
+  orig: 180, 240
+  offset: 10, 85
+  index: -1
+5/hero dragon fireThrow explosion1_26
+  rotate: true
+  xy: 470, 897
+  size: 149, 116
+  orig: 180, 240
+  offset: 19, 122
+  index: -1
+5/hero dragon fireThrow explosion1_27
+  rotate: false
+  xy: 454, 700
+  size: 140, 93
+  orig: 180, 240
+  offset: 22, 145
+  index: -1
+5/hero dragon fireThrow explosion1_9
+  rotate: true
+  xy: 130, 135
+  size: 90, 78
+  orig: 180, 240
+  offset: 43, 28
+  index: -1
+img_mine
+  rotate: true
+  xy: 444, 352
+  size: 158, 143
+  orig: 158, 143
+  offset: 0, 0
+  index: -1

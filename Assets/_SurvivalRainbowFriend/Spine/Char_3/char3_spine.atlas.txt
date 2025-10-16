@@ -1,0 +1,314 @@
+
+char3_spine.png
+size: 648,284
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body
+  rotate: false
+  xy: 2, 4
+  size: 94, 164
+  orig: 94, 164
+  offset: 0, 0
+  index: -1
+Bow_P
+  rotate: true
+  xy: 626, 47
+  size: 30, 17
+  orig: 32, 19
+  offset: 1, 1
+  index: -1
+Bow_T
+  rotate: true
+  xy: 626, 15
+  size: 30, 17
+  orig: 32, 19
+  offset: 1, 1
+  index: -1
+Cay2
+  rotate: false
+  xy: 132, 222
+  size: 349, 60
+  orig: 349, 60
+  offset: 0, 0
+  index: -1
+Chan
+  rotate: false
+  xy: 504, 34
+  size: 34, 40
+  orig: 36, 42
+  offset: 1, 1
+  index: -1
+Chan copy
+  rotate: false
+  xy: 504, 34
+  size: 34, 40
+  orig: 36, 42
+  offset: 1, 1
+  index: -1
+Dui
+  rotate: false
+  xy: 389, 32
+  size: 44, 52
+  orig: 46, 54
+  offset: 1, 1
+  index: -1
+Dui copy
+  rotate: false
+  xy: 389, 32
+  size: 44, 52
+  orig: 46, 54
+  offset: 1, 1
+  index: -1
+Ear_P
+  rotate: false
+  xy: 389, 86
+  size: 73, 67
+  orig: 73, 67
+  offset: 0, 0
+  index: -1
+Ear_T
+  rotate: true
+  xy: 584, 157
+  size: 59, 58
+  orig: 59, 58
+  offset: 0, 0
+  index: -1
+Eye_3_P
+  rotate: true
+  xy: 214, 21
+  size: 27, 9
+  orig: 29, 11
+  offset: 1, 1
+  index: -1
+Eye_3_T
+  rotate: false
+  xy: 535, 107
+  size: 25, 9
+  orig: 27, 11
+  offset: 1, 1
+  index: -1
+Eye_P
+  rotate: false
+  xy: 464, 101
+  size: 49, 52
+  orig: 51, 54
+  offset: 1, 1
+  index: -1
+Eye_P2
+  rotate: true
+  xy: 435, 12
+  size: 22, 21
+  orig: 24, 23
+  offset: 1, 1
+  index: -1
+Eye_T
+  rotate: false
+  xy: 584, 28
+  size: 40, 49
+  orig: 42, 51
+  offset: 1, 1
+  index: -1
+Eye_T2
+  rotate: false
+  xy: 504, 11
+  size: 22, 21
+  orig: 24, 23
+  offset: 1, 1
+  index: -1
+Face
+  rotate: false
+  xy: 2, 170
+  size: 128, 112
+  orig: 130, 114
+  offset: 1, 1
+  index: -1
+Foot
+  rotate: true
+  xy: 98, 52
+  size: 68, 24
+  orig: 68, 24
+  offset: 0, 0
+  index: -1
+Foot copy
+  rotate: true
+  xy: 98, 52
+  size: 68, 24
+  orig: 68, 24
+  offset: 0, 0
+  index: -1
+Hair
+  rotate: false
+  xy: 339, 3
+  size: 44, 34
+  orig: 46, 36
+  offset: 1, 1
+  index: -1
+Iris_P
+  rotate: false
+  xy: 214, 6
+  size: 7, 13
+  orig: 9, 15
+  offset: 1, 1
+  index: -1
+Iris_T
+  rotate: true
+  xy: 562, 109
+  size: 7, 13
+  orig: 9, 15
+  offset: 1, 1
+  index: -1
+Luoi
+  rotate: true
+  xy: 515, 118
+  size: 35, 67
+  orig: 35, 67
+  offset: 0, 0
+  index: -1
+Mi_P
+  rotate: true
+  xy: 98, 122
+  size: 46, 28
+  orig: 48, 30
+  offset: 1, 1
+  index: -1
+Mi_P_D
+  rotate: true
+  xy: 435, 36
+  size: 48, 26
+  orig: 50, 28
+  offset: 1, 1
+  index: -1
+Mi_T
+  rotate: false
+  xy: 298, 16
+  size: 39, 21
+  orig: 41, 23
+  offset: 1, 1
+  index: -1
+Mi_T_D
+  rotate: true
+  xy: 540, 13
+  size: 39, 23
+  orig: 41, 25
+  offset: 1, 1
+  index: -1
+Mom_D
+  rotate: false
+  xy: 385, 4
+  size: 38, 26
+  orig: 38, 26
+  offset: 0, 0
+  index: -1
+Mom_duoi_2
+  rotate: false
+  xy: 584, 218
+  size: 61, 64
+  orig: 61, 64
+  offset: 0, 0
+  index: -1
+Mouth
+  rotate: true
+  xy: 541, 54
+  size: 51, 41
+  orig: 51, 41
+  offset: 0, 0
+  index: -1
+Rau_P
+  rotate: true
+  xy: 463, 3
+  size: 33, 39
+  orig: 35, 41
+  offset: 1, 1
+  index: -1
+Rau_T
+  rotate: true
+  xy: 463, 38
+  size: 36, 39
+  orig: 38, 41
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 132, 125
+  size: 165, 95
+  orig: 165, 95
+  offset: 0, 0
+  index: -1
+ban_tay
+  rotate: false
+  xy: 98, 2
+  size: 56, 46
+  orig: 58, 48
+  offset: 1, 1
+  index: -1
+ban_tay copy
+  rotate: false
+  xy: 156, 2
+  size: 56, 46
+  orig: 58, 48
+  offset: 1, 1
+  index: -1
+ca
+  rotate: true
+  xy: 299, 39
+  size: 181, 88
+  orig: 181, 88
+  offset: 0, 0
+  index: -1
+gun
+  rotate: true
+  xy: 483, 155
+  size: 127, 99
+  orig: 127, 99
+  offset: 0, 0
+  index: -1
+hand3
+  rotate: false
+  xy: 584, 79
+  size: 57, 76
+  orig: 57, 76
+  offset: 0, 0
+  index: -1
+item_da2
+  rotate: true
+  xy: 128, 50
+  size: 73, 98
+  orig: 77, 102
+  offset: 2, 2
+  index: -1
+mui
+  rotate: false
+  xy: 515, 103
+  size: 18, 13
+  orig: 20, 15
+  offset: 1, 1
+  index: -1
+tay
+  rotate: false
+  xy: 228, 2
+  size: 33, 121
+  orig: 33, 121
+  offset: 0, 0
+  index: -1
+tay copy
+  rotate: false
+  xy: 263, 2
+  size: 33, 121
+  orig: 33, 121
+  offset: 0, 0
+  index: -1
+water
+  rotate: false
+  xy: 464, 76
+  size: 75, 23
+  orig: 75, 23
+  offset: 0, 0
+  index: -1
+water2
+  rotate: false
+  xy: 389, 157
+  size: 91, 63
+  orig: 91, 63
+  offset: 0, 0
+  index: -1

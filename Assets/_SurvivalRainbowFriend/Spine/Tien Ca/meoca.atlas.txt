@@ -1,0 +1,195 @@
+
+meoca.png
+size: 336,336
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Ellipse 1 copy
+  rotate: true
+  xy: 198, 195
+  size: 139, 114
+  orig: 139, 114
+  offset: 0, 0
+  index: -1
+Group 2
+  rotate: true
+  xy: 2, 8
+  size: 71, 57
+  orig: 71, 57
+  offset: 0, 0
+  index: -1
+Group 3
+  rotate: true
+  xy: 61, 25
+  size: 54, 53
+  orig: 54, 53
+  offset: 0, 0
+  index: -1
+Group 5
+  rotate: false
+  xy: 2, 81
+  size: 194, 253
+  orig: 194, 253
+  offset: 0, 0
+  index: -1
+Group 8
+  rotate: false
+  xy: 165, 40
+  size: 59, 39
+  orig: 59, 39
+  offset: 0, 0
+  index: -1
+Layer 29
+  rotate: false
+  xy: 314, 292
+  size: 18, 13
+  orig: 18, 13
+  offset: 0, 0
+  index: -1
+Layer 30
+  rotate: true
+  xy: 314, 307
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+Layer 60
+  rotate: true
+  xy: 265, 47
+  size: 34, 28
+  orig: 34, 28
+  offset: 0, 0
+  index: -1
+Layer 61
+  rotate: false
+  xy: 269, 17
+  size: 26, 28
+  orig: 26, 28
+  offset: 0, 0
+  index: -1
+Layer 62
+  rotate: true
+  xy: 305, 109
+  size: 41, 28
+  orig: 41, 28
+  offset: 0, 0
+  index: -1
+Layer 63
+  rotate: false
+  xy: 198, 162
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+Layer 65
+  rotate: false
+  xy: 303, 83
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+Layer 66
+  rotate: true
+  xy: 295, 56
+  size: 25, 24
+  orig: 26, 25
+  offset: 1, 0
+  index: -1
+Layer 68
+  rotate: true
+  xy: 226, 137
+  size: 56, 32
+  orig: 56, 32
+  offset: 0, 0
+  index: -1
+Layer 69
+  rotate: false
+  xy: 116, 29
+  size: 47, 50
+  orig: 47, 50
+  offset: 0, 0
+  index: -1
+Layer 69 copy
+  rotate: false
+  xy: 61, 2
+  size: 47, 21
+  orig: 47, 21
+  offset: 0, 0
+  index: -1
+Layer 70
+  rotate: true
+  xy: 265, 83
+  size: 28, 36
+  orig: 28, 36
+  offset: 0, 0
+  index: -1
+Layer 70 copy
+  rotate: false
+  xy: 297, 33
+  size: 21, 21
+  orig: 21, 21
+  offset: 0, 0
+  index: -1
+heart
+  rotate: true
+  xy: 225, 89
+  size: 46, 38
+  orig: 46, 38
+  offset: 0, 0
+  index: -1
+tai
+  rotate: true
+  xy: 205, 2
+  size: 36, 62
+  orig: 36, 62
+  offset: 0, 0
+  index: -1
+tai sau
+  rotate: true
+  xy: 269, 152
+  size: 41, 48
+  orig: 41, 48
+  offset: 0, 0
+  index: -1
+tp1
+  rotate: false
+  xy: 226, 47
+  size: 37, 40
+  orig: 37, 40
+  offset: 0, 0
+  index: -1
+tp2
+  rotate: false
+  xy: 110, 4
+  size: 46, 19
+  orig: 46, 19
+  offset: 0, 0
+  index: -1
+tp3
+  rotate: true
+  xy: 198, 129
+  size: 31, 25
+  orig: 32, 25
+  offset: 1, 0
+  index: -1
+tt1
+  rotate: true
+  xy: 265, 113
+  size: 37, 38
+  orig: 37, 38
+  offset: 0, 0
+  index: -1
+tt2
+  rotate: false
+  xy: 158, 8
+  size: 45, 19
+  orig: 45, 19
+  offset: 0, 0
+  index: -1
+tt3
+  rotate: true
+  xy: 198, 96
+  size: 31, 25
+  orig: 32, 25
+  offset: 0, 0
+  index: -1

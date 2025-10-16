@@ -1,0 +1,153 @@
+
+con_doi.png
+size: 240,520
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Canh_P
+  rotate: true
+  xy: 2, 204
+  size: 87, 132
+  orig: 91, 133
+  offset: 2, 1
+  index: -1
+Canh_P1
+  rotate: false
+  xy: 136, 169
+  size: 102, 122
+  orig: 105, 122
+  offset: 3, 0
+  index: -1
+Canh_P2
+  rotate: true
+  xy: 135, 82
+  size: 85, 102
+  orig: 88, 102
+  offset: 3, 0
+  index: -1
+Canh_T1
+  rotate: true
+  xy: 2, 293
+  size: 86, 143
+  orig: 86, 143
+  offset: 0, 0
+  index: -1
+Canh_T2
+  rotate: true
+  xy: 147, 293
+  size: 86, 91
+  orig: 86, 91
+  offset: 0, 0
+  index: -1
+Canh_T3
+  rotate: true
+  xy: 2, 137
+  size: 65, 131
+  orig: 65, 135
+  offset: 0, 4
+  index: -1
+Dau
+  rotate: true
+  xy: 93, 86
+  size: 49, 40
+  orig: 49, 40
+  offset: 0, 0
+  index: -1
+Mat_P
+  rotate: true
+  xy: 223, 480
+  size: 17, 10
+  orig: 20, 12
+  offset: 2, 1
+  index: -1
+Mat_T
+  rotate: true
+  xy: 223, 469
+  size: 9, 10
+  orig: 11, 12
+  offset: 1, 1
+  index: -1
+Mieng1
+  rotate: false
+  xy: 135, 59
+  size: 31, 21
+  orig: 31, 21
+  offset: 0, 0
+  index: -1
+Mieng2
+  rotate: true
+  xy: 223, 499
+  size: 18, 15
+  orig: 20, 17
+  offset: 1, 1
+  index: -1
+Tai_P
+  rotate: true
+  xy: 93, 53
+  size: 31, 40
+  orig: 31, 43
+  offset: 0, 2
+  index: -1
+Tai_T
+  rotate: true
+  xy: 39, 108
+  size: 27, 42
+  orig: 27, 42
+  offset: 0, 0
+  index: -1
+Than
+  rotate: true
+  xy: 2, 84
+  size: 51, 35
+  orig: 51, 35
+  offset: 0, 0
+  index: -1
+cape
+  rotate: true
+  xy: 2, 381
+  size: 136, 219
+  orig: 138, 221
+  offset: 1, 1
+  index: -1
+chan duoi
+  rotate: true
+  xy: 182, 50
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+chan tren
+  rotate: true
+  xy: 152, 23
+  size: 34, 28
+  orig: 34, 28
+  offset: 0, 0
+  index: -1
+door
+  rotate: false
+  xy: 2, 2
+  size: 89, 78
+  orig: 91, 80
+  offset: 1, 1
+  index: -1
+lock
+  rotate: true
+  xy: 93, 16
+  size: 35, 57
+  orig: 37, 59
+  offset: 1, 1
+  index: -1
+lock1
+  rotate: false
+  xy: 66, 86
+  size: 16, 20
+  orig: 18, 22
+  offset: 1, 1
+  index: -1
+lock2
+  rotate: true
+  xy: 39, 83
+  size: 23, 25
+  orig: 25, 27
+  offset: 1, 1
+  index: -1

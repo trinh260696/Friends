@@ -111,7 +111,7 @@ public class BluePlayer : MonoBehaviour
         {
             Debug.LogWarning("Kill Player");
             Target = collision.transform;
-            collision.gameObject.GetComponent<Friend>().Death();
+            collision.gameObject.GetComponent<NPC>().Death();
             Kill(collision.transform);          
         }
     }

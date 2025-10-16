@@ -5,10 +5,19 @@ using Spine;
 using Spine.Unity;
 public class BossBase : MonoBehaviour
 {
+    public string nameBoss = "Boss";
+    public int IQ = 1;
+    public float attackSpeed = 1f;
+    public int damage = 10;
+    
+    private EnemyState _state;
+    public EnemyState State { get => _state; set => _state = value; }
+    
     public Animator animator;
     public Rigidbody2D Body;//Enemy body      
+    public Transform pivotTransform;
     public Transform Target;//Player transform
-    public SkeletonAnimation skeletonAnimation;
+    public GameObject emoAnimation;
     private bool _follow;
     public bool Follow
     {
@@ -18,6 +27,8 @@ public class BossBase : MonoBehaviour
             deltaSpeed = 0;
         }
     }
+
+   
     //If the enemy has ceased to see the player, he will follow on PlayerLastPos
     public float Range;
     public float Speed=5.0f;     
@@ -51,10 +62,10 @@ public class BossBase : MonoBehaviour
         NotificationCenter.DefaultCenter().AddObserver(this, "BossStartGame");
         NotificationCenter.DefaultCenter().AddObserver(this, "OnFinish");
         DetectPoints = new List<Vector2>();
-        OnFinish();
-        if (skeletonAnimation != null)
+        OnFinishTravel();
+        if (emoAnimation != null)
         {
-            skeletonAnimation.gameObject.SetActive(false);
+            emoAnimation.gameObject.SetActive(false);
         }      
     }
     
@@ -82,12 +93,18 @@ public class BossBase : MonoBehaviour
             if (DetectPoints.Count > 0)
             {
                 run = true;
-                StartCoroutine("TravelPoint");
+                OnTravelPoint();
+                //StartCoroutine("TravelPoint");
             }             
             else
             {
                 run = false;
-            }              
+            }
+        }
+        else
+        {
+            run = false;
+            State = EnemyState.IDLE_STATE;
         }
     }
     void SetupPointDetect()
@@ -132,10 +149,7 @@ public class BossBase : MonoBehaviour
     {
         killing = false;
         Follow = false;
-        run = true;
-        var colliders = GetComponents<Collider2D>();
-        for (int i = 0; i < colliders.Length; i++)
-            colliders[i].enabled = true;
+        run = true;       
         BossStartGame();
     }
     public void BossEnd()
@@ -145,8 +159,8 @@ public class BossBase : MonoBehaviour
     public void StopDetect()
     {
         run = false;
-        StopCoroutine("TravelPoint");
-        LeanTween.cancel(gameObject);        
+        //Stop Travel Point
+        
     }
     Vector3 Direction;
     public virtual void Update()
@@ -154,69 +168,18 @@ public class BossBase : MonoBehaviour
         
         if (!isMoveWayPoint) return;
         SetKeyAnimation();
-        if (Target == null) return;
+
         if (!StaticData.IsPlay) return;
+        if (Target == null) return;
+        if (State == EnemyState.PATROL_STATE)
+        {
+            
+        }else if (State == EnemyState.FIGHT_STATE)
+        {
+
+        }
         //check of reaching the last pos 
-                      
-        float distance = Vector2.Distance((Vector2)Target.position, (Vector2)transform.position);
-        var hitH = Physics2D.Raycast((Vector2)transform.position + Vector2.up * 1.8f, (Vector2)Target.position - (Vector2)transform.position, 2f, 1 << 13);
 
-        hit = Physics2D.Raycast((Vector2)transform.position, (Vector2)Target.position - (Vector2)transform.position, distance, 1<<13);
-        if (hit.collider != null)
-        {
-            //ray does not touch the walls
-                //follow the target
-            Vector3 moveDirection = Target.transform.position - transform.position;
-            if (moveDirection != Vector3.zero)
-            {
-                float angle = Mathf.Atan2(-moveDirection.x, moveDirection.y) * Mathf.Rad2Deg;
-                //Direction = Quaternion.AngleAxis(angle + 90, Vector3.forward) * moveDirection.normalized;
-                Direction = Vector2.Perpendicular(moveDirection).normalized;
-                // transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-                Follow = true;
-
-                       
-            }
-                //show rays:
-                //Debug.DrawLine((Vector2)transform.position, (Vector2)Player.Player_Pos);
-                
-               
-        }
-        else if (_follow)
-        {//follow the last target position
-            Vector3 moveDirection = Target.transform.position - transform.position;
-            if (moveDirection != Vector3.zero)
-            {
-                Direction = moveDirection.normalized;
-            }
-        }
-
-        if (Vector2.Distance((Vector2)Target.position, (Vector2)transform.position) > distance + 2f)
-        {
-            Target = null;
-            _follow = false;
-            BossStartGame();
-            enum_emo(StaticParam.emo2);
-            return;
-        }
-        if (Target.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (!Target.GetComponent<Player>().IsAlivePlayer)
-            {
-                Target = null;
-                _follow = false;
-                BossStartGame();
-                enum_emo(StaticParam.emo2);
-            }
-        }
-        if(Target)
-        if (!Target.gameObject.activeSelf)
-        {
-            Target = null;
-            _follow = false;
-            BossStartGame();
-            enum_emo(StaticParam.emo2);
-        }
     }
     float deltaSpeed = 0f;
 
@@ -228,15 +191,15 @@ public class BossBase : MonoBehaviour
         if (!_follow) return;
         if (!Target) return;
         if (!StaticData.IsPlay) return;
-        deltaSpeed += Time.deltaTime*2f;
-        float realSpeed =    Speed;
-        animator.transform.localScale = Direction.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-        Body.AddRelativeForce(Direction * (realSpeed+deltaSpeed));//the speed depends on the current hp
+        //deltaSpeed += Time.deltaTime*2f;
+        //float realSpeed =    Speed;
+        //animator.transform.localScale = Direction.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
+        //Body.AddRelativeForce(Direction * (realSpeed+deltaSpeed));//the speed depends on the current hp
     }
         
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
-           
+        
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {
@@ -251,118 +214,106 @@ public class BossBase : MonoBehaviour
             var dir = (collision.collider.transform.position - transform.position).normalized;
             Body.AddForce(dir);
         }
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.LogWarning("Kill Player");
-            if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-            {
-                var player = collision.gameObject.GetComponent<Player>();
+        //if (collision.gameObject.CompareTag("Player"))
+        //{
+        //    Debug.LogWarning("Kill Player");
+        //    State = EnemyState.FIGHT_STATE;
+        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        //    {
+        //        var player = collision.gameObject.GetComponent<Player>();
 
-                if (!player.IsAlivePlayer) return;
-                string nameBoss = "Blue";
-                if(this is DreamFaceBoss)
-                {
-                    nameBoss = "Dreamface";
-                }else if(this is OBugaBoss)
-                {
-                    nameBoss = "Obuga";
-                }else if(this is BlueBoss)
-                {
-                    nameBoss = "Blue";
-                }
-                player.Death(nameBoss);
-                Kill(collision.transform);
-            }
-            else
-            {
-                collision.gameObject.GetComponent<Friend>().Death();
-                Kill(collision.transform);
-            }   
-        }         
+        //        if (!player.IsAlivePlayer) return;               
+        //        player.Damage(nameBoss,damage);
+        //        Kill(collision.transform);
+        //    }
+        //    else
+        //    {
+        //        collision.gameObject.GetComponent<NPC>().Death();
+        //        Kill(collision.transform);
+        //    }   
+        //}         
     }
     public virtual void Kill(Transform Destination)
     {
         killing = true;
         _follow = false;
-        StopCoroutine("TravelPoint");
-        LeanTween.cancel(gameObject);
-        var colliders = GetComponents<Collider2D>();
-        for (int i = 0; i < colliders.Length; i++)
-            colliders[i].enabled = false;
-        Debug.LogWarning("Kill"+Destination.gameObject.name);
-        Target = null;
+        // Stop TravelPoint
+
+        State = EnemyState.FIGHT_STATE;
         animator.SetTrigger(BossBase.BossKillProperties);
-        Vector3 dir=Destination.position-transform.position;
-        if (dir.x > 0)
-        {
-            Destination.position = transform.position + Vector3.right * Range + Vector3.up * 0.25f;
-            Destination.transform.GetChild(0).localScale = StaticData.ScaleInverse*0.7f;
-            animator.transform.localScale = Vector3.one * 0.7f;
-        }
-        else
-        {
-            Destination.position = transform.position - Vector3.right * Range - Vector3.up * 0.25f;
-            Destination.transform.GetChild(0).localScale = Vector3.one*0.7f;
-            animator.transform.localScale = StaticData.ScaleInverse * 0.7f;
-        }        
-        Invoke("BossReturn", 5f);
+        Vector3 dir = Destination.position - transform.position;
+             
         ContainAssistant.Instance.PlayEffectDeath(Destination, Destination.position+Vector3.right*Mathf.Sign(dir.x)+Vector3.up);
     }
-    IEnumerator TravelPoint()
+    void OnTravelPoint()
     {
-        if(DetectPoints.Count==0)
-        {
-            run = false;
-            yield break;
+        State = EnemyState.PATROL_STATE;
+    }
+    void TravelPoint()
+    {
+        //if(DetectPoints.Count==0)
+        //{
+        //    run = false;
+        //    yield break;
 
-        }
-        yield return null;
-        Vector2 currentPos = transform.position;
-        while (!_follow)
-        {
-            run = true;
-            for(int i=0; i<DetectPoints.Count; i++)
-            {
-                float distance = Vector2.Distance(currentPos, DetectPoints[i]);
-                Vector2 dir = DetectPoints[i] - currentPos;
-                animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-                LeanTween.move(gameObject, DetectPoints[i], distance / Speed);
-                yield return new WaitForSeconds(distance / Speed);
-                if (i >= DetectPoints.Count)
-                {
-                    yield break;
-                }
-                currentPos = DetectPoints[i];                  
-            }
-            yield return null;
-            SetupPointDetect();
-            if (_follow)
-            {                 
-                yield break;
-            }
-        }
+        //}
+        //yield return null;
+        //Vector2 currentPos = transform.position;
+        //while (!_follow)
+        //{
+        //    run = true;
+        //    for(int i=0; i<DetectPoints.Count; i++)
+        //    {
+        //        float distance = Vector2.Distance(currentPos, DetectPoints[i]);
+        //        Vector2 dir = DetectPoints[i] - currentPos;
+        //        animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
+        //        LeanTween.move(gameObject, DetectPoints[i], distance / Speed);
+        //        yield return new WaitForSeconds(distance / Speed);
+        //        if (i >= DetectPoints.Count)
+        //        {
+        //            yield break;
+        //        }
+        //        currentPos = DetectPoints[i];                  
+        //    }
+        //    yield return null;
+        //    SetupPointDetect();
+        //    if (_follow)
+        //    {                 
+        //        yield break;
+        //    }
+        //}
     }
     
-    public void OnFinish()
+    public void OnFinishTravel()
     {
-        run = false;
-        StopCoroutine("TravelPoint");
-        Target = null;
-        _follow = false;
+        //run = false;
+        //StopCoroutine("TravelPoint");
+        //Target = null;
+        //_follow = false;
     }
     public void enum_emo(string anim_name)
     {
-        if (skeletonAnimation == null) return;
+        if (emoAnimation == null) return;
         int rnd = UnityEngine.Random.Range(0, 10);
         if (rnd > 3) return;
-        skeletonAnimation.gameObject.SetActive(true);
-        skeletonAnimation.AnimationState.SetAnimation(0, anim_name, true);
+        emoAnimation.SetActive(true);
+        
         Invoke("hide_emo", 2f);
     }
     void hide_emo()
     {
-        skeletonAnimation.gameObject.SetActive(false);
+        emoAnimation.SetActive(false);
     }
 }
 
 
+public enum EnemyState
+{
+    IDLE_STATE,
+    PATROL_STATE,
+    STUN_STATE,
+    EAT_STATE,
+    FIGHT_STATE,
+    CHASE_STATE,
+    DEAD
+}

@@ -138,7 +138,7 @@ public class UIReviveDialog : VKLayer
             GameManager.Instance.TurnLose();
             GameManager.Instance.CloseGame();
             var layer = VKLayerController.Instance.ShowLayer("UIYouDiedDialog") as UIYouDiedDialog;
-            layer.Init(GameManager.Instance.StatusMissions, GameManager.Instance.levelData.Items);
+           
         }             
     }
     public void OnClickVideo()

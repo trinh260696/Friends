@@ -1,0 +1,132 @@
+
+turtle.png
+size: 272,272
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EYE
+  rotate: true
+  xy: 118, 9
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+G1
+  rotate: false
+  xy: 128, 58
+  size: 29, 34
+  orig: 29, 34
+  offset: 0, 0
+  index: -1
+G2
+  rotate: true
+  xy: 74, 2
+  size: 26, 42
+  orig: 28, 47
+  offset: 2, 5
+  index: -1
+G3
+  rotate: false
+  xy: 128, 19
+  size: 28, 37
+  orig: 32, 37
+  offset: 3, 0
+  index: -1
+G4
+  rotate: true
+  xy: 208, 15
+  size: 28, 32
+  orig: 28, 32
+  offset: 0, 0
+  index: -1
+HEAD
+  rotate: true
+  xy: 169, 131
+  size: 139, 76
+  orig: 139, 76
+  offset: 0, 0
+  index: -1
+LEG1
+  rotate: false
+  xy: 164, 82
+  size: 37, 47
+  orig: 37, 47
+  offset: 0, 0
+  index: -1
+LEG2
+  rotate: true
+  xy: 159, 43
+  size: 37, 47
+  orig: 37, 47
+  offset: 0, 0
+  index: -1
+LEG3
+  rotate: true
+  xy: 203, 93
+  size: 36, 46
+  orig: 36, 46
+  offset: 0, 0
+  index: -1
+LEG4
+  rotate: false
+  xy: 208, 45
+  size: 36, 46
+  orig: 36, 46
+  offset: 0, 0
+  index: -1
+MAI1
+  rotate: false
+  xy: 2, 171
+  size: 165, 99
+  orig: 168, 100
+  offset: 0, 1
+  index: -1
+MAI2
+  rotate: true
+  xy: 74, 30
+  size: 139, 52
+  orig: 139, 52
+  offset: 0, 0
+  index: -1
+MAI3
+  rotate: true
+  xy: 2, 20
+  size: 149, 70
+  orig: 149, 70
+  offset: 0, 0
+  index: -1
+duoi
+  rotate: true
+  xy: 128, 94
+  size: 75, 34
+  orig: 75, 34
+  offset: 0, 0
+  index: -1
+g6
+  rotate: true
+  xy: 246, 46
+  size: 18, 22
+  orig: 18, 22
+  offset: 0, 0
+  index: -1
+g7
+  rotate: false
+  xy: 158, 24
+  size: 25, 17
+  orig: 25, 17
+  offset: 0, 0
+  index: -1
+g8
+  rotate: false
+  xy: 246, 66
+  size: 21, 25
+  orig: 21, 25
+  offset: 0, 0
+  index: -1
+z
+  rotate: false
+  xy: 242, 19
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1

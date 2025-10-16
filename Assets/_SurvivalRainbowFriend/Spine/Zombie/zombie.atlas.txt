@@ -1,0 +1,160 @@
+
+zombie.png
+size: 652,252
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Ban_Tay_P
+  rotate: false
+  xy: 253, 40
+  size: 19, 22
+  orig: 21, 24
+  offset: 1, 1
+  index: -1
+Ban_Tay_T
+  rotate: true
+  xy: 275, 33
+  size: 36, 30
+  orig: 36, 30
+  offset: 0, 0
+  index: -1
+Ban_chan_P
+  rotate: false
+  xy: 164, 19
+  size: 33, 26
+  orig: 35, 28
+  offset: 1, 1
+  index: -1
+Chan_P1
+  rotate: true
+  xy: 275, 71
+  size: 35, 34
+  orig: 37, 36
+  offset: 1, 1
+  index: -1
+Chan_P2
+  rotate: false
+  xy: 642, 90
+  size: 6, 23
+  orig: 8, 25
+  offset: 1, 1
+  index: -1
+Chan_T1
+  rotate: false
+  xy: 230, 19
+  size: 21, 43
+  orig: 23, 45
+  offset: 1, 1
+  index: -1
+Chan_T2
+  rotate: false
+  xy: 231, 64
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+Co
+  rotate: false
+  xy: 299, 9
+  size: 15, 22
+  orig: 17, 24
+  offset: 1, 1
+  index: -1
+Dau
+  rotate: false
+  xy: 2, 17
+  size: 103, 89
+  orig: 103, 89
+  offset: 0, 0
+  index: -1
+Dau2
+  rotate: false
+  xy: 178, 64
+  size: 51, 42
+  orig: 53, 44
+  offset: 1, 1
+  index: -1
+Hong
+  rotate: true
+  xy: 121, 19
+  size: 31, 28
+  orig: 33, 30
+  offset: 1, 1
+  index: -1
+Mat_P
+  rotate: true
+  xy: 642, 74
+  size: 6, 5
+  orig: 8, 7
+  offset: 1, 1
+  index: -1
+Mat_T
+  rotate: false
+  xy: 642, 82
+  size: 6, 6
+  orig: 8, 8
+  offset: 1, 1
+  index: -1
+Nc
+  rotate: false
+  xy: 642, 115
+  size: 7, 10
+  orig: 9, 12
+  offset: 1, 1
+  index: -1
+Tay_P1
+  rotate: true
+  xy: 253, 12
+  size: 19, 44
+  orig: 21, 46
+  offset: 1, 1
+  index: -1
+Tay_P2
+  rotate: true
+  xy: 151, 30
+  size: 20, 11
+  orig: 22, 13
+  offset: 1, 1
+  index: -1
+Tay_T1
+  rotate: true
+  xy: 178, 47
+  size: 15, 50
+  orig: 17, 52
+  offset: 1, 1
+  index: -1
+Tay_T2
+  rotate: false
+  xy: 107, 14
+  size: 12, 36
+  orig: 14, 38
+  offset: 1, 1
+  index: -1
+Than
+  rotate: false
+  xy: 107, 52
+  size: 69, 54
+  orig: 71, 56
+  offset: 1, 1
+  index: -1
+ex_slash_fire/0
+  rotate: false
+  xy: 2, 108
+  size: 314, 141
+  orig: 314, 141
+  offset: 0, 0
+  index: -1
+ex_slash_fire/1
+  rotate: false
+  xy: 318, 2
+  size: 322, 123
+  orig: 322, 123
+  offset: 0, 0
+  index: -1
+ex_slash_fire/2
+  rotate: false
+  xy: 318, 127
+  size: 328, 122
+  orig: 328, 122
+  offset: 0, 0
+  index: -1

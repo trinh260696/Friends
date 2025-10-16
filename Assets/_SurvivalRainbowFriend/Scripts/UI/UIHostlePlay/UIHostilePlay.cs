@@ -108,7 +108,7 @@ public class UIHostilePlay : VKLayer
     #endregion
 
     #region method
-    public void Init(List<CFriendObj> CFriends, List<ItemObject> ItemObjects)
+    public void Init(List<CFriendObj> CFriends, LevelData levelData)
     {
         canvas.sortingOrder = 100;
         var scaleFactor = VKLayerController.GetScale(Screen.width, Screen.height, new Vector2(1920, 1080));
@@ -122,7 +122,7 @@ public class UIHostilePlay : VKLayer
         {
             textStartUI.text = string.Format("GAME WILL START IN <color=green>00:0{0}</color> SECONDS", (int)(value));
         }, from, 0f, 10f).setOnComplete(() => {
-            HostileManager.Instance.EnterGame();
+            //HostileManager.Instance.EnterGame();
         });
        
       
@@ -138,7 +138,7 @@ public class UIHostilePlay : VKLayer
 
         startGameObj.SetActive(false);
         gameTimeObj.SetActive(true);
-        timeCountDown.SetSeconds(StaticData.TIME_MAX + HostileManager.Instance.addTime);
+      //  timeCountDown.SetSeconds(StaticData.TIME_MAX + HostileManager.Instance.addTime);
         timeCountDown.StartCountDown(null);
         timeCountDown.OnShowSpecial = () => { AudioManager.instance.Play("Warning"); };
         //float from = StaticData.TIME_MAX;
@@ -154,7 +154,7 @@ public class UIHostilePlay : VKLayer
         uiFriendManager.ClearFriend(name);
 
         friendNameWasFound.gameObject.SetActive(true);
-        friendNameWasFound.text = string.Format("<color=#D24D4D>{0}</color> Was Found", HostileManager.Instance.Friends[name].name.ToString());
+       // friendNameWasFound.text = string.Format("<color=#D24D4D>{0}</color> Was Found", HostileManager.Instance.Friends[name].name.ToString());
         Invoke("HideFriendWasFound", 3f);
     }
 

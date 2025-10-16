@@ -1,0 +1,69 @@
+
+rong_bien.png
+size: 340,340
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EYE 1
+  rotate: false
+  xy: 2, 311
+  size: 31, 25
+  orig: 31, 25
+  offset: 0, 0
+  index: -1
+EYE 2
+  rotate: false
+  xy: 35, 309
+  size: 37, 27
+  orig: 37, 27
+  offset: 0, 0
+  index: -1
+LEAF1
+  rotate: true
+  xy: 133, 109
+  size: 71, 176
+  orig: 71, 176
+  offset: 0, 0
+  index: -1
+LEAF2
+  rotate: true
+  xy: 2, 255
+  size: 41, 169
+  orig: 110, 176
+  offset: 69, 0
+  index: -1
+LEAF3
+  rotate: true
+  xy: 171, 182
+  size: 71, 160
+  orig: 71, 160
+  offset: 0, 0
+  index: -1
+LEAF4
+  rotate: true
+  xy: 2, 118
+  size: 78, 129
+  orig: 82, 146
+  offset: 4, 0
+  index: -1
+LEAF5
+  rotate: true
+  xy: 2, 198
+  size: 55, 167
+  orig: 55, 167
+  offset: 0, 0
+  index: -1
+LEAF6
+  rotate: true
+  xy: 173, 255
+  size: 41, 163
+  orig: 41, 165
+  offset: 0, 0
+  index: -1
+ROOT
+  rotate: false
+  xy: 74, 298
+  size: 173, 38
+  orig: 173, 38
+  offset: 0, 0
+  index: -1

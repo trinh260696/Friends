@@ -9,11 +9,15 @@ using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
+    public int HP = 100;
     public Light2D LightObject;
     public TextMeshProUGUI nameText;
-    public SkeletonGraphic skeletonGraphic;
+    public SpriteRenderer decoyObj;
+    public GameObject emoji;
     public VariableJoystick variableJoystick;
     public PlayerAIM playerAIM;
+    public BodyPart bodyPart;
+    public StateFriend stateFriend = StateFriend.FRIEND_INIT;
     public static Vector2 Player_Pos;//player position (x,y)
 
     public Vector2 minpos, maxpos;
@@ -43,15 +47,7 @@ public class Player : MonoBehaviour
     private const string HideProperties = "hide";
     private const string ReviveProperties = "ReviveTrigger";
     private const string RunBoosterProperties = "run_booster_return";
-    private const string BoxProperties = "box";
-    private const string BoxDrumProperties = "drum_box";
-    private const string ShoveProperties = "shove";
-    private const string TreeProperties = "tree";
-    private const string GiftboxProperties = "gift_box";
-    private const string ThingProperties = "toe";
-    private const string CartonProperties = "carton";
-    private const string SnowProperties = "snow";
-    private const string TntProperties = "tnt_box";
+    
     private const string HideTriggerProperties = "HideTrigger";
     private const string WalkProperties = "walk";
     private bool run=false;
@@ -76,17 +72,10 @@ public class Player : MonoBehaviour
         animator.SetBool(RunProperties, run);
         animator.SetBool(ReturnProperties, run && box);
         animator.SetBool(HideProperties, hide);
-        animator.SetBool(BoxProperties, box);
+       
         animator.SetBool(RunBoosterProperties, run0);
         animator.SetBool(RunBoosterProperties, run0 && box);
-        animator.SetBool(CartonProperties, BoxDictionary["carton"]);
-        animator.SetBool(GiftboxProperties, BoxDictionary["gift_box"]);
-        animator.SetBool(TreeProperties, BoxDictionary["tree"]);
-        animator.SetBool(ShoveProperties, BoxDictionary["shove"]);
-        animator.SetBool(BoxDrumProperties, BoxDictionary["drum_box"]);
-        animator.SetBool(SnowProperties, BoxDictionary["snow"]);
-        animator.SetBool(TntProperties, BoxDictionary["tnt_box"]);
-        animator.SetBool(ThingProperties, BoxDictionary["toe"]);
+       
         animator.SetInteger(WalkProperties, walk);
         animator.SetBool(DieProperties, die);
     }
@@ -94,13 +83,13 @@ public class Player : MonoBehaviour
     {
         int rnd = UnityEngine.Random.Range(0, 10);
         if (rnd > 3) return;
-        skeletonGraphic.gameObject.SetActive(true);
-        skeletonGraphic.AnimationState.SetAnimation(0, anim_name, true);
+        emoji.SetActive(true);
+      
         Invoke("hide_emo", 2f);
     }
     void hide_emo()
     {
-        skeletonGraphic.gameObject.SetActive(false);
+        emoji.SetActive(false);
     }
     public void InitPlayer()
     {
@@ -180,7 +169,7 @@ public class Player : MonoBehaviour
         {
             if (col.gameObject.name == "WinArea")
             {
-                GameManager.Instance.AddMission(typeMission);
+              //  GameManager.Instance.AddMission(typeMission);
                 boxSpriteRenderer.gameObject.SetActive(false);
                 box = false;
             }
@@ -189,14 +178,14 @@ public class Player : MonoBehaviour
         if (col.gameObject.tag.Equals("Box"))//collision with Box
         {
             PlayEmotionGetItem();
-            var boxScript = col.gameObject.GetComponent<BoxScript>();
-            if (boxScript.IsAlive)
+            var boxScript = col.gameObject.GetComponent<BodyPart>();
+            if (boxScript.Free)
             {
                 AudioManager.instance.Play("Pick");
                 boxScript.Hide();
                 boxScript.gameObject.SetActive(false);
                 box = true;
-                typeMission = boxScript.typeMission;
+               // typeMission = boxScript.typeMission;
 
                 boxSpriteRenderer.gameObject.SetActive(true);
                 boxSpriteRenderer.sprite = Resources.Load<Sprite>("Avatar/" + typeMission.ToString());
@@ -219,7 +208,7 @@ public class Player : MonoBehaviour
             if (col.gameObject.name == "WinArea")
             {
                 PlayWinEmotion();
-                GameManager.Instance.AddMission(typeMission);
+               // GameManager.Instance.AddMission(typeMission);
                 boxSpriteRenderer.gameObject.SetActive(false);
                 box = false;
             }
@@ -358,45 +347,49 @@ public class Player : MonoBehaviour
     {
         
     }
-    public void Death(string bossName)
+    public void Damage(string bossName,int damage)
     {
         if (!IsAlivePlayer) return;
         StaticData.ENEMY_STRING = bossName;
-        IsAlivePlayer = false;
+       
         if (box)
         {
             boxSpriteRenderer.gameObject.SetActive(false);
-            GameManager.Instance.RegenerateBox(transform.position,typeMission);
+            GameManager.Instance.RegenerateBox(transform.position,0);
         }
-        animator.SetTrigger(Player.LoseProperties1);
-        var colliders = GetComponents<Collider2D>();
-        for (int i = 0; i < colliders.Length; i++)
-            colliders[i].enabled = false;
-        GameManager.Instance.ProcessDeath();
-        Invoke("Die", 3f);
+        if (HP <= 0) {
+            IsAlivePlayer = false;
+            animator.SetTrigger(Player.LoseProperties1);
+            var colliders = GetComponents<Collider2D>();
+            for (int i = 0; i < colliders.Length; i++)
+                colliders[i].enabled = false;
+            GameManager.Instance.ProcessDeath();
+            Invoke("Die", 3f);
+        }
+
     }
     public void DeathGreen()
     {
-        if (!IsAlivePlayer) return;
-        StaticData.ENEMY_STRING = "Green";
-        GameManager.Instance.ProcessDeath();
-        enum_emo(StaticParam.tired_emo);
-        animator.transform.localScale = Vector3.one * 0.7f;      
-        animator.SetTrigger(Player.LoseProperties2);
-        IsAlivePlayer = false;
-        if (box)
-        {
-            boxSpriteRenderer.gameObject.SetActive(false);
-             GameManager.Instance.RegenerateBox(transform.position,typeMission);
-        }
+        //if (!IsAlivePlayer) return;
+        //StaticData.ENEMY_STRING = "Green";
+        //GameManager.Instance.ProcessDeath();
+        //enum_emo(StaticParam.tired_emo);
+        //animator.transform.localScale = Vector3.one * 0.7f;      
+        //animator.SetTrigger(Player.LoseProperties2);
+        //IsAlivePlayer = false;
+        //if (box)
+        //{
+        //    boxSpriteRenderer.gameObject.SetActive(false);
+        //     GameManager.Instance.RegenerateBox(transform.position,0);
+        //}
         
-        var colliders = GetComponents<Collider2D>();
-        for (int i = 0; i < colliders.Length; i++)
-            colliders[i].enabled = false;
+        //var colliders = GetComponents<Collider2D>();
+        //for (int i = 0; i < colliders.Length; i++)
+        //    colliders[i].enabled = false;
         
     }
     void Die()
-    {
+    {        
         die = true;
     }
     void ChangeTag()
@@ -417,11 +410,15 @@ public class Player : MonoBehaviour
         hide = !hide;
         if (hide)
         {
-            animator.SetTrigger(Player.HideTriggerProperties);
+            //animator.SetTrigger(Player.HideTriggerProperties);
+            decoyObj.gameObject.SetActive(true);
+            animator.gameObject.SetActive(false);
             boxSpriteRenderer.gameObject.SetActive(false);
         }
         else
         {
+            decoyObj.gameObject.SetActive(false);
+            animator.gameObject.SetActive(true);
             gameObject.tag = "Player";
             if (box)
             {
@@ -490,8 +487,9 @@ public class Player : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
             colliders[i].enabled = true;
         if (hide)
-        {         
-            animator.SetTrigger(Player.HideTriggerProperties);
+        {
+            decoyObj.gameObject.SetActive(true);
+            animator.gameObject.SetActive(false);
         }
         Invoke("Balance", 3f);
     }
@@ -500,10 +498,16 @@ public class Player : MonoBehaviour
         if (hide)
         {
             gameObject.tag = "Hide";
-            animator.SetTrigger(Player.HideTriggerProperties);
-        }         
+            decoyObj.gameObject.SetActive(true);
+            animator.gameObject.SetActive(false);
+        }
         else
+        {
+            decoyObj.gameObject.SetActive(false);
+            animator.gameObject.SetActive(true);
             gameObject.tag = "Player";
+        }
+           
         die = false;
     }
     #region booster

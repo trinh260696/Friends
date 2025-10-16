@@ -1,0 +1,209 @@
+
+Lady_Octopus.png
+size: 492,492
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BODY
+  rotate: false
+  xy: 2, 81
+  size: 155, 171
+  orig: 155, 171
+  offset: 0, 0
+  index: -1
+CHAIN
+  rotate: true
+  xy: 301, 191
+  size: 61, 20
+  orig: 61, 20
+  offset: 0, 0
+  index: -1
+EBOE P
+  rotate: true
+  xy: 476, 464
+  size: 26, 9
+  orig: 26, 9
+  offset: 0, 0
+  index: -1
+EBOW T
+  rotate: true
+  xy: 476, 444
+  size: 18, 13
+  orig: 18, 13
+  offset: 0, 0
+  index: -1
+FACE
+  rotate: false
+  xy: 159, 8
+  size: 99, 133
+  orig: 99, 133
+  offset: 0, 0
+  index: -1
+IRIS P
+  rotate: false
+  xy: 476, 407
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+IRIS T
+  rotate: false
+  xy: 476, 407
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+L ARM
+  rotate: false
+  xy: 260, 56
+  size: 39, 85
+  orig: 39, 85
+  offset: 0, 0
+  index: -1
+L EYE
+  rotate: true
+  xy: 94, 3
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+L HAND
+  rotate: false
+  xy: 94, 21
+  size: 59, 58
+  orig: 59, 58
+  offset: 0, 0
+  index: -1
+LEG 1
+  rotate: false
+  xy: 301, 58
+  size: 102, 131
+  orig: 102, 131
+  offset: 0, 0
+  index: -1
+LEG 2
+  rotate: true
+  xy: 337, 251
+  size: 102, 153
+  orig: 102, 153
+  offset: 0, 0
+  index: -1
+LEG 3
+  rotate: true
+  xy: 159, 143
+  size: 109, 140
+  orig: 109, 140
+  offset: 0, 0
+  index: -1
+LEG 4
+  rotate: false
+  xy: 337, 355
+  size: 137, 135
+  orig: 137, 135
+  offset: 0, 0
+  index: -1
+LU ARM
+  rotate: false
+  xy: 2, 8
+  size: 90, 71
+  orig: 90, 72
+  offset: 0, 1
+  index: -1
+MOUNT
+  rotate: true
+  xy: 260, 8
+  size: 46, 36
+  orig: 46, 36
+  offset: 0, 0
+  index: -1
+NOSE
+  rotate: true
+  xy: 301, 16
+  size: 40, 77
+  orig: 40, 77
+  offset: 0, 0
+  index: -1
+R ARM
+  rotate: false
+  xy: 401, 196
+  size: 65, 53
+  orig: 65, 53
+  offset: 0, 0
+  index: -1
+R EYE
+  rotate: false
+  xy: 468, 195
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+R HAND
+  rotate: false
+  xy: 380, 5
+  size: 58, 51
+  orig: 58, 51
+  offset: 0, 0
+  index: -1
+RU ARM
+  rotate: true
+  xy: 323, 192
+  size: 57, 76
+  orig: 57, 76
+  offset: 0, 0
+  index: -1
+TEETH
+  rotate: true
+  xy: 476, 413
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
+TOUGH
+  rotate: true
+  xy: 468, 217
+  size: 32, 20
+  orig: 32, 20
+  offset: 0, 0
+  index: -1
+eff
+  rotate: false
+  xy: 2, 254
+  size: 333, 236
+  orig: 333, 236
+  offset: 0, 0
+  index: -1
+s1
+  rotate: false
+  xy: 405, 160
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+s2
+  rotate: false
+  xy: 440, 124
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+s3
+  rotate: false
+  xy: 405, 88
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+xx
+  rotate: false
+  xy: 476, 427
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+x
+  rotate: false
+  xy: 476, 427
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1

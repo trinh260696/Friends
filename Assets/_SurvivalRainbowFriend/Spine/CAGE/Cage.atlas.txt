@@ -1,0 +1,27 @@
+
+Cage.png
+size: 619,362
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+CAPE
+  rotate: false
+  xy: 2, 2
+  size: 393, 358
+  orig: 395, 360
+  offset: 1, 1
+  index: -1
+DOOR
+  rotate: true
+  xy: 397, 117
+  size: 243, 220
+  orig: 245, 222
+  offset: 1, 1
+  index: -1
+LOCK
+  rotate: false
+  xy: 397, 40
+  size: 54, 75
+  orig: 56, 77
+  offset: 1, 1
+  index: -1

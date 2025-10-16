@@ -111,7 +111,7 @@ public class UIPlay :VKLayer
     #endregion
 
     #region method
-    public void Init(List<CFriendObj> CFriends,List<ItemObject> ItemObjects)
+    public void Init(List<CFriendObj> CFriends,LevelData levelData)
     {
         canvas.sortingOrder = 100;
         var scaleFactor = VKLayerController.GetScale(Screen.width, Screen.height, new Vector2(1920, 1080));      
@@ -137,38 +137,36 @@ public class UIPlay :VKLayer
             StopCoroutine("Warning");
         });
         StartCoroutine("Warning");
-        //startCountDown.SetSeconds(10);
-        //startCountDown.StartCountDown(() => GameManager.Instance.EnterGame()); ;
-        //startCountDown.OnShowSpecial = () => { AudioManager.instance.Play("Warning"); };
+       
         foreach (RectTransform tr in parentMissionTransform)
         {
             tr.gameObject.SetActive(false);
         }
         missionTextList = new Dictionary<int, TextMeshProUGUI>();
-        for(int i=0; i<ItemObjects.Count; i++)
-        {
-            var tr = parentMissionTransform.GetChild(i);
-            tr.gameObject.SetActive(true);
-            int iSprite = (int)ItemObjects[i].typeMission;
-            tr.GetChild(0).GetComponent<Image>().sprite = sprites[iSprite];
-            var textMesh = tr.GetChild(1).GetComponent<TextMeshProUGUI>();
-            textMesh.text = string.Format("0/{0}", ItemObjects[i].missionNumber);
-            tr.gameObject.name = iSprite.ToString();
-            missionTextList.Add(iSprite, textMesh);
-        }
+        //for(int i=0; i<ItemObjects.Count; i++)
+        //{
+        //    var tr = parentMissionTransform.GetChild(i);
+        //    tr.gameObject.SetActive(true);
+        //    int iSprite = (int)ItemObjects[i].typeMission;
+        //    tr.GetChild(0).GetComponent<Image>().sprite = sprites[iSprite];
+        //    var textMesh = tr.GetChild(1).GetComponent<TextMeshProUGUI>();
+        //    textMesh.text = string.Format("0/{0}", ItemObjects[i].missionNumber);
+        //    tr.gameObject.name = iSprite.ToString();
+        //    missionTextList.Add(iSprite, textMesh);
+        //}
 
-        foreach (RectTransform tr in findMissionTransform)
-        {
-            tr.gameObject.SetActive(false);
-        }
-        for (int i = 0; i < ItemObjects.Count; i++)
-        {
-            var tr = findMissionTransform.GetChild(i);
-            tr.gameObject.SetActive(true);
-            int iSprite = (int)ItemObjects[i].typeMission;
-            tr.GetChild(0).GetComponent<Image>().sprite = sprites[iSprite];
-            tr.gameObject.name = iSprite.ToString();
-        }
+        //foreach (RectTransform tr in findMissionTransform)
+        //{
+        //    tr.gameObject.SetActive(false);
+        //}
+        //for (int i = 0; i < ItemObjects.Count; i++)
+        //{
+        //    var tr = findMissionTransform.GetChild(i);
+        //    tr.gameObject.SetActive(true);
+        //    int iSprite = (int)ItemObjects[i].typeMission;
+        //    tr.GetChild(0).GetComponent<Image>().sprite = sprites[iSprite];
+        //    tr.gameObject.name = iSprite.ToString();
+        //}
 
         var uiBooster= VKLayerController.Instance.ShowLayer("UIBooster") as UIBooster;
         uiBooster.Init();

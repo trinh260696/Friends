@@ -17,18 +17,15 @@ public class FriendData : ScriptableObject
             return instance;
         }
     }
-    public List<FriendObj> Friends;
-    public List<FriendObj> GetFriendData()
+    public List<NPCObj> Friends;
+    public List<NPCObj> GetFriendData()
     {
         return Friends;
     }
-    public FriendObj GetFriendByskinName(string skinName, string skinCover="")
+   
+    public List<NPCObj> GetGroupFriend(int number)
     {
-        return Friends.Where(f => f.skinId == skinName).First();
-    }
-    public List<FriendObj> GetGroupFriend(int number)
-    {
-        List<FriendObj> result = new List<FriendObj>();
+        List<NPCObj> result = new List<NPCObj>();
         int rnd = Random.Range(0, Friends.Count);
         for (int i=0; i<number; i++)
         {

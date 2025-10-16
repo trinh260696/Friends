@@ -1,0 +1,27 @@
+
+Teleport.png
+size: 828,338
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 2
+  size: 334, 334
+  orig: 336, 336
+  offset: 1, 1
+  index: -1
+2
+  rotate: false
+  xy: 338, 65
+  size: 269, 271
+  orig: 271, 273
+  offset: 1, 1
+  index: -1
+3
+  rotate: false
+  xy: 609, 119
+  size: 217, 217
+  orig: 219, 219
+  offset: 1, 1
+  index: -1

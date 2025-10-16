@@ -1,0 +1,104 @@
+
+cu_toi.png
+size: 240,96
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Ham_duoi
+  rotate: false
+  xy: 102, 37
+  size: 98, 57
+  orig: 98, 57
+  offset: 0, 0
+  index: -1
+Ham_tren
+  rotate: false
+  xy: 2, 11
+  size: 98, 83
+  orig: 98, 103
+  offset: 0, 0
+  index: -1
+La_P
+  rotate: false
+  xy: 202, 53
+  size: 33, 41
+  orig: 33, 45
+  offset: 0, 4
+  index: -1
+La_T
+  rotate: true
+  xy: 202, 21
+  size: 30, 33
+  orig: 30, 33
+  offset: 0, 0
+  index: -1
+Long_may_P
+  rotate: true
+  xy: 131, 4
+  size: 31, 24
+  orig: 33, 26
+  offset: 1, 1
+  index: -1
+Long_may_T
+  rotate: false
+  xy: 102, 4
+  size: 27, 15
+  orig: 29, 17
+  offset: 1, 1
+  index: -1
+Ma_hong1
+  rotate: false
+  xy: 2, 3
+  size: 17, 6
+  orig: 19, 8
+  offset: 1, 1
+  index: -1
+Ma_hong2
+  rotate: false
+  xy: 21, 3
+  size: 15, 6
+  orig: 17, 8
+  offset: 1, 1
+  index: -1
+Mat_P1
+  rotate: false
+  xy: 217, 2
+  size: 15, 17
+  orig: 17, 19
+  offset: 1, 1
+  index: -1
+Mat_P2
+  rotate: false
+  xy: 199, 2
+  size: 16, 17
+  orig: 18, 19
+  offset: 1, 1
+  index: -1
+Mat_P3
+  rotate: false
+  xy: 38, 2
+  size: 6, 7
+  orig: 8, 9
+  offset: 1, 1
+  index: -1
+Mat_T1
+  rotate: false
+  xy: 178, 17
+  size: 19, 18
+  orig: 21, 20
+  offset: 1, 1
+  index: -1
+Mat_T2
+  rotate: true
+  xy: 157, 15
+  size: 20, 19
+  orig: 22, 21
+  offset: 1, 1
+  index: -1
+Mat_T3
+  rotate: false
+  xy: 46, 2
+  size: 6, 7
+  orig: 8, 9
+  offset: 1, 1
+  index: -1

@@ -1,0 +1,160 @@
+
+Dracular.png
+size: 632,272
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 108
+  size: 228, 162
+  orig: 228, 162
+  offset: 0, 0
+  index: -1
+BODY
+  rotate: false
+  xy: 439, 69
+  size: 105, 86
+  orig: 105, 88
+  offset: 0, 0
+  index: -1
+COAT
+  rotate: true
+  xy: 232, 141
+  size: 129, 205
+  orig: 129, 205
+  offset: 0, 0
+  index: -1
+COAT1
+  rotate: true
+  xy: 546, 80
+  size: 75, 74
+  orig: 75, 74
+  offset: 0, 0
+  index: -1
+COAT2
+  rotate: false
+  xy: 342, 2
+  size: 40, 78
+  orig: 40, 78
+  offset: 0, 0
+  index: -1
+COAT3
+  rotate: false
+  xy: 384, 2
+  size: 84, 65
+  orig: 84, 65
+  offset: 0, 0
+  index: -1
+COLLAR
+  rotate: false
+  xy: 2, 10
+  size: 173, 96
+  orig: 175, 96
+  offset: 2, 0
+  index: -1
+EAR
+  rotate: true
+  xy: 384, 69
+  size: 27, 47
+  orig: 29, 49
+  offset: 1, 1
+  index: -1
+FACE
+  rotate: true
+  xy: 229, 3
+  size: 77, 111
+  orig: 79, 113
+  offset: 1, 1
+  index: -1
+HAND
+  rotate: true
+  xy: 546, 39
+  size: 39, 56
+  orig: 41, 58
+  offset: 1, 1
+  index: -1
+L EYE1
+  rotate: false
+  xy: 577, 14
+  size: 24, 23
+  orig: 26, 25
+  offset: 1, 1
+  index: -1
+L EYE2
+  rotate: true
+  xy: 606, 158
+  size: 25, 20
+  orig: 27, 22
+  offset: 1, 1
+  index: -1
+LEG1
+  rotate: true
+  xy: 232, 82
+  size: 57, 133
+  orig: 57, 133
+  offset: 0, 0
+  index: -1
+Layer 7 copy
+  rotate: true
+  xy: 367, 98
+  size: 41, 62
+  orig: 43, 64
+  offset: 1, 1
+  index: -1
+MOUTH
+  rotate: true
+  xy: 538, 2
+  size: 35, 37
+  orig: 37, 39
+  offset: 1, 1
+  index: -1
+R EYE1
+  rotate: true
+  xy: 470, 3
+  size: 29, 38
+  orig: 31, 40
+  offset: 1, 1
+  index: -1
+R EYE2
+  rotate: true
+  xy: 510, 3
+  size: 29, 21
+  orig: 31, 23
+  offset: 1, 1
+  index: -1
+SALIVA
+  rotate: true
+  xy: 470, 34
+  size: 33, 66
+  orig: 35, 68
+  offset: 1, 1
+  index: -1
+SHOULDER
+  rotate: true
+  xy: 177, 4
+  size: 102, 50
+  orig: 102, 50
+  offset: 0, 0
+  index: -1
+tay phai copy
+  rotate: true
+  xy: 606, 185
+  size: 85, 21
+  orig: 87, 23
+  offset: 1, 1
+  index: -1
+toc
+  rotate: true
+  xy: 439, 157
+  size: 113, 165
+  orig: 115, 167
+  offset: 1, 1
+  index: -1
+x
+  rotate: true
+  xy: 604, 56
+  size: 22, 21
+  orig: 22, 21
+  offset: 0, 0
+  index: -1

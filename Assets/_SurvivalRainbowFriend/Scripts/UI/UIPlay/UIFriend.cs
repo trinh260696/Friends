@@ -12,7 +12,7 @@ public class UIFriend : MonoBehaviour
     public void InitStatusFriend(CFriendObj friendObj)
     {
         this.cFriendObj = friendObj;
-        this.imgIcon.sprite = Resources.Load<Sprite>("Avatar/" + cFriendObj.skinId);
+        this.imgIcon.sprite = Resources.Load<Sprite>("Avatar/" + cFriendObj.id.ToString());
         this.textNumber.text = friendObj.number.ToString();
         xObject.SetActive(false);
     }

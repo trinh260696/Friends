@@ -5,17 +5,17 @@ using System;
 
 public class FriendManager : MonoBehaviour
 {
-    public List<Friend> Friends;
+    public List<NPC> Friends;
     private float xPos;
     private float yPos;
     private float f = 180f;
     private float radius = 3f;
     private Vector2 centerPos;
-    public void GenerateFriend(List<FriendObj> friends, Vector2 center)
+    public void GenerateFriend(List<NPCObj> friends, Vector2 center)
     {
         centerPos = center;
         int number = friends.Count;
-        Friends = new List<Friend>();
+        Friends = new List<NPC>();
         // The corner that is used to start the polygon (parallel to the X axis).
         Vector2 startCorner = new Vector2(radius, 0) + center;
 
@@ -53,9 +53,9 @@ public class FriendManager : MonoBehaviour
             var go = Instantiate(Resources.Load<GameObject>("Friends/Friend"));
             go.transform.position = currentCorner;
             go.transform.SetParent(transform,true);
-            var animator = Instantiate(Resources.Load<GameObject>("Friends/"+friends[i].skinId));
+            var animator = Instantiate(Resources.Load<GameObject>("Friends/"+friends[i].friendType.ToString()));
             animator.transform.SetParent(go.transform,false);
-            var friend= go.GetComponent<Friend>();
+            var friend= go.GetComponent<NPC>();
             friend.Init(friends[i],animator,i);
             
             Friends.Add(friend);         

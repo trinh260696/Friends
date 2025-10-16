@@ -67,7 +67,7 @@ public class GreenBoss : BossBase
                 LeanTween.cancel(gameObject);
                 animator.transform.localScale = Vector3.one * 0.7f;
                 animator.SetTrigger(BossBase.BossKillProperties);
-                collision.gameObject.GetComponent<Friend>().DeathGreen(transform.position);
+                collision.gameObject.GetComponent<NPC>().DeathGreen(transform.position);
                 desTransform = collision.gameObject.transform;
                           
                 killing = true;
@@ -114,24 +114,7 @@ public class GreenBoss : BossBase
         if (!StaticData.ISREADY) return;
         if (killing) return;
         base.OnTriggerStay2D(col);
-        if (col.gameObject.CompareTag("Player"))
-        {
-            if (!Follow && !killing)
-            {
-                Target = col.transform;
-                Follow = true;
-                StopDetect();
-            }
-        }
-        else if (Target)
-        {
-            if (Target.name == col.name && col.gameObject.CompareTag("Hide"))
-            {
-                Target = null;
-                Follow = false;
-                StartDetect();
-            }
-        }
+        
     }
 }
 

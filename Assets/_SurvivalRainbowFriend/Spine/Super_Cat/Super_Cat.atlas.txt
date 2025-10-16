@@ -1,0 +1,209 @@
+
+Super_Cat.png
+size: 592,173
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bell
+  rotate: false
+  xy: 553, 134
+  size: 37, 37
+  orig: 39, 39
+  offset: 1, 1
+  index: -1
+Body
+  rotate: false
+  xy: 294, 49
+  size: 90, 122
+  orig: 90, 122
+  offset: 0, 0
+  index: -1
+Bow L
+  rotate: false
+  xy: 50, 4
+  size: 17, 12
+  orig: 19, 14
+  offset: 1, 1
+  index: -1
+Bow R
+  rotate: false
+  xy: 30, 4
+  size: 18, 12
+  orig: 20, 14
+  offset: 1, 1
+  index: -1
+Coast
+  rotate: false
+  xy: 198, 33
+  size: 94, 138
+  orig: 94, 138
+  offset: 0, 0
+  index: -1
+D Arm L
+  rotate: true
+  xy: 212, 3
+  size: 28, 46
+  orig: 30, 48
+  offset: 1, 1
+  index: -1
+D Arm R
+  rotate: false
+  xy: 459, 2
+  size: 33, 39
+  orig: 35, 41
+  offset: 1, 1
+  index: -1
+Dai
+  rotate: true
+  xy: 386, 78
+  size: 93, 32
+  orig: 93, 32
+  offset: 0, 0
+  index: -1
+Ear L
+  rotate: true
+  xy: 378, 5
+  size: 42, 40
+  orig: 44, 42
+  offset: 1, 1
+  index: -1
+Ear R
+  rotate: true
+  xy: 534, 4
+  size: 47, 51
+  orig: 49, 53
+  offset: 1, 1
+  index: -1
+Eye L
+  rotate: false
+  xy: 494, 3
+  size: 38, 38
+  orig: 40, 40
+  offset: 1, 1
+  index: -1
+Eye L2
+  rotate: false
+  xy: 107, 7
+  size: 32, 9
+  orig: 34, 11
+  offset: 1, 1
+  index: -1
+Eye R
+  rotate: false
+  xy: 554, 57
+  size: 30, 36
+  orig: 32, 38
+  offset: 1, 1
+  index: -1
+Eye R2
+  rotate: false
+  xy: 69, 6
+  size: 36, 10
+  orig: 38, 12
+  offset: 1, 1
+  index: -1
+Face
+  rotate: true
+  xy: 2, 18
+  size: 153, 141
+  orig: 155, 143
+  offset: 1, 1
+  index: -1
+Foot
+  rotate: false
+  xy: 145, 4
+  size: 47, 20
+  orig: 49, 22
+  offset: 1, 1
+  index: -1
+Hair
+  rotate: false
+  xy: 554, 95
+  size: 35, 37
+  orig: 37, 39
+  offset: 1, 1
+  index: -1
+Hand L
+  rotate: false
+  xy: 500, 111
+  size: 51, 60
+  orig: 53, 62
+  offset: 1, 1
+  index: -1
+Hand R
+  rotate: false
+  xy: 459, 43
+  size: 55, 61
+  orig: 57, 63
+  offset: 1, 1
+  index: -1
+Iris L
+  rotate: false
+  xy: 16, 3
+  size: 12, 13
+  orig: 14, 15
+  offset: 1, 1
+  index: -1
+Iris R
+  rotate: false
+  xy: 2, 2
+  size: 12, 14
+  orig: 14, 16
+  offset: 1, 1
+  index: -1
+Leg
+  rotate: false
+  xy: 420, 18
+  size: 37, 75
+  orig: 37, 75
+  offset: 0, 0
+  index: -1
+Mom1
+  rotate: false
+  xy: 260, 7
+  size: 61, 24
+  orig: 63, 26
+  offset: 1, 1
+  index: -1
+Mom_ha
+  rotate: true
+  xy: 459, 106
+  size: 65, 39
+  orig: 67, 41
+  offset: 1, 1
+  index: -1
+Mouth
+  rotate: true
+  xy: 420, 95
+  size: 76, 37
+  orig: 78, 39
+  offset: 1, 1
+  index: -1
+Nose
+  rotate: true
+  xy: 194, 6
+  size: 18, 16
+  orig: 20, 18
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: true
+  xy: 145, 26
+  size: 145, 51
+  orig: 145, 51
+  offset: 0, 0
+  index: -1
+Up Arm R
+  rotate: false
+  xy: 516, 53
+  size: 36, 56
+  orig: 38, 58
+  offset: 1, 1
+  index: -1
+Up ArmL
+  rotate: true
+  xy: 323, 2
+  size: 45, 53
+  orig: 47, 55
+  offset: 1, 1
+  index: -1

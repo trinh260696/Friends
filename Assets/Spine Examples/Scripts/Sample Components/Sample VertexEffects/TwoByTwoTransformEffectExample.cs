@@ -1,8 +1,8 @@
 /******************************************************************************
  * Spine Runtimes License Agreement
- * Last updated September 24, 2021. Replaces all prior versions.
+ * Last updated January 1, 2020. Replaces all prior versions.
  *
- * Copyright (c) 2013-2021, Esoteric Software LLC
+ * Copyright (c) 2013-2020, Esoteric Software LLC
  *
  * Integration of the Spine Runtimes into software or otherwise creating
  * derivative works of the Spine Runtimes is permitted under the terms and
@@ -98,7 +98,7 @@ public class TwoByTwoTransformEffectExampleEditor : UnityEditor.Editor {
 		Color originalColor = UnityEditor.Handles.color;
 		UnityEditor.Handles.color = color;
 		UnityEditor.Handles.DrawLine(transform.position, transform.TransformPoint(v));
-		var fmh_101_103_638363460845082941 = Quaternion.identity; v = transform.InverseTransformPoint(UnityEditor.Handles.FreeMoveHandle(transform.TransformPoint(v), 0.3f, Vector3.zero, UnityEditor.Handles.CubeHandleCap));
+		var fmh_101_103_638957115369114674 = Quaternion.identity; v = transform.InverseTransformPoint(UnityEditor.Handles.FreeMoveHandle(transform.TransformPoint(v), 0.3f, Vector3.zero, UnityEditor.Handles.CubeHandleCap));
 		UnityEditor.Handles.color = originalColor;
 	}
 }

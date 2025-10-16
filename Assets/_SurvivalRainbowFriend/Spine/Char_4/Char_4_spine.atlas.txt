@@ -1,0 +1,244 @@
+
+Char_4_spine.png
+size: 580,312
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arm
+  rotate: false
+  xy: 536, 214
+  size: 42, 96
+  orig: 42, 96
+  offset: 0, 0
+  index: -1
+Body
+  rotate: false
+  xy: 2, 82
+  size: 161, 166
+  orig: 161, 166
+  offset: 0, 0
+  index: -1
+Bow
+  rotate: true
+  xy: 353, 9
+  size: 53, 27
+  orig: 55, 29
+  offset: 1, 1
+  index: -1
+Bow_L
+  rotate: false
+  xy: 223, 2
+  size: 20, 10
+  orig: 22, 12
+  offset: 1, 1
+  index: -1
+Bow_R
+  rotate: true
+  xy: 555, 59
+  size: 22, 11
+  orig: 24, 13
+  offset: 1, 1
+  index: -1
+Cay2
+  rotate: false
+  xy: 2, 250
+  size: 349, 60
+  orig: 349, 60
+  offset: 0, 0
+  index: -1
+Ear_L
+  rotate: true
+  xy: 382, 6
+  size: 41, 46
+  orig: 43, 48
+  offset: 1, 1
+  index: -1
+Ear_R
+  rotate: true
+  xy: 288, 14
+  size: 48, 63
+  orig: 50, 65
+  offset: 1, 1
+  index: -1
+Eye_L
+  rotate: true
+  xy: 364, 64
+  size: 33, 22
+  orig: 35, 24
+  offset: 1, 1
+  index: -1
+Eye_L2
+  rotate: false
+  xy: 497, 15
+  size: 17, 12
+  orig: 19, 14
+  offset: 1, 1
+  index: -1
+Eye_R
+  rotate: false
+  xy: 454, 98
+  size: 39, 23
+  orig: 41, 25
+  offset: 1, 1
+  index: -1
+Foot
+  rotate: false
+  xy: 391, 95
+  size: 61, 26
+  orig: 63, 28
+  offset: 1, 1
+  index: -1
+Hand
+  rotate: false
+  xy: 430, 3
+  size: 41, 44
+  orig: 43, 46
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 165, 130
+  size: 155, 118
+  orig: 155, 118
+  offset: 0, 0
+  index: -1
+Heart
+  rotate: false
+  xy: 322, 222
+  size: 29, 26
+  orig: 31, 28
+  offset: 1, 1
+  index: -1
+Iris_L
+  rotate: true
+  xy: 299, 123
+  size: 5, 6
+  orig: 7, 8
+  offset: 1, 1
+  index: -1
+Iris_R
+  rotate: true
+  xy: 290, 123
+  size: 5, 7
+  orig: 7, 9
+  offset: 1, 1
+  index: -1
+Layer 109
+  rotate: false
+  xy: 527, 38
+  size: 22, 13
+  orig: 24, 15
+  offset: 1, 1
+  index: -1
+Layer 110
+  rotate: false
+  xy: 495, 83
+  size: 57, 34
+  orig: 59, 36
+  offset: 1, 1
+  index: -1
+Leg
+  rotate: true
+  xy: 151, 9
+  size: 58, 70
+  orig: 58, 70
+  offset: 0, 0
+  index: -1
+Mouth
+  rotate: false
+  xy: 473, 12
+  size: 22, 15
+  orig: 24, 17
+  offset: 1, 1
+  index: -1
+Mouth_3
+  rotate: false
+  xy: 290, 64
+  size: 72, 33
+  orig: 74, 35
+  offset: 1, 1
+  index: -1
+Neck
+  rotate: false
+  xy: 2, 12
+  size: 147, 68
+  orig: 149, 70
+  offset: 1, 1
+  index: -1
+Nose
+  rotate: false
+  xy: 245, 2
+  size: 15, 10
+  orig: 17, 12
+  offset: 1, 1
+  index: -1
+Rau_L
+  rotate: false
+  xy: 527, 53
+  size: 26, 28
+  orig: 28, 30
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 322, 123
+  size: 172, 97
+  orig: 172, 97
+  offset: 0, 0
+  index: -1
+Up_Mouth
+  rotate: true
+  xy: 554, 83
+  size: 34, 22
+  orig: 36, 24
+  offset: 1, 1
+  index: -1
+ca
+  rotate: false
+  xy: 353, 222
+  size: 181, 88
+  orig: 181, 88
+  offset: 0, 0
+  index: -1
+gun
+  rotate: true
+  xy: 165, 69
+  size: 59, 123
+  orig: 59, 123
+  offset: 0, 0
+  index: -1
+hand2
+  rotate: true
+  xy: 388, 49
+  size: 44, 55
+  orig: 44, 55
+  offset: 0, 0
+  index: -1
+item_da3
+  rotate: false
+  xy: 496, 119
+  size: 81, 93
+  orig: 85, 97
+  offset: 2, 2
+  index: -1
+rope
+  rotate: false
+  xy: 290, 99
+  size: 99, 22
+  orig: 99, 22
+  offset: 0, 0
+  index: -1
+stone
+  rotate: false
+  xy: 473, 29
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+water
+  rotate: true
+  xy: 223, 14
+  size: 53, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1

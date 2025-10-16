@@ -1,0 +1,230 @@
+
+Enemy_2.png
+size: 276,269
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ban_tay
+  rotate: false
+  xy: 202, 159
+  size: 27, 21
+  orig: 29, 23
+  offset: 1, 1
+  index: -1
+banchan
+  rotate: true
+  xy: 77, 6
+  size: 41, 22
+  orig: 43, 24
+  offset: 1, 1
+  index: -1
+baptay
+  rotate: true
+  xy: 184, 182
+  size: 22, 32
+  orig: 24, 34
+  offset: 1, 1
+  index: -1
+chan
+  rotate: false
+  xy: 108, 154
+  size: 22, 25
+  orig: 24, 27
+  offset: 1, 1
+  index: -1
+dui
+  rotate: true
+  xy: 213, 2
+  size: 50, 61
+  orig: 52, 63
+  offset: 1, 1
+  index: -1
+duoi
+  rotate: true
+  xy: 2, 46
+  size: 106, 40
+  orig: 106, 40
+  offset: 0, 0
+  index: -1
+eye__t_3
+  rotate: true
+  xy: 179, 156
+  size: 23, 21
+  orig: 25, 23
+  offset: 1, 1
+  index: -1
+eye_p
+  rotate: true
+  xy: 132, 155
+  size: 24, 31
+  orig: 26, 33
+  offset: 1, 1
+  index: -1
+eye_p4
+  rotate: true
+  xy: 165, 155
+  size: 24, 12
+  orig: 26, 14
+  offset: 1, 1
+  index: -1
+eye_t
+  rotate: false
+  xy: 247, 134
+  size: 26, 33
+  orig: 28, 35
+  offset: 1, 1
+  index: -1
+eye_t4
+  rotate: true
+  xy: 218, 192
+  size: 12, 11
+  orig: 14, 13
+  offset: 1, 1
+  index: -1
+eye_t_3
+  rotate: false
+  xy: 140, 49
+  size: 18, 19
+  orig: 20, 21
+  offset: 1, 1
+  index: -1
+face
+  rotate: true
+  xy: 2, 154
+  size: 113, 104
+  orig: 115, 106
+  offset: 1, 1
+  index: -1
+hair
+  rotate: true
+  xy: 231, 169
+  size: 35, 28
+  orig: 37, 30
+  offset: 1, 1
+  index: -1
+iris_p
+  rotate: false
+  xy: 130, 2
+  size: 7, 8
+  orig: 9, 10
+  offset: 1, 1
+  index: -1
+iris_t
+  rotate: false
+  xy: 139, 3
+  size: 7, 7
+  orig: 9, 9
+  offset: 1, 1
+  index: -1
+leg
+  rotate: false
+  xy: 140, 70
+  size: 50, 83
+  orig: 50, 83
+  offset: 0, 0
+  index: -1
+luoi
+  rotate: false
+  xy: 178, 2
+  size: 33, 46
+  orig: 33, 46
+  offset: 0, 0
+  index: -1
+may_p
+  rotate: true
+  xy: 210, 54
+  size: 16, 12
+  orig: 18, 14
+  offset: 1, 1
+  index: -1
+may_t
+  rotate: true
+  xy: 195, 54
+  size: 16, 13
+  orig: 18, 15
+  offset: 1, 1
+  index: -1
+mom1
+  rotate: false
+  xy: 2, 2
+  size: 73, 42
+  orig: 75, 44
+  offset: 1, 1
+  index: -1
+mom2
+  rotate: true
+  xy: 240, 217
+  size: 50, 34
+  orig: 52, 36
+  offset: 1, 1
+  index: -1
+mom3
+  rotate: true
+  xy: 101, 10
+  size: 37, 27
+  orig: 39, 29
+  offset: 1, 1
+  index: -1
+nose
+  rotate: false
+  xy: 192, 72
+  size: 23, 17
+  orig: 25, 19
+  offset: 1, 1
+  index: -1
+obj_chees
+  rotate: true
+  xy: 108, 181
+  size: 86, 74
+  orig: 86, 74
+  offset: 0, 0
+  index: -1
+rau_p
+  rotate: false
+  xy: 247, 102
+  size: 27, 30
+  orig: 29, 32
+  offset: 1, 1
+  index: -1
+rau_t
+  rotate: true
+  xy: 224, 54
+  size: 35, 34
+  orig: 37, 36
+  offset: 1, 1
+  index: -1
+tai_p
+  rotate: false
+  xy: 184, 206
+  size: 54, 61
+  orig: 54, 70
+  offset: 0, 9
+  index: -1
+tai_t
+  rotate: true
+  xy: 130, 12
+  size: 35, 46
+  orig: 35, 46
+  offset: 0, 0
+  index: -1
+tay
+  rotate: false
+  xy: 160, 50
+  size: 33, 18
+  orig: 35, 20
+  offset: 1, 1
+  index: -1
+than
+  rotate: false
+  xy: 44, 49
+  size: 94, 103
+  orig: 94, 103
+  offset: 0, 0
+  index: -1
+water
+  rotate: false
+  xy: 192, 91
+  size: 53, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1

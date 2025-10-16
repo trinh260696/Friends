@@ -1,0 +1,76 @@
+
+Bay_kep.png
+size: 125,140
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1_1
+  rotate: true
+  xy: 2, 102
+  size: 36, 70
+  orig: 38, 72
+  offset: 1, 1
+  index: -1
+1_2
+  rotate: true
+  xy: 2, 54
+  size: 46, 48
+  orig: 48, 50
+  offset: 1, 1
+  index: -1
+1_3
+  rotate: false
+  xy: 88, 2
+  size: 32, 62
+  orig: 34, 64
+  offset: 1, 1
+  index: -1
+2_1
+  rotate: false
+  xy: 74, 66
+  size: 31, 72
+  orig: 33, 74
+  offset: 1, 1
+  index: -1
+2_2
+  rotate: true
+  xy: 2, 10
+  size: 42, 48
+  orig: 44, 50
+  offset: 1, 1
+  index: -1
+2_3
+  rotate: false
+  xy: 52, 2
+  size: 34, 62
+  orig: 36, 64
+  offset: 1, 1
+  index: -1
+Cham_tron1
+  rotate: false
+  xy: 107, 92
+  size: 11, 10
+  orig: 13, 12
+  offset: 1, 1
+  index: -1
+Cham_tron2
+  rotate: false
+  xy: 107, 81
+  size: 9, 9
+  orig: 11, 11
+  offset: 1, 1
+  index: -1
+Truc_doc
+  rotate: false
+  xy: 117, 107
+  size: 6, 31
+  orig: 8, 33
+  offset: 1, 1
+  index: -1
+Truc_ngang
+  rotate: true
+  xy: 107, 104
+  size: 34, 8
+  orig: 36, 10
+  offset: 1, 1
+  index: -1

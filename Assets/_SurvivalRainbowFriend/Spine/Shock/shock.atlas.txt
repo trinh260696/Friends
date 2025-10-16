@@ -1,0 +1,13 @@
+
+shock.png
+size: 138,132
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Star
+  rotate: false
+  xy: 2, 2
+  size: 134, 128
+  orig: 134, 128
+  offset: 0, 0
+  index: -1

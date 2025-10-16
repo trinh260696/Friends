@@ -1,0 +1,20 @@
+
+cung.png
+size: 376,356
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arrow1
+  rotate: false
+  xy: 2, 2
+  size: 371, 50
+  orig: 371, 50
+  offset: 0, 0
+  index: -1
+Arrow2
+  rotate: false
+  xy: 2, 54
+  size: 343, 300
+  orig: 343, 300
+  offset: 0, 0
+  index: -1

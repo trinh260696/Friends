@@ -1,0 +1,118 @@
+
+Peashooter.png
+size: 292,292
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Hoa
+  rotate: false
+  xy: 51, 118
+  size: 62, 53
+  orig: 64, 55
+  offset: 1, 1
+  index: -1
+Hoa1
+  rotate: false
+  xy: 165, 219
+  size: 89, 40
+  orig: 89, 40
+  offset: 0, 0
+  index: -1
+Hoa2
+  rotate: false
+  xy: 188, 170
+  size: 82, 47
+  orig: 94, 67
+  offset: 0, 20
+  index: -1
+Hoa3
+  rotate: false
+  xy: 2, 177
+  size: 80, 43
+  orig: 80, 43
+  offset: 0, 0
+  index: -1
+Hoa4
+  rotate: false
+  xy: 99, 221
+  size: 64, 39
+  orig: 64, 39
+  offset: 0, 0
+  index: -1
+Hoa5
+  rotate: false
+  xy: 112, 262
+  size: 75, 27
+  orig: 75, 27
+  offset: 0, 0
+  index: -1
+Hoa6
+  rotate: false
+  xy: 189, 261
+  size: 67, 28
+  orig: 67, 28
+  offset: 0, 0
+  index: -1
+La1
+  rotate: false
+  xy: 84, 173
+  size: 50, 46
+  orig: 50, 46
+  offset: 0, 0
+  index: -1
+La2
+  rotate: false
+  xy: 47, 222
+  size: 50, 42
+  orig: 50, 42
+  offset: 0, 0
+  index: -1
+La3
+  rotate: true
+  xy: 2, 226
+  size: 41, 43
+  orig: 41, 43
+  offset: 0, 0
+  index: -1
+La4
+  rotate: false
+  xy: 136, 171
+  size: 50, 46
+  orig: 50, 46
+  offset: 0, 0
+  index: -1
+La5
+  rotate: false
+  xy: 2, 128
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+La6
+  rotate: false
+  xy: 53, 266
+  size: 57, 23
+  orig: 57, 23
+  offset: 0, 0
+  index: -1
+La7
+  rotate: false
+  xy: 2, 269
+  size: 49, 20
+  orig: 49, 20
+  offset: 0, 0
+  index: -1
+Than
+  rotate: true
+  xy: 115, 117
+  size: 51, 102
+  orig: 51, 102
+  offset: 0, 0
+  index: -1
+hat dan
+  rotate: true
+  xy: 258, 245
+  size: 44, 31
+  orig: 46, 33
+  offset: 1, 1
+  index: -1

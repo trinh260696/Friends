@@ -1,0 +1,34 @@
+
+Shell.png
+size: 260,172
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Back
+  rotate: true
+  xy: 2, 3
+  size: 165, 73
+  orig: 165, 73
+  offset: 0, 0
+  index: -1
+DOWN
+  rotate: true
+  xy: 145, 2
+  size: 166, 57
+  orig: 168, 59
+  offset: 1, 1
+  index: -1
+TOUGH
+  rotate: false
+  xy: 204, 24
+  size: 51, 144
+  orig: 51, 144
+  offset: 0, 0
+  index: -1
+UP
+  rotate: true
+  xy: 77, 3
+  size: 165, 66
+  orig: 167, 68
+  offset: 1, 1
+  index: -1

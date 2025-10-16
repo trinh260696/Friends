@@ -1,0 +1,27 @@
+
+buctuong.png
+size: 990,647
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 698, 35
+  size: 290, 610
+  orig: 292, 612
+  offset: 1, 1
+  index: -1
+2
+  rotate: true
+  xy: 2, 2
+  size: 266, 598
+  orig: 268, 600
+  offset: 1, 1
+  index: -1
+aura
+  rotate: true
+  xy: 2, 270
+  size: 375, 694
+  orig: 377, 696
+  offset: 1, 1
+  index: -1

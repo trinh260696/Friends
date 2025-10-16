@@ -112,10 +112,9 @@ public class UIPopupMoreBoosterItem : VKLayer
     }
     public void OnClickClose()
     {
-        //  LeanTween.cancel(textCountDown.gameObject);
         
         var layer = VKLayerController.Instance.ShowLayer("UIYouDiedDialog") as UIYouDiedDialog;
-        layer.Init(GameManager.Instance.StatusMissions, GameManager.Instance.levelData.Items);
+       // layer.Init(GameManager.Instance.StatusMissions, GameManager.Instance.levelData.Items);
         GameManager.Instance.TurnLose();
         GameManager.Instance.CloseGame();
         Close();

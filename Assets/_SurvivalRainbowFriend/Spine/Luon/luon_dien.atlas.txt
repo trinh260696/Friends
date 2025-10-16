@@ -1,0 +1,97 @@
+
+luon_dien.png
+size: 220,220
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BODY
+  rotate: false
+  xy: 2, 80
+  size: 214, 136
+  orig: 214, 136
+  offset: 0, 0
+  index: -1
+L EYE
+  rotate: false
+  xy: 59, 22
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+L EYE 2
+  rotate: true
+  xy: 94, 21
+  size: 27, 25
+  orig: 27, 25
+  offset: 0, 0
+  index: -1
+MOUHT
+  rotate: false
+  xy: 2, 29
+  size: 55, 49
+  orig: 55, 49
+  offset: 0, 0
+  index: -1
+R EYE
+  rotate: true
+  xy: 132, 51
+  size: 27, 36
+  orig: 27, 36
+  offset: 0, 0
+  index: -1
+R EYE 2
+  rotate: true
+  xy: 94, 50
+  size: 28, 36
+  orig: 28, 36
+  offset: 0, 0
+  index: -1
+VAY1
+  rotate: false
+  xy: 59, 49
+  size: 33, 29
+  orig: 33, 29
+  offset: 0, 0
+  index: -1
+VAY2
+  rotate: true
+  xy: 170, 48
+  size: 30, 26
+  orig: 30, 26
+  offset: 0, 0
+  index: -1
+VAY3
+  rotate: false
+  xy: 132, 19
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: -1
+lightning/0
+  rotate: true
+  xy: 2, 16
+  size: 11, 12
+  orig: 11, 12
+  offset: 0, 0
+  index: -1
+lightning/1
+  rotate: false
+  xy: 30, 16
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+lightning/2
+  rotate: false
+  xy: 16, 16
+  size: 12, 11
+  orig: 12, 11
+  offset: 0, 0
+  index: -1
+lightning/3
+  rotate: true
+  xy: 121, 38
+  size: 10, 8
+  orig: 10, 8
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,223 @@
+
+Enemy_3.png
+size: 1129,268
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0
+  rotate: false
+  xy: 326, 4
+  size: 84, 38
+  orig: 84, 38
+  offset: 0, 0
+  index: -1
+1
+  rotate: true
+  xy: 969, 27
+  size: 91, 36
+  orig: 91, 36
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 442, 6
+  size: 92, 36
+  orig: 93, 37
+  offset: 0, 1
+  index: -1
+Arm_T
+  rotate: false
+  xy: 740, 14
+  size: 87, 92
+  orig: 87, 92
+  offset: 0, 0
+  index: -1
+Bap_T
+  rotate: true
+  xy: 968, 176
+  size: 90, 83
+  orig: 90, 83
+  offset: 0, 0
+  index: -1
+Body
+  rotate: false
+  xy: 326, 44
+  size: 158, 222
+  orig: 158, 222
+  offset: 0, 0
+  index: -1
+Bow_P
+  rotate: false
+  xy: 969, 3
+  size: 28, 22
+  orig: 30, 24
+  offset: 1, 1
+  index: -1
+Bow_T
+  rotate: true
+  xy: 604, 62
+  size: 35, 20
+  orig: 37, 22
+  offset: 1, 1
+  index: -1
+Ear_P
+  rotate: false
+  xy: 626, 69
+  size: 33, 28
+  orig: 33, 28
+  offset: 0, 0
+  index: -1
+Ear_T
+  rotate: true
+  xy: 412, 5
+  size: 37, 28
+  orig: 37, 28
+  offset: 0, 0
+  index: -1
+Eye_P
+  rotate: false
+  xy: 959, 120
+  size: 25, 25
+  orig: 27, 27
+  offset: 1, 1
+  index: -1
+Eye_T
+  rotate: false
+  xy: 902, 118
+  size: 33, 27
+  orig: 35, 29
+  offset: 1, 1
+  index: -1
+Foot copy 3
+  rotate: true
+  xy: 1007, 54
+  size: 76, 34
+  orig: 78, 36
+  offset: 1, 1
+  index: -1
+Group 11
+  rotate: true
+  xy: 602, 6
+  size: 50, 63
+  orig: 50, 63
+  offset: 0, 0
+  index: -1
+Hand
+  rotate: false
+  xy: 1043, 5
+  size: 63, 56
+  orig: 63, 56
+  offset: 0, 0
+  index: -1
+Hand_p
+  rotate: true
+  xy: 1043, 63
+  size: 67, 57
+  orig: 69, 59
+  offset: 1, 1
+  index: -1
+Head
+  rotate: true
+  xy: 667, 3
+  size: 94, 71
+  orig: 96, 73
+  offset: 1, 1
+  index: -1
+Iris_P
+  rotate: false
+  xy: 518, 49
+  size: 6, 7
+  orig: 8, 9
+  offset: 1, 1
+  index: -1
+Iris_T
+  rotate: false
+  xy: 486, 48
+  size: 7, 8
+  orig: 9, 10
+  offset: 1, 1
+  index: -1
+Layer 3012
+  rotate: true
+  xy: 902, 147
+  size: 119, 64
+  orig: 121, 66
+  offset: 1, 1
+  index: -1
+Layer 303
+  rotate: false
+  xy: 829, 7
+  size: 138, 109
+  orig: 140, 111
+  offset: 1, 1
+  index: -1
+Layer 307
+  rotate: true
+  xy: 681, 108
+  size: 158, 103
+  orig: 158, 103
+  offset: 0, 0
+  index: -1
+Layer 58
+  rotate: true
+  xy: 536, 2
+  size: 54, 64
+  orig: 56, 66
+  offset: 1, 1
+  index: -1
+Neck
+  rotate: true
+  xy: 786, 118
+  size: 148, 114
+  orig: 150, 116
+  offset: 1, 1
+  index: -1
+Nose
+  rotate: true
+  xy: 937, 118
+  size: 27, 20
+  orig: 29, 22
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 986, 132
+  size: 82, 42
+  orig: 82, 42
+  offset: 0, 0
+  index: -1
+eff
+  rotate: false
+  xy: 2, 7
+  size: 322, 259
+  orig: 322, 259
+  offset: 0, 0
+  index: -1
+eye2
+  rotate: false
+  xy: 495, 49
+  size: 21, 7
+  orig: 21, 7
+  offset: 0, 0
+  index: -1
+meat
+  rotate: true
+  xy: 604, 99
+  size: 167, 75
+  orig: 167, 75
+  offset: 0, 0
+  index: -1
+meat2
+  rotate: true
+  xy: 486, 58
+  size: 208, 116
+  orig: 208, 116
+  offset: 0, 0
+  index: -1
+obj_chees
+  rotate: true
+  xy: 1053, 180
+  size: 86, 74
+  orig: 86, 74
+  offset: 0, 0
+  index: -1

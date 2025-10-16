@@ -1,0 +1,20 @@
+
+light.png
+size: 876,593
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 524, 6
+  size: 350, 585
+  orig: 586, 740
+  offset: 121, 81
+  index: -1
+2
+  rotate: false
+  xy: 2, 2
+  size: 520, 589
+  orig: 586, 740
+  offset: 32, 79
+  index: -1

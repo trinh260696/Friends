@@ -45,8 +45,8 @@ public class LevelData
 {
     public string name;   
     public int level;
-    public int friendNumber;      
-    public List<ItemObject> Items;
+    public int friendNumber;
+    public int WIDTH, HEIGHT;
     public float timeout;
     public float radiusLight;
     public LevelObject ConvertToLevelObject()
@@ -80,18 +80,22 @@ public enum TypeMission
 }
     
 [Serializable]
-public class FriendObj
+public class NPCObj
 {
     public FriendType friendType;
     public string name;
-    public string skinId;
-    public string cover;
+    public int IQ;
+}
+[Serializable]
+public class SkinObj
+{
+    public string skin_name;
+    public int IQ;
 }
 [Serializable]
 public class CFriendObj
 {
     public int id;
-    public string skinId ;
     public int number;
     
 }

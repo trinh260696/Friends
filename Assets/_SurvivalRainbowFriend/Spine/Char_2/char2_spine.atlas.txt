@@ -1,0 +1,251 @@
+
+char2_spine.png
+size: 689,311
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body
+  rotate: true
+  xy: 346, 97
+  size: 72, 120
+  orig: 72, 120
+  offset: 0, 0
+  index: -1
+Bow_L
+  rotate: false
+  xy: 185, 2
+  size: 32, 15
+  orig: 34, 17
+  offset: 1, 1
+  index: -1
+Bow_R
+  rotate: false
+  xy: 185, 2
+  size: 32, 15
+  orig: 34, 17
+  offset: 1, 1
+  index: -1
+Cay2
+  rotate: false
+  xy: 2, 249
+  size: 349, 60
+  orig: 349, 60
+  offset: 0, 0
+  index: -1
+Ear
+  rotate: false
+  xy: 577, 18
+  size: 43, 37
+  orig: 45, 39
+  offset: 1, 1
+  index: -1
+Eye_L
+  rotate: true
+  xy: 507, 108
+  size: 56, 84
+  orig: 58, 86
+  offset: 1, 1
+  index: -1
+Eye_L2
+  rotate: false
+  xy: 302, 8
+  size: 34, 18
+  orig: 36, 20
+  offset: 1, 1
+  index: -1
+Eye_P2
+  rotate: false
+  xy: 369, 5
+  size: 22, 21
+  orig: 24, 23
+  offset: 1, 1
+  index: -1
+Eye_R2
+  rotate: true
+  xy: 655, 32
+  size: 38, 18
+  orig: 40, 20
+  offset: 1, 1
+  index: -1
+Eye_UpR
+  rotate: true
+  xy: 649, 99
+  size: 65, 38
+  orig: 67, 40
+  offset: 1, 1
+  index: -1
+Eye_Up_L
+  rotate: false
+  xy: 519, 18
+  size: 56, 36
+  orig: 58, 38
+  offset: 1, 1
+  index: -1
+Face
+  rotate: false
+  xy: 2, 93
+  size: 177, 154
+  orig: 179, 156
+  offset: 1, 1
+  index: -1
+Foot
+  rotate: false
+  xy: 219, 2
+  size: 32, 15
+  orig: 34, 17
+  offset: 1, 1
+  index: -1
+Group 4
+  rotate: true
+  xy: 342, 28
+  size: 67, 87
+  orig: 69, 89
+  offset: 1, 1
+  index: -1
+Heart
+  rotate: false
+  xy: 487, 6
+  size: 29, 26
+  orig: 31, 28
+  offset: 1, 1
+  index: -1
+Iris_L
+  rotate: true
+  xy: 518, 2
+  size: 14, 16
+  orig: 16, 18
+  offset: 1, 1
+  index: -1
+Iris_R
+  rotate: true
+  xy: 536, 2
+  size: 14, 16
+  orig: 16, 18
+  offset: 1, 1
+  index: -1
+Leg
+  rotate: false
+  xy: 487, 34
+  size: 30, 60
+  orig: 30, 60
+  offset: 0, 0
+  index: -1
+Mom4
+  rotate: true
+  xy: 302, 28
+  size: 78, 38
+  orig: 78, 38
+  offset: 0, 0
+  index: -1
+Mom_2
+  rotate: false
+  xy: 646, 72
+  size: 41, 25
+  orig: 43, 27
+  offset: 1, 1
+  index: -1
+Mom_3
+  rotate: true
+  xy: 571, 57
+  size: 49, 23
+  orig: 51, 25
+  offset: 1, 1
+  index: -1
+Mom_ha
+  rotate: true
+  xy: 468, 96
+  size: 73, 37
+  orig: 75, 39
+  offset: 1, 1
+  index: -1
+Mouth
+  rotate: false
+  xy: 554, 2
+  size: 10, 14
+  orig: 12, 16
+  offset: 1, 1
+  index: -1
+Nose
+  rotate: false
+  xy: 338, 3
+  size: 29, 23
+  orig: 31, 25
+  offset: 1, 1
+  index: -1
+Rau_L
+  rotate: false
+  xy: 519, 56
+  size: 50, 50
+  orig: 52, 52
+  offset: 1, 1
+  index: -1
+Rau_R
+  rotate: false
+  xy: 593, 112
+  size: 54, 52
+  orig: 56, 54
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: true
+  xy: 431, 21
+  size: 74, 30
+  orig: 74, 30
+  offset: 0, 0
+  index: -1
+arm
+  rotate: false
+  xy: 463, 17
+  size: 22, 77
+  orig: 22, 100
+  offset: 0, 23
+  index: -1
+ca
+  rotate: false
+  xy: 2, 3
+  size: 181, 88
+  orig: 181, 88
+  offset: 0, 0
+  index: -1
+dust/3
+  rotate: false
+  xy: 516, 166
+  size: 157, 143
+  orig: 157, 144
+  offset: 0, 0
+  index: -1
+dust/4
+  rotate: false
+  xy: 353, 171
+  size: 161, 138
+  orig: 161, 139
+  offset: 0, 1
+  index: -1
+dust/5
+  rotate: false
+  xy: 181, 108
+  size: 163, 139
+  orig: 164, 139
+  offset: 0, 0
+  index: -1
+dust/6
+  rotate: false
+  xy: 185, 19
+  size: 115, 87
+  orig: 115, 88
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 622, 24
+  size: 31, 36
+  orig: 33, 38
+  offset: 1, 1
+  index: -1
+stone
+  rotate: false
+  xy: 596, 62
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
