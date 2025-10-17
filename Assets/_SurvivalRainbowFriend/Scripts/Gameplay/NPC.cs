@@ -16,13 +16,15 @@ public class NPC : MonoBehaviour
     private Transform Target;//Player transform
     public int ID;
     private StateFriend state = StateFriend.FRIEND_INIT;//If the friend has ceased to see the gift, he will follow on PlayerLastPos
-    public float Speed = 1f;
-    public float SpeedHide = 3f;
+    public float v_npc_normal = 1f;
+    public float v_npc_decoy= 3f;
     public float SpeedReal;
     public float Range = 5;
     public BodyPart typeMission;
     public NPCObj friendObj;
     [SerializeField] private SpriteRenderer spriteRendererBox;
+    [SerializeField] private Transform decoyTransform;
+    private Animator decoyAnimator;
     private Transform enemyTransform;
     private RaycastHit2D hit;//for the visibility system     
     private List<Vector2> Waypoints;
@@ -54,14 +56,14 @@ public class NPC : MonoBehaviour
     private int walk = -1;
     private bool dangerous = false;
     private float time_wait = 0f;
-    private Dictionary<string, bool> BoxDictionary = new Dictionary<string, bool>
+    private Dictionary<string, bool> DecoyDictionary = new Dictionary<string, bool>
     {
         {"carton",false },{"drum_box",false},{"shove",false},{"snow",false},{ "tree",false},{"tnt_box",false},{"gift_box",false},{"toe",false }
     };
     private int boxIndex = 0;
     private void Start()
     {
-        SpeedHide = Speed * 0.4f;
+        v_npc_decoy = v_npc_normal * 0.4f;
         emoji.gameObject.SetActive(false);
     }
 
@@ -72,7 +74,7 @@ public class NPC : MonoBehaviour
         this.animator = animator.GetComponent<Animator>();
         this.animator.transform.localPosition = Vector3.zero;
         this.animator.transform.SetAsFirstSibling();
-        this.animator.transform.localScale = Vector3.one * 0.4f;
+        this.animator.transform.localScale = Vector3.one * 0.7f;
         spriteRendererBox = this.animator.transform.GetChild(0).GetComponent<SpriteRenderer>();
         spriteRendererBox.gameObject.SetActive(false);
         state = StateFriend.FRIEND_INIT;
@@ -127,13 +129,17 @@ public class NPC : MonoBehaviour
     }
     private void RndBox()
     {
-        int rnd = UnityEngine.Random.Range(0, BoxDictionary.Count);
+        int rnd = UnityEngine.Random.Range(0, DecoyDictionary.Count);
         int i = 0;
-        foreach (var pair in BoxDictionary)
+        foreach (var pair in DecoyDictionary)
         {
             if (i == rnd)
             {
-                BoxDictionary[pair.Key] = true;
+                DecoyDictionary[pair.Key] = true;
+                string key= pair.Key;
+                decoyAnimator = ContentAssistant.main.GetItem<Animator>(key,decoyTransform.position);
+                decoyAnimator.transform.parent = transform;
+                decoyAnimator.gameObject.SetActive(false);
                 break;
             }
             i++;
@@ -401,7 +407,7 @@ public class NPC : MonoBehaviour
     public virtual void FixedUpdate()
     {
         if (state == StateFriend.FRIEND_DIE) return;
-        SpeedReal = hide ? SpeedHide : Speed;
+        SpeedReal = hide ? v_npc_decoy : v_npc_normal;
         if (!StaticData.IsPlay) return;
         if (StateFriend.FRIEND_GO_TARGET != state) return;
         animator.transform.localScale = DirectionFriend.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
@@ -638,8 +644,8 @@ public class NPC : MonoBehaviour
             var dir = arr[i] - currentPos;
             animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
             var rnd = UnityEngine.Random.Range(1, 10);           
-            LeanTween.move(gameObject, arr[i], distance / Speed);
-            yield return new WaitForSeconds(distance / Speed);
+            LeanTween.move(gameObject, arr[i], distance / v_npc_normal);
+            yield return new WaitForSeconds(distance / v_npc_normal);
             if(rnd<=3)
             AudioManager.instance.Play(string.Format("voice{0}", rnd));
             PlayRndBeginGame();

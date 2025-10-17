@@ -50,11 +50,12 @@ public class FriendManager : MonoBehaviour
             }
             int rnd = UnityEngine.Random.Range(0, 2);
             currentCorner = rnd == 1 ? pos1 : pos2;
-            var go = Instantiate(Resources.Load<GameObject>("Friends/Friend"));
+            var go = ContentAssistant.main.GetItem<FriendNPC>("Friend");
             go.transform.position = currentCorner;
             go.transform.SetParent(transform,true);
-            var animator = Instantiate(Resources.Load<GameObject>("Friends/"+friends[i].friendType.ToString()));
+            var animator = ContentAssistant.main.GetItem(friends[i].friendType.ToString());
             animator.transform.SetParent(go.transform,false);
+            animator.transform.localPosition = Vector3.zero;
             var friend= go.GetComponent<NPC>();
             friend.Init(friends[i],animator,i);
             

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerNPC : NPC
@@ -30,5 +31,10 @@ public class PlayerNPC : NPC
     public override void OnTriggerExit2D(Collider2D collision)
     {
         base.OnTriggerExit2D(collision);
+    }
+
+    internal void Init()
+    {
+        throw new NotImplementedException();
     }
 }

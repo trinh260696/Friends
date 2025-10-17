@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public GameObject emoji;
     public VariableJoystick variableJoystick;
     public PlayerAIM playerAIM;
+    public PlayerNPC playerNPC;
     public BodyPart bodyPart;
     public StateFriend stateFriend = StateFriend.FRIEND_INIT;
     public static Vector2 Player_Pos;//player position (x,y)
@@ -97,6 +98,7 @@ public class Player : MonoBehaviour
         string box = BoxItemData.Instance.userSkinBoxData.currentBox.BoxObject.nameVariable;
         walk = Random.Range(1, 4);
         BoxDictionary[box] = true;
+        playerNPC.Init();
         PlayRndBeginGame();
     }
     private Vector2 direction;

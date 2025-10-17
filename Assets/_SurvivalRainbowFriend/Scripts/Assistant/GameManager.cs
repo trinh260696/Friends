@@ -401,13 +401,14 @@ public class GameManager : MonoBehaviour
     }
     private void GeneratePlayer()
     {
-        var go = Instantiate(Resources.Load<GameObject>("Friends/User"),StartupTransform.position+Vector3.left*3f,Quaternion.identity);
+        var go = ContentAssistant.main.GetItem("User",StartupTransform.position+Vector3.left*3f,Quaternion.identity);
         player = go.GetComponent<Player>();
-        var animator = Instantiate(Resources.Load<GameObject>("Friends/User_" + UserData.Instance.GameData.currentSkin.SkinObject.name), go.transform, false);
+        var animator = ContentAssistant.main.GetItem("User_" + UserData.Instance.GameData.currentSkin.SkinObject.name);
+        animator.transform.SetParent(go.transform);
         animator.transform.SetAsFirstSibling();
         player.animator = animator.GetComponent<Animator>();
         animator.transform.localPosition = Vector3.zero;
-        animator.transform.localScale = Vector3.one * 0.4f;
+        animator.transform.localScale = Vector3.one * 0.7f;
         player.boxSpriteRenderer = animator.transform.GetChild(0).GetComponent<SpriteRenderer>();
         player.boxSpriteRenderer.gameObject.SetActive(false);
         player.variableJoystick = uiPlay.variableJoystick;
@@ -424,19 +425,19 @@ public class GameManager : MonoBehaviour
         }
             
         int rnd = Random.Range(0, BoxPointGroup.childCount);
-        
-        //for(int iIndex=0; iIndex<levelData.Items.Count; iIndex++)
-        //{
-        //    for (int j = 0; j < levelData.Items[iIndex].missionNumber + 2; j++)
-        //    {
-        //        Debug.Log(levelData.Items[iIndex].typeMission.ToString());
-        //        var prefBox = Resources.Load<GameObject>("Box/"+levelData.Items[iIndex].typeMission.ToString());
-        //        var go = Instantiate(prefBox, BoxPoints[rnd], Quaternion.identity, BoxPointGroup) as GameObject;
-        //        go.transform.position = BoxPoints[rnd];
-        //        rnd = (rnd + 1) % BoxPoints.Count;
-        //    }
-        //}
-              
+
+        for (int iIndex = 0; iIndex < levelData.WIDTH; iIndex++)
+        {
+            for (int j = 0; j < levelData.HEIGHT; j++)
+            {
+               
+                var go = ContentAssistant.main.GetItem("BodyPart");
+                go.transform.SetParent(BoxPointGroup);
+                go.transform.position = BoxPoints[rnd];
+                rnd = (rnd + 1) % BoxPoints.Count;
+            }
+        }
+
     }
     public void RegenerateBox(Vector2 pos, int ID)
     {
