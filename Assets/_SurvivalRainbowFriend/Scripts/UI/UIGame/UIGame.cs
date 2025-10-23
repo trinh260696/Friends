@@ -64,7 +64,7 @@ public class UIGame : VKLayer
                 return tr;
             }
         }
-        var go = ContainAssistant.Instance.GetItem<RectTransform>(name);
+        var go = ContentAssistant.Instance.GetItem<RectTransform>(name);
         go.SetParent(transformParent,false);
         go.anchoredPosition = Vector2.zero;
         go.name = name;

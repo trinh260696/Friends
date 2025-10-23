@@ -7,27 +7,31 @@ public class BodyPart : MonoBehaviour
 {
     public bool Free = true;
     public int ID;
-   // [SerializeField] TypeMission type;
+    // [SerializeField] TypeMission type;
     private SpriteRenderer spriteRender;
+    private Collider2D col;
+    private Transform m_parent;
   //  [HideInInspector]
   //  public TypeMission typeMission { get => type; set => type = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        spriteRender = GetComponent<SpriteRenderer>();
+       
     }
-    public void InitBodyPart(int id, Sprite sprite)
+    public void InitBodyPart(int id, Sprite sprite,Transform Pr)
     {
+        spriteRender = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider2D>();
         this.ID = id;
-        this.Free = true;      
+        this.Free = true;
+        this.m_parent = Pr;
         spriteRender.sprite = sprite;
     }
     public void Hide()
     {
-        //IsAlive = false;
-      //  spriteRender.enabled = false;
-        gameObject.SetActive(false);
+        Free = false;
+        col.enabled = false;
     }
     public void Inactive()
     {
@@ -42,6 +46,12 @@ public class BodyPart : MonoBehaviour
     public void ReActive()
     {
         Free = true;
-        spriteRender.enabled = true;
+        col.enabled = true;
+        transform.SetParent(m_parent);
+    }
+    
+    public void DestroyNow()
+    {
+        Destroy(gameObject);
     }
 }

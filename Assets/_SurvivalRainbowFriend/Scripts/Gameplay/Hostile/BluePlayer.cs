@@ -138,7 +138,7 @@ public class BluePlayer : MonoBehaviour
             animator.transform.localScale = StaticData.ScaleInverse * 0.7f;
         }
         Invoke("BlueReturn", 5f);
-        ContainAssistant.Instance.PlayEffectDeath(Destination, Destination.position + Vector3.right * Mathf.Sign(dir.x) + Vector3.up);
+        ContentAssistant.Instance.PlayEffectDeath(Destination, Destination.position + Vector3.right * Mathf.Sign(dir.x) + Vector3.up);
     }
     public void BlueReturn()
     {

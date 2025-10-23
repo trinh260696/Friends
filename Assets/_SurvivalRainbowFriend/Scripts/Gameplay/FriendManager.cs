@@ -50,10 +50,10 @@ public class FriendManager : MonoBehaviour
             }
             int rnd = UnityEngine.Random.Range(0, 2);
             currentCorner = rnd == 1 ? pos1 : pos2;
-            var go = ContentAssistant.main.GetItem<FriendNPC>("Friend");
+            var go = ContentAssistant.Instance.GetItem<FriendNPC>("Friend");
             go.transform.position = currentCorner;
             go.transform.SetParent(transform,true);
-            var animator = ContentAssistant.main.GetItem(friends[i].friendType.ToString());
+            var animator = ContentAssistant.Instance.GetItem(friends[i].friendType.ToString());
             animator.transform.SetParent(go.transform,false);
             animator.transform.localPosition = Vector3.zero;
             var friend= go.GetComponent<NPC>();
@@ -105,7 +105,7 @@ public class FriendManager : MonoBehaviour
         for (int i = 0; i < Friends.Count; i++)
         {
             if (Friends[i].gameObject.activeSelf)
-                Friends[i].PlayWinEmotion();
+                Friends[i].TurnOnWin();
 
         }
     }
@@ -114,7 +114,7 @@ public class FriendManager : MonoBehaviour
         for (int i = 0; i < Friends.Count; i++)
         {
             if (Friends[i].gameObject.activeSelf)
-                Friends[i].PlayLoseEmotion();
+                Friends[i].TurnOnLose();
 
         }
     }

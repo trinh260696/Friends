@@ -292,5 +292,10 @@ public class UIPlay :VKLayer
     {
         uiFriendManager.UpdateFriend(name);
     }
+
+    internal void OnVictory()
+    {
+        
+    }
     #endregion
 }

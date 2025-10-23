@@ -121,7 +121,7 @@ public class UINewSkin : VKLayer
         if (skinItem != null)
         {
             this.skinItem = skinItem;
-            imgIcon.sprite = Resources.Load<Sprite>("Avatar/" + skinItem.SkinObject.name);
+            imgIcon.sprite = Resources.Load<Sprite>("Skin/" + skinItem.SkinObject.name);
             imgIcon.SetNativeSize();
             imgIcon.rectTransform.localScale = Vector3.one * 0.5f;
             // valueText.text = skinItem.SkinObject.nameType.ToString();

@@ -63,8 +63,8 @@ public class DreamFaceBoss : BossBase
             animator.transform.localScale = StaticData.ScaleInverse * 0.7f;
         }
         Invoke("BossReturn", 2f);
-        ContainAssistant.Instance.PlayEffectDeath(Destination, Destination.position + Vector3.right * Mathf.Sign(dir.x) + Vector3.up);
-        ContainAssistant.Instance.GetItem("3D_Hit_05", Vector3.right * Range + transform.position);
+        ContentAssistant.Instance.PlayEffectDeath(Destination, Destination.position + Vector3.right * Mathf.Sign(dir.x) + Vector3.up);
+        ContentAssistant.Instance.GetItem("3D_Hit_05", Vector3.right * Range + transform.position);
     }
 
 }

@@ -7,7 +7,7 @@ using System;
 public class ContentAssistant : MonoBehaviour
     {
 
-        public static ContentAssistant main;
+        public static ContentAssistant Instance;
 
         public List<ContentAssistantItem> cItems;
         public List<Material> materials;
@@ -21,7 +21,7 @@ public class ContentAssistant : MonoBehaviour
 
         void Awake()
         {
-            main = this;
+            Instance = this;
             content.Clear();
             foreach (ContentAssistantItem item in cItems)
                 content.Add(item.item.name, item.item);
@@ -85,7 +85,24 @@ public class ContentAssistant : MonoBehaviour
                 }
             }
         }
-        [System.Serializable]
+    IEnumerator play_effect(Transform tr, Vector3 pos)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            ContentAssistant.Instance.GetItem("BloodPunch", pos, Quaternion.identity);
+            yield return new WaitForSeconds(1f);
+        }
+        GetItem("Blood 1", pos, Quaternion.Euler(0, 0, tr.rotation.eulerAngles.z + UnityEngine.Random.Range(-15, 15) + 180));
+        yield return new WaitForSeconds(1f);
+        GetItem("Blood 2", pos, Quaternion.Euler(0, 0, tr.rotation.eulerAngles.z + UnityEngine.Random.Range(-15, 15) + 180));
+        yield return new WaitForSeconds(1f);
+        GetItem("BloodDead", pos, Quaternion.Euler(0, 0, tr.rotation.eulerAngles.z + UnityEngine.Random.Range(-15, 15) + 180));
+    }
+    public void PlayEffectDeath(Transform tr, Vector3 pos)
+    {
+        StartCoroutine(play_effect(tr, pos));
+    }
+    [System.Serializable]
         public struct ContentAssistantItem
         {
             public GameObject item;

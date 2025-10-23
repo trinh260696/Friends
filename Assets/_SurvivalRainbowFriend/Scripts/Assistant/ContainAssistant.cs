@@ -62,7 +62,7 @@ public class ContainAssistant : MonoBehaviour {
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			ContainAssistant.Instance.GetItem("BloodPunch", pos, Quaternion.identity);
+            ContentAssistant.Instance.GetItem("BloodPunch", pos, Quaternion.identity);
 			yield return new WaitForSeconds(1f);
 		}
 		GetItem("Blood 1", pos, Quaternion.Euler(0, 0, tr.rotation.eulerAngles.z + Random.Range(-15, 15) + 180));

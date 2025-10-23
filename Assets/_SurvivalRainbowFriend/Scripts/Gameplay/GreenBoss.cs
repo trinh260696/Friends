@@ -58,7 +58,7 @@ public class GreenBoss : BossBase
             {
                 collision.transform.position = transform.position;
                 var player = collision.gameObject.GetComponent<Player>();                
-                player.DeathGreen();
+                //player.DeathGreen();
                 Kill(collision.transform);
             }
             else
@@ -67,7 +67,7 @@ public class GreenBoss : BossBase
                 LeanTween.cancel(gameObject);
                 animator.transform.localScale = Vector3.one * 0.7f;
                 animator.SetTrigger(BossBase.BossKillProperties);
-                collision.gameObject.GetComponent<NPC>().DeathGreen(transform.position);
+               // collision.gameObject.GetComponent<NPC>().DeathGreen(transform.position);
                 desTransform = collision.gameObject.transform;
                           
                 killing = true;

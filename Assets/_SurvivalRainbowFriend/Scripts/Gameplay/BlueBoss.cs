@@ -37,7 +37,7 @@ using UnityEngine;
         public override void Kill(Transform Destination)
         {
             base.Kill(Destination);
-            ContainAssistant.Instance.GetItem("3D_Hit_03", Destination.transform.position+Vector3.right + Vector3.up);
+            ContentAssistant.Instance.GetItem("3D_Hit_03", Destination.transform.position+Vector3.right + Vector3.up);
             AudioManager.instance.Play("PowerPunch");
         }
       

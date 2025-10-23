@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine;
 using Spine.Unity;
+using Unity.VisualScripting;
 public class BossBase : MonoBehaviour
 {
     public string nameBoss = "Boss";
@@ -37,10 +38,9 @@ public class BossBase : MonoBehaviour
    
     public bool isChase = false;
     public bool isMoveWayPoint = false;
-    public GameObject BloodParticle;//for all bullets
+    
 
-    private RaycastHit2D hit;//for the visibility system     
-
+    private RaycastHit2D hit;
     public bool killing = false;
     private List<Vector2> Waypoints;
     private List<Vector2> DetectPoints;
@@ -48,8 +48,19 @@ public class BossBase : MonoBehaviour
     private const string BossChaseProperties = "bosschase";
     public const string BossKillProperties = "bosskill";
     private const string BossDamageProperties = "bosshit";
-    private const string BossDieProperties = "bossdie";
+    private const string TriggerDie = "dietrigger";
+    private const string BossEatProperties = "bosseat";
+    private const string ReviveTrigger = "revivetrigger";
     private bool run = false;
+    
+    public float RANGE_FAR = 10f;
+    public float RANGE_NEAR = 2f;
+    public float v_slow = 2f;
+    public float v_fast = 6f;
+    private float stunDuration = 0f;
+    private float stunTimer = 0f;
+    private Vector2 lastTargetPos = Vector2.zero;
+    private float velocityMultiplier = 1f;
        
     public void SetKeyAnimation()
     {
@@ -57,6 +68,9 @@ public class BossBase : MonoBehaviour
         animator.SetBool(BossBase.BossChaseProperties, Follow);
     }
     int currentIndex;
+    private int _travelPointIndex = 0;
+    private float _waypointReachThreshold = 0.5f;
+    
     private void Awake()
     {
         NotificationCenter.DefaultCenter().AddObserver(this, "BossStartGame");
@@ -65,7 +79,7 @@ public class BossBase : MonoBehaviour
         OnFinishTravel();
         if (emoAnimation != null)
         {
-            emoAnimation.gameObject.SetActive(false);
+            emoAnimation.SetActive(false);
         }      
     }
     
@@ -149,7 +163,8 @@ public class BossBase : MonoBehaviour
     {
         killing = false;
         Follow = false;
-        run = true;       
+        run = true;
+        _travelPointIndex = 0; // Reset về điểm đầu tiên
         BossStartGame();
     }
     public void BossEnd()
@@ -171,12 +186,12 @@ public class BossBase : MonoBehaviour
 
         if (!StaticData.IsPlay) return;
         if (Target == null) return;
-        if (State == EnemyState.PATROL_STATE)
+        if (State == EnemyState.PATROL_STATE && run)
         {
-            
-        }else if (State == EnemyState.FIGHT_STATE)
+            TravelPoint();
+        }else if (State == EnemyState.CHASE_STATE)
         {
-
+            DetectTargets();
         }
         //check of reaching the last pos 
 
@@ -187,19 +202,19 @@ public class BossBase : MonoBehaviour
 
     public virtual void FixedUpdate()
     {
-        if (!isChase) return;
-        if (!_follow) return;
-        if (!Target) return;
-        if (!StaticData.IsPlay) return;
-        //deltaSpeed += Time.deltaTime*2f;
-        //float realSpeed =    Speed;
-        //animator.transform.localScale = Direction.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-        //Body.AddRelativeForce(Direction * (realSpeed+deltaSpeed));//the speed depends on the current hp
+        
     }
         
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
-        
+        if (col.CompareTag("Player"))
+        {
+            Target = col.transform;
+            State = EnemyState.CHASE_STATE;
+        }else if (col.CompareTag("Finish"))
+        {
+            BossReturn();
+        }
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {
@@ -207,31 +222,8 @@ public class BossBase : MonoBehaviour
     }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!StaticData.IsPlay) return;
-        if (killing) return;
-        if (collision.collider.CompareTag("Wall"))
-        {
-            var dir = (collision.collider.transform.position - transform.position).normalized;
-            Body.AddForce(dir);
-        }
-        //if (collision.gameObject.CompareTag("Player"))
-        //{
-        //    Debug.LogWarning("Kill Player");
-        //    State = EnemyState.FIGHT_STATE;
-        //    if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        //    {
-        //        var player = collision.gameObject.GetComponent<Player>();
-
-        //        if (!player.IsAlivePlayer) return;               
-        //        player.Damage(nameBoss,damage);
-        //        Kill(collision.transform);
-        //    }
-        //    else
-        //    {
-        //        collision.gameObject.GetComponent<NPC>().Death();
-        //        Kill(collision.transform);
-        //    }   
-        //}         
+       
+              
     }
     public virtual void Kill(Transform Destination)
     {
@@ -242,8 +234,8 @@ public class BossBase : MonoBehaviour
         State = EnemyState.FIGHT_STATE;
         animator.SetTrigger(BossBase.BossKillProperties);
         Vector3 dir = Destination.position - transform.position;
-             
-        ContainAssistant.Instance.PlayEffectDeath(Destination, Destination.position+Vector3.right*Mathf.Sign(dir.x)+Vector3.up);
+
+        ContentAssistant.Instance.PlayEffectDeath(Destination, Destination.position+Vector3.right*Mathf.Sign(dir.x)+Vector3.up);
     }
     void OnTravelPoint()
     {
@@ -251,37 +243,49 @@ public class BossBase : MonoBehaviour
     }
     void TravelPoint()
     {
-        //if(DetectPoints.Count==0)
-        //{
-        //    run = false;
-        //    yield break;
+        // Nếu không có điểm để di chuyển tới
+        if (DetectPoints.Count == 0)
+        {
+            run = false;
+            State = EnemyState.IDLE_STATE;
+            return;
+        }
 
-        //}
-        //yield return null;
-        //Vector2 currentPos = transform.position;
-        //while (!_follow)
-        //{
-        //    run = true;
-        //    for(int i=0; i<DetectPoints.Count; i++)
-        //    {
-        //        float distance = Vector2.Distance(currentPos, DetectPoints[i]);
-        //        Vector2 dir = DetectPoints[i] - currentPos;
-        //        animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-        //        LeanTween.move(gameObject, DetectPoints[i], distance / Speed);
-        //        yield return new WaitForSeconds(distance / Speed);
-        //        if (i >= DetectPoints.Count)
-        //        {
-        //            yield break;
-        //        }
-        //        currentPos = DetectPoints[i];                  
-        //    }
-        //    yield return null;
-        //    SetupPointDetect();
-        //    if (_follow)
-        //    {                 
-        //        yield break;
-        //    }
-        //}
+        // Nếu _follow = true (đang theo player), dừng di chuyển
+        if (_follow)
+        {
+            return;
+        }
+
+        // Lấy điểm waypoint hiện tại
+        Vector2 currentPos = transform.position;
+        Vector2 targetPoint = DetectPoints[_travelPointIndex];
+
+        // Tính khoảng cách đến waypoint
+        float distance = Vector2.Distance(currentPos, targetPoint);
+
+        // Nếu đến gần đủ waypoint, chuyển sang waypoint tiếp theo
+        if (distance < _waypointReachThreshold)
+        {
+            _travelPointIndex++;
+            
+            // Nếu đã xong tất cả waypoint, setup lại và bắt đầu từ đầu
+            if (_travelPointIndex >= DetectPoints.Count)
+            {
+                _travelPointIndex = 0;
+                SetupPointDetect(); // Tính toán lại đường đi
+                return;
+            }
+
+            targetPoint = DetectPoints[_travelPointIndex];
+        }
+
+        // Di chuyển về phía waypoint
+        Vector2 direction = (targetPoint - currentPos).normalized;
+        Body.linearVelocity = direction * Speed;
+
+        // Cập nhật hướng nhìn của boss
+        animator.transform.localScale = direction.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
     }
     
     public void OnFinishTravel()
@@ -291,6 +295,130 @@ public class BossBase : MonoBehaviour
         //Target = null;
         //_follow = false;
     }
+    public void Stun(float duration)
+    {
+        State = EnemyState.STUN_STATE;
+        Follow = false;
+        stunDuration = duration;
+        stunTimer = 0f;
+        animator.SetTrigger(BossDamageProperties);
+    }
+
+    public void DetectTargets()
+    {
+        if (State == EnemyState.STUN_STATE)
+        {
+            stunTimer += Time.deltaTime;
+            if (stunTimer >= stunDuration)
+            {
+                State = EnemyState.PATROL_STATE;
+                StartDetect();
+            }
+            return;
+        }
+
+        Food nearestFood = BaitManager.Instance.FindNearestFoodForEnemy(this);
+        if (nearestFood != null && IQ <= 3)
+        {
+            BaitManager.Instance.MoveEnemyTowardFood(this, nearestFood);
+            State = EnemyState.EAT_STATE;
+            return;
+        }
+
+        if (Target != null)
+        {
+            float distanceToTarget = Vector2.Distance(transform.position, Target.position);
+
+            if (distanceToTarget < RANGE_NEAR)
+            {
+                AttackTarget();
+            }
+            else if (distanceToTarget < RANGE_FAR)
+            {
+                ChaseTarget();
+            }
+            else
+            {
+                PatrolState();
+            }
+
+            lastTargetPos = Target.position;
+        }
+        else
+        {
+            PatrolState();
+        }
+    }
+
+    private void ChaseTarget()
+    {
+        State = EnemyState.CHASE_STATE;
+        Follow = true;
+        run = true;
+        float currentSpeed = v_fast;
+        
+        Vector2 direction = (Target.position - transform.position).normalized;
+        Body.linearVelocity = direction * currentSpeed;
+        animator.transform.localScale = direction.x > 0 ? Vector3.one * 0.7f : new Vector3(-0.7f, 0.7f, 1f);
+    }
+
+    private void AttackTarget()
+    {
+        State = EnemyState.FIGHT_STATE;
+        Follow = true;
+        run = false;
+        
+        Vector2 direction = (Target.position - transform.position).normalized;
+        animator.transform.localScale = direction.x > 0 ? Vector3.one * 0.7f : new Vector3(-0.7f, 0.7f, 1f);
+        
+        float distanceToTarget = Vector2.Distance(transform.position, Target.position);
+        if (distanceToTarget > RANGE_NEAR * 0.8f)
+        {
+            Body.linearVelocity = direction * v_slow;
+        }
+        else
+        {
+            Body.linearVelocity = Vector2.zero;
+            DealDamage();
+        }
+    }
+
+    private void PatrolState()
+    {
+        State = EnemyState.PATROL_STATE;
+        Follow = false;
+        run = false;
+        Body.linearVelocity = Vector2.zero;
+    }
+
+    private void DealDamage()
+    {
+        if (Target == null) return;
+
+        NPC npc = Target.GetComponent<NPC>();
+        if (npc != null)
+        {
+            npc.HP -= damage;
+            if (npc.HP <= 0)
+            {
+                npc.Death();
+                BossReturn();
+            }
+            else
+            {
+                animator.SetTrigger(BossDamageProperties);
+            }
+        }
+    }
+
+    public void EatFood()
+    {
+        State = EnemyState.EAT_STATE;
+        Follow = false;
+        Body.linearVelocity = Vector2.zero;
+        animator.SetTrigger("eat");
+    }
+
     public void enum_emo(string anim_name)
     {
         if (emoAnimation == null) return;
@@ -300,20 +428,9 @@ public class BossBase : MonoBehaviour
         
         Invoke("hide_emo", 2f);
     }
+
     void hide_emo()
     {
         emoAnimation.SetActive(false);
     }
-}
-
-
-public enum EnemyState
-{
-    IDLE_STATE,
-    PATROL_STATE,
-    STUN_STATE,
-    EAT_STATE,
-    FIGHT_STATE,
-    CHASE_STATE,
-    DEAD
 }

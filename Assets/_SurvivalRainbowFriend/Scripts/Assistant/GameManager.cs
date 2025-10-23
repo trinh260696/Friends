@@ -62,10 +62,13 @@ public class GameManager : MonoBehaviour
         count = 0;
         StaticData.ISREADY = false;
     }
-    // Start is called before the first frame update
     void Start()
     {
-        
+        if (BaitManager.Instance == null)
+        {
+            gameObject.AddComponent<BaitManager>();
+        }
+
         levelData = InitData.Instance.GetLevelData(StaticData.LEVEL, 1);
         Field field = new Field();
         field.width = levelData.WIDTH;
@@ -81,6 +84,9 @@ public class GameManager : MonoBehaviour
         StaticData.IsPlay = false;
         StaticData.startUpPoint = (Vector2)StartupTransform.position;
        
+        NotificationCenter.DefaultCenter().AddObserver(this, "Victory");
+        NotificationCenter.DefaultCenter().AddObserver(this, "ChipPlaced");
+        
         BeginGame();
         Invoke("ReadyGame", 0.1f);       
     }
@@ -280,7 +286,7 @@ public class GameManager : MonoBehaviour
         {
             uiSetting.Close();
         }
-        player.PlayLoseEmotion();
+        player.playerNPC.PlayLoseEmotion();
         friendManager.PlayEmotionLose();
         uiPlay.OnEndGame();
         StopCoroutine("SessionGame");
@@ -401,17 +407,13 @@ public class GameManager : MonoBehaviour
     }
     private void GeneratePlayer()
     {
-        var go = ContentAssistant.main.GetItem("User",StartupTransform.position+Vector3.left*3f,Quaternion.identity);
+        var go = ContentAssistant.Instance.GetItem("User",StartupTransform.position+Vector3.left*3f,Quaternion.identity);
         player = go.GetComponent<Player>();
-        var animator = ContentAssistant.main.GetItem("User_" + UserData.Instance.GameData.currentSkin.SkinObject.name);
-        animator.transform.SetParent(go.transform);
-        animator.transform.SetAsFirstSibling();
-        player.animator = animator.GetComponent<Animator>();
-        animator.transform.localPosition = Vector3.zero;
-        animator.transform.localScale = Vector3.one * 0.7f;
-        player.boxSpriteRenderer = animator.transform.GetChild(0).GetComponent<SpriteRenderer>();
-        player.boxSpriteRenderer.gameObject.SetActive(false);
+        
+        player.playerNPC.Init("User_" + UserData.Instance.GameData.currentSkin.SkinObject.name);
         player.variableJoystick = uiPlay.variableJoystick;
+        
+        FieldAssistant.main.player = player;
         
         player.InitPlayer();
     }
@@ -430,9 +432,10 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < levelData.HEIGHT; j++)
             {
-               
-                var go = ContentAssistant.main.GetItem("BodyPart");
+               int ID= iIndex * levelData.WIDTH + j;
+                var go = ContentAssistant.Instance.GetItem<BodyPart>("BodyPart");
                 go.transform.SetParent(BoxPointGroup);
+                go.InitBodyPart(iIndex * levelData.WIDTH + j, Resources.Load<Sprite>("Avatar/Avatar_"+ID), BoxPointGroup);
                 go.transform.position = BoxPoints[rnd];
                 rnd = (rnd + 1) % BoxPoints.Count;
             }
@@ -481,55 +484,30 @@ public class GameManager : MonoBehaviour
     }
    
     int count = 0;
-    public void AddMission( int id=-1)
+    public void OnSortComplete()
     {
         if (!StaticData.IsPlay) return;
-        if (id != -1)
-        {
-            uiPlay.UpdateFriend(id);
-        }
-        else
-        {
-            uiPlay.UpdateMissionUser();
-        }
-        ContainAssistant.Instance.GetItem("Confetti Cannon Ribbon - Heart", winAreaObject.transform.position);
-        Vector2 detectVec = winAreaObject.transform.position - player.transform.position;       
-       
-        if (detectVec.magnitude<10f)
-        {
 
-            AudioManager.instance.Play(string.Format("gru{0}", Random.Range(1, 11)));
-        }
-        
-       
-        count = Mathf.Min(count, 3);
-        winAreaObject.GetComponent<WinAreaScript>().UpdateSprite(count);
-        count++;
-        
-        if (CheckWin())
-        {
-            friendManager.PlayEmotionWin();
-            player.PlayWinEmotion();
-            AudioManager.instance.Play("StateWin");
-            StaticData.IsPlay = false;
-            StopAllCoroutines();
-            UserData.Instance.UpdateLevelWin(StaticData.LEVEL);          
-            NotificationCenter.DefaultCenter().PostNotification(this, "TurnOnWin");
-            NotificationCenter.DefaultCenter().PostNotification(this, "OnFinish");
-            player.TurnOnWin();
-            StopCoroutine("SessionGame");
-            uiPlay.OnEndGame();
-            LeanTween.move(cCamera.gameObject, winAreaObject.transform.position - Vector3.forward * 10, 2f);
-            winAreaObject.GetComponent<WinAreaScript>().WinEffect();
-            Invoke("ShowUIWin", 6f);
-
-        }
+        ContentAssistant.Instance.GetItem("Confetti Cannon Ribbon - Heart", winAreaObject.transform.position);
+        AudioManager.instance.Play(string.Format("gru{0}", Random.Range(1, 11)));             
         GenerateDesAlly();
     }
-    bool CheckWin()
+    public void OnVictory()
     {
-       
-        return false;
+        friendManager.PlayEmotionWin();
+        player.playerNPC.PlayWinEmotion();
+        AudioManager.instance.Play("StateWin");
+        StaticData.IsPlay = false;
+        StopAllCoroutines();
+        UserData.Instance.UpdateLevelWin(StaticData.LEVEL);
+        NotificationCenter.DefaultCenter().PostNotification(this, "TurnOnWin");
+        NotificationCenter.DefaultCenter().PostNotification(this, "OnFinish");
+        player.TurnOnWin();
+        StopCoroutine("SessionGame");
+        uiPlay.OnEndGame();
+        LeanTween.move(cCamera.gameObject, winAreaObject.transform.position - Vector3.forward * 10, 2f);
+        winAreaObject.GetComponent<WinAreaScript>().WinEffect();
+        Invoke("ShowUIWin", 6f);
     }
     void ShowUIWin()
     {
@@ -561,6 +539,21 @@ public class GameManager : MonoBehaviour
         uiPlay.OnClose();
     }
     #endregion
+    
+  
+
+    public void OnVictory(Notification notification = null)
+    {
+        StaticData.IsPlay = false;
+        StopCoroutine("SessionGame");
+        
+        friendManager.PlayEmotionWin();
+        player.playerNPC.PlayWinEmotion();
+        
+        NotificationCenter.DefaultCenter().PostNotification(this, "TurnOnWin");
+        uiPlay.OnVictory();
+    }
+
     #region Booster
     public void MoreSpeed()
     {
@@ -579,6 +572,29 @@ public class GameManager : MonoBehaviour
         this.rateMoreItem = 0.5f;
     }
     #endregion
+    private void OnDrawGizmos()
+    {
+        for(int i=0; i<BossPointGroup.childCount-1; i++)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(BossPointGroup.GetChild(i).position, 0.2f);
+            for(int j= i+1; j< BossPointGroup.childCount; j++)
+            {
+                //if(i<j)
+                //    Gizmos.DrawLine(BossPointGroup.GetChild(i).position, BossPointGroup.GetChild(j).position);
+            }          
+        }
+        for (int i = 0; i < AllyPointGroup.childCount - 1; i++)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(AllyPointGroup.GetChild(i).position, 0.2f);
+            for (int j = i + 1; j < AllyPointGroup.childCount; j++)
+            {
+                //if (i < j)
+                //    Gizmos.DrawLine(AllyPointGroup.GetChild(i).position, AllyPointGroup.GetChild(j).position);
+            }
+        }
+    }
 }
 
 

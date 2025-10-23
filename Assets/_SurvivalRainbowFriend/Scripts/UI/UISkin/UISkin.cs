@@ -474,7 +474,7 @@ public class UISkin : VKLayer
                 return tr;
             }
         }
-        var go = ContainAssistant.Instance.GetItem<RectTransform>(name);
+        var go = ContentAssistant.Instance.GetItem<RectTransform>(name);
         go.SetParent(skeletonGraphicParents,false);
         go.anchoredPosition = Vector2.down*(140f);
         go.name = name;

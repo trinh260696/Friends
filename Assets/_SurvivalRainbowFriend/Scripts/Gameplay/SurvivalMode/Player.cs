@@ -9,23 +9,20 @@ using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
-    public int HP = 100;
+    
     public Light2D LightObject;
     public TextMeshProUGUI nameText;
-    public SpriteRenderer decoyObj;
-    public GameObject emoji;
     public VariableJoystick variableJoystick;
     public PlayerAIM playerAIM;
     public PlayerNPC playerNPC;
-    public BodyPart bodyPart;
-    public StateFriend stateFriend = StateFriend.FRIEND_INIT;
+  
     public static Vector2 Player_Pos;//player position (x,y)
 
     public Vector2 minpos, maxpos;
 
     public static bool go;// for PlayerShooting(stabilization) and touch control - is the character goes?
     public bool IsAlivePlayer = true;
-    public Animator animator;
+   
     public Rigidbody2D Body;//Player body
     public GameObject Blood1;//for enemy bullet ("EnBul 1")
     public GameObject BloodParticle;
@@ -38,19 +35,7 @@ public class Player : MonoBehaviour
     public float SpeedNormal;
     public float SpeedBox;
     public float SpeedReal;
-    private const string RunProperties = "run_normal";
-    private const string ReturnProperties = "run_return";
-    private const string WinProperties = "WinTrigger";
-    private const string LoseProperties1 = "HitTrigger1";
-    private const string LoseProperties2 = "HitTrigger2";
-    private const string FailTrigger = "FailTrigger";
-    private const string DieProperties = "die";
-    private const string HideProperties = "hide";
-    private const string ReviveProperties = "ReviveTrigger";
-    private const string RunBoosterProperties = "run_booster_return";
-    
-    private const string HideTriggerProperties = "HideTrigger";
-    private const string WalkProperties = "walk";
+   
     private bool run=false;
     private bool die=false;
     private bool box=false;
@@ -60,46 +45,15 @@ public class Player : MonoBehaviour
     private bool boosterRun = false;
     private int walk = -1;
     private TypeMission typeMission;
-    public SpriteRenderer boxSpriteRenderer;
-    private Dictionary<string, bool> BoxDictionary = new Dictionary<string, bool>
-    {
-        {"carton",false },{"drum_box",false},{"shove",false},{"snow",false},{ "tree",false},{"tnt_box",false},{"gift_box",false},{"toe",false}
-    };
-
-    private void SetKeyAnimation()
-    {
-       
-        run0 = run & boosterRun;
-        animator.SetBool(RunProperties, run);
-        animator.SetBool(ReturnProperties, run && box);
-        animator.SetBool(HideProperties, hide);
-       
-        animator.SetBool(RunBoosterProperties, run0);
-        animator.SetBool(RunBoosterProperties, run0 && box);
-       
-        animator.SetInteger(WalkProperties, walk);
-        animator.SetBool(DieProperties, die);
-    }
-    void enum_emo(string anim_name)
-    {
-        int rnd = UnityEngine.Random.Range(0, 10);
-        if (rnd > 3) return;
-        emoji.SetActive(true);
-      
-        Invoke("hide_emo", 2f);
-    }
-    void hide_emo()
-    {
-        emoji.SetActive(false);
-    }
+    
+   
     public void InitPlayer()
     {
         LightObject.pointLightOuterRadius = GameManager.Instance.levelData.radiusLight;
         string box = BoxItemData.Instance.userSkinBoxData.currentBox.BoxObject.nameVariable;
         walk = Random.Range(1, 4);
-        BoxDictionary[box] = true;
-        playerNPC.Init();
-        PlayRndBeginGame();
+        
+        playerNPC.PlayRndBeginGame();
     }
     private Vector2 direction;
     private Vector2 moveStand;
@@ -109,7 +63,7 @@ public class Player : MonoBehaviour
         NotificationCenter.DefaultCenter().AddObserver(this, "ChangeName");
         SpeedNormal = Player.speed;
         SpeedBox = Player.speed * 0.4f;
-        boxSpriteRenderer.gameObject.SetActive(false);
+        
         nameText.text = UserData.Instance.GameData.name;
         minpos = UserData.Instance.GameData.vip == 1 ? new Vector2(-7.5f, -5) : new Vector2(-7.5f, -4);
     }
@@ -122,7 +76,7 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        SetKeyAnimation();
+       
         if (!StaticData.IsPlay)
         {
             return;
@@ -132,7 +86,7 @@ public class Player : MonoBehaviour
         {
             moveStand=direction;
         }
-        animator.transform.localScale = moveStand.x > 0 ? Vector3.one*0.7f : StaticData.ScaleInverse*0.7f;
+        playerNPC.animator.transform.localScale = moveStand.x > 0 ? Vector3.one*0.7f : StaticData.ScaleInverse*0.7f;
         //divide the vector by its length to get the angle
         run = direction.magnitude > 0;
         if (run)
@@ -145,7 +99,7 @@ public class Player : MonoBehaviour
             }
             if (Time.frameCount % 100 == 0)
             {
-                PlayEmotionRun();
+                playerNPC.PlayEmotionRun();
             }
             if (box)
             {
@@ -158,64 +112,11 @@ public class Player : MonoBehaviour
     {
         DrawInstruction();
     }
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (!IsAlivePlayer) return;
-      
-        if (col.gameObject.name.Contains("GreenBoss"))
-        {
-            AudioManager.instance.Play("GreenWarning");
-        }
-        
-        if (box)
-        {
-            if (col.gameObject.name == "WinArea")
-            {
-              //  GameManager.Instance.AddMission(typeMission);
-                boxSpriteRenderer.gameObject.SetActive(false);
-                box = false;
-            }
-            return;
-        }
-        if (col.gameObject.tag.Equals("Box"))//collision with Box
-        {
-            PlayEmotionGetItem();
-            var boxScript = col.gameObject.GetComponent<BodyPart>();
-            if (boxScript.Free)
-            {
-                AudioManager.instance.Play("Pick");
-                boxScript.Hide();
-                boxScript.gameObject.SetActive(false);
-                box = true;
-               // typeMission = boxScript.typeMission;
-
-                boxSpriteRenderer.gameObject.SetActive(true);
-                boxSpriteRenderer.sprite = Resources.Load<Sprite>("Avatar/" + typeMission.ToString());
-                if (hide)
-                {
-                    boxSpriteRenderer.gameObject.SetActive(false);
-                }
-            }
-            boxScript.gameObject.SetActive(false);
-        }
-       
-
-    }
+  
  
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (!IsAlivePlayer) return;
-        if (box)
-        {
-            if (col.gameObject.name == "WinArea")
-            {
-                PlayWinEmotion();
-               // GameManager.Instance.AddMission(typeMission);
-                boxSpriteRenderer.gameObject.SetActive(false);
-                box = false;
-            }
-            return;
-        }
+        if (!IsAlivePlayer) return;    
         if (col.collider.CompareTag("Wall"))
         {
             var dir = (col.collider.transform.position - transform.position).normalized;
@@ -327,70 +228,24 @@ public class Player : MonoBehaviour
             1
             );
     }
-    public void PlayRndBeginGame()
-    {
-        string[] arr = new string[] { StaticParam.poke_emo, StaticParam.emo2, StaticParam.tamgiac_emo_begin, StaticParam.tamgiac_emo_loop, StaticParam.smile_emo };
-        int rnd = UnityEngine.Random.Range(0, 5);
-        enum_emo(arr[rnd]);
-    }
-    public void PlayEmoRun()
-    {
-        string[] arr = new string[] { StaticParam.run_emo, StaticParam.hurry_up, StaticParam.tamgiac_emo_begin, StaticParam.tamgiac_emo_loop, StaticParam.smile_emo };
-        int rnd = UnityEngine.Random.Range(0, 5);
-        enum_emo(arr[rnd]);
-    }
-    void PlayEmotionGetItem()
-    {
-        string[] arr = new string[] { StaticParam.here_emo, StaticParam.smile_emo, StaticParam.poke_emo };
-        int rnd = UnityEngine.Random.Range(0, 3);
-        enum_emo(arr[rnd]);
-    }
+   
     public void Stop()
     {
         
     }
-    public void Damage(string bossName,int damage)
+    public void ProccessDie(string bossName)
     {
         if (!IsAlivePlayer) return;
-        StaticData.ENEMY_STRING = bossName;
-       
-        if (box)
-        {
-            boxSpriteRenderer.gameObject.SetActive(false);
-            GameManager.Instance.RegenerateBox(transform.position,0);
-        }
-        if (HP <= 0) {
-            IsAlivePlayer = false;
-            animator.SetTrigger(Player.LoseProperties1);
-            var colliders = GetComponents<Collider2D>();
-            for (int i = 0; i < colliders.Length; i++)
-                colliders[i].enabled = false;
-            GameManager.Instance.ProcessDeath();
-            Invoke("Die", 3f);
-        }
-
+        IsAlivePlayer = false;
+           
+        var colliders = GetComponents<Collider2D>();
+        for (int i = 0; i < colliders.Length; i++)
+            colliders[i].enabled = false;
+        GameManager.Instance.ProcessDeath();
+        Invoke("Die", 3f);
     }
-    public void DeathGreen()
-    {
-        //if (!IsAlivePlayer) return;
-        //StaticData.ENEMY_STRING = "Green";
-        //GameManager.Instance.ProcessDeath();
-        //enum_emo(StaticParam.tired_emo);
-        //animator.transform.localScale = Vector3.one * 0.7f;      
-        //animator.SetTrigger(Player.LoseProperties2);
-        //IsAlivePlayer = false;
-        //if (box)
-        //{
-        //    boxSpriteRenderer.gameObject.SetActive(false);
-        //     GameManager.Instance.RegenerateBox(transform.position,0);
-        //}
-        
-        //var colliders = GetComponents<Collider2D>();
-        //for (int i = 0; i < colliders.Length; i++)
-        //    colliders[i].enabled = false;
-        
-    }
-    void Die()
+   
+    public void Die()
     {        
         die = true;
     }
@@ -409,108 +264,50 @@ public class Player : MonoBehaviour
     }
     public void HideAndSneek()
     {
-        hide = !hide;
-        if (hide)
-        {
-            //animator.SetTrigger(Player.HideTriggerProperties);
-            decoyObj.gameObject.SetActive(true);
-            animator.gameObject.SetActive(false);
-            boxSpriteRenderer.gameObject.SetActive(false);
-        }
-        else
-        {
-            decoyObj.gameObject.SetActive(false);
-            animator.gameObject.SetActive(true);
-            gameObject.tag = "Player";
-            if (box)
-            {
-                Invoke("Show", 0.5f);
-            }
 
-        }
-        Invoke("ChangeTag", 0.4f);
+        hide = !hide;
+        playerNPC.HideAndSneek(!hide);
     }
-    void Show()
-    {
-        boxSpriteRenderer.gameObject.SetActive(true);
-    }
+   
     public void TurnOnWin()
     {
         if (!IsAlivePlayer) return;
-        foreach (var param in animator.parameters)
-        {
-            animator.ResetTrigger(param.name);
-        }
-        animator.SetTrigger(Player.WinProperties);
-        PlayWinEmotion();
+        
+        playerNPC.PlayWinEmotion();
         LightObject.gameObject.SetActive(false);
     }
     public void TurnOnLose()
     {
         if (!StaticData.IsPlay) return;
         if (!IsAlivePlayer) return;
-        foreach(var param in animator.parameters)
-        {
-            animator.ResetTrigger(param.name);
-        }
-        animator.SetTrigger(Player.FailTrigger);
-        PlayEmotionTimeout();
+        
+        playerNPC.PlayEmotionTimeout();
     }
     public void RecoverPlayer()
     {
         gameObject.tag = "Wall";
         IsAlivePlayer = true;       
-        foreach (var param in animator.parameters)
-        {
-            animator.ResetTrigger(param.name);
-        }
-        animator.SetTrigger(Player.ReviveProperties);
-        if (box && !hide)
-        {
-            boxSpriteRenderer.gameObject.SetActive(true);
-        }
+        
         var colliders = GetComponents<Collider2D>();
         for (int i = 0; i < colliders.Length; i++)
             colliders[i].enabled = true;
+        playerNPC.RecoverFriend();
         Invoke("Balance", 3f);
     }
     public void RevivePlayer()
     {
         gameObject.tag = "Wall";
         transform.position = transform.position + Vector3.right * 3f;
-        IsAlivePlayer = true;
-        animator.SetTrigger(Player.ReviveProperties);
-        if (box)
-        {
-            boxSpriteRenderer.gameObject.SetActive(false);
-            box = false;
-        }
+        IsAlivePlayer = true;   
         var colliders = GetComponents<Collider2D>();
         for (int i = 0; i < colliders.Length; i++)
             colliders[i].enabled = true;
-        if (hide)
-        {
-            decoyObj.gameObject.SetActive(true);
-            animator.gameObject.SetActive(false);
-        }
+        
         Invoke("Balance", 3f);
     }
     void Balance()
     {
-        if (hide)
-        {
-            gameObject.tag = "Hide";
-            decoyObj.gameObject.SetActive(true);
-            animator.gameObject.SetActive(false);
-        }
-        else
-        {
-            decoyObj.gameObject.SetActive(false);
-            animator.gameObject.SetActive(true);
-            gameObject.tag = "Player";
-        }
-           
-        die = false;
+        playerNPC.Balance();
     }
     #region booster
     public void BoostSpeed()
@@ -523,30 +320,7 @@ public class Player : MonoBehaviour
     {
         LightObject.gameObject.SetActive(false);
     }
-    public void PlayLoseEmotion()
-    {
-        int rnd = UnityEngine.Random.Range(0, 2);
-        string anim_name = rnd == 0 ? StaticParam.cry2_emo : StaticParam.cry_emo;
-        enum_emo(anim_name);
-    }
-    public void PlayWinEmotion()
-    {
-        int rnd = UnityEngine.Random.Range(0, 2);
-        string anim_name = rnd == 0 ? StaticParam.smile_emo : StaticParam.poke_emo;
-        enum_emo(anim_name);
-    }
-    public void PlayEmotionTimeout()
-    {
-        string[] arr = new string[] { StaticParam.tired_emo, StaticParam.hurry_up, StaticParam.scare_emo, StaticParam.run_emo };
-        int rnd = UnityEngine.Random.Range(0, 4);
-        enum_emo(arr[rnd]);
-    }
-    public void PlayEmotionRun()
-    {
-        string[] arr = new string[] { StaticParam.run_emo, StaticParam.hurry_up, StaticParam.poke_emo, StaticParam.smile_emo };
-        int rnd = UnityEngine.Random.Range(0, 4);
-        enum_emo(arr[rnd]);
-    }
+   
     #endregion
 }
 

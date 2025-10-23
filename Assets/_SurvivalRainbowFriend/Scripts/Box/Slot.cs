@@ -2,15 +2,44 @@ using UnityEngine;
 
 public class Slot : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int x;
+    public int y;
+    public Chip chip;
+    private string layerName = "Slot";
+
+    private void Start()
     {
-        
+        SetLayerName();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(int posX, int posY)
     {
-        
+        x = posX;
+        y = posY;
+        chip = null;
+    }
+
+    private void SetLayerName()
+    {
+        gameObject.layer = LayerMask.NameToLayer(layerName);
+    }
+
+    public bool HasChip()
+    {
+        return chip != null;
+    }
+
+    public void SetChip(Chip newChip)
+    {
+        chip = newChip;
+        if (newChip != null)
+        {
+            newChip.SetSlot(this);
+        }
+    }
+
+    public void ClearChip()
+    {
+        chip = null;
     }
 }
