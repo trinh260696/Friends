@@ -8,6 +8,7 @@ public class PlayerNPC : NPC
 {
     public StateFriend State { get => state; set => state = value; }
     public Player player;
+   
     public void Init(string skinName)
     {
         skeletonMecanim = animator.GetComponent<SkeletonMecanim>();
@@ -18,10 +19,14 @@ public class PlayerNPC : NPC
         state = StateFriend.FRIEND_INIT;
         box_name = BoxItemData.Instance.userSkinBoxData.currentBox.BoxObject.nameVariable;
         player = GetComponent<Player>();
+        decoyAnimator=decoyTransform.GetComponent<Animator>();
     }
     public override void Update()
     {
-       
+        SetKeyAnimation();
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            ThrowFood(transform.position, (Vector2)transform.position+UnityEngine.Random.insideUnitCircle*3f);
+        }
     }
     public override void FixedUpdate()
     {
@@ -64,10 +69,11 @@ public class PlayerNPC : NPC
     {       
         run0 = run & boosterRun;
         animator.SetBool(RunProperties, run);
-        animator.SetBool(ReturnProperties, run && box);
+        animator.SetBool(ReturnProperties,  box);
+       
         animator.SetBool(RunBoosterProperties, run0);
-        animator.SetBool(RunBoosterProperties, run0 && box);      
-        animator.SetBool(DieProperties, die);
+            
+       
     }
     public override void Death()
     {
@@ -85,7 +91,7 @@ public class PlayerNPC : NPC
             }
         }
 
-        animator.SetTrigger("HitTrigger1");
+        animator.SetTrigger(DieTrigger);
         var colliders = GetComponents<Collider2D>();
         foreach (var col in colliders)
         {
@@ -93,6 +99,16 @@ public class PlayerNPC : NPC
         }
 
         Invoke("DestroyGameObject", 5f);
+    }
+    public void ActiveDecoy()
+    {
+        isDecoy = !isDecoy;
+       
+        if (decoyAnimator != null)
+        {
+            decoyAnimator.gameObject.SetActive(isDecoy);
+        }
+        HideAndSneek(!isDecoy);
     }
 
     public override void HideAndSneek(bool isTransparent)
@@ -106,7 +122,7 @@ public class PlayerNPC : NPC
     }
 
 
-    public void RecoverFriend()
+    public override void RecoverFriend()
     {
         foreach (var param in animator.parameters)
         {
@@ -137,56 +153,6 @@ public class PlayerNPC : NPC
     {
         player.ProccessDie("");
     }
-    // public void PlayLoseEmotion()
-    //{
-    //    int rnd = UnityEngine.Random.Range(0, 2);
-    //    string anim_name = rnd == 0 ? StaticParam.cry2_emo : StaticParam.cry_emo;
-    //    enum_emo(anim_name);
-    //}
-    //public void PlayWinEmotion()
-    //{
-    //    int rnd = UnityEngine.Random.Range(0, 2);
-    //    string anim_name = rnd == 0 ? StaticParam.smile_emo : StaticParam.poke_emo;
-    //    enum_emo(anim_name);
-    //}
-    //public void PlayEmotionTimeout()
-    //{
-    //    string[] arr = new string[] { StaticParam.tired_emo, StaticParam.hurry_up, StaticParam.scare_emo, StaticParam.run_emo };
-    //    int rnd = UnityEngine.Random.Range(0, 4);
-    //    enum_emo(arr[rnd]);
-    //}
    
-    //public void PlayEmotionGetItem()
-    //{
-    //    string[] emotions = { StaticParam.here_emo, StaticParam.smile_emo, StaticParam.poke_emo };
-    //    int rnd = UnityEngine.Random.Range(0, emotions.Length);
-    //    enum_emo(emotions[rnd]);
-    //}
-
-    //void enum_emo(string anim_name)
-    //{
-    //    int rnd = UnityEngine.Random.Range(0, 10);
-    //    if (rnd > 3) return;
-    //    emoji.SetActive(true);
-    //    Invoke("hide_emo", 2f);
-    //}
-
-    //void hide_emo()
-    //{
-    //    emoji.SetActive(false);
-    //}
-    // public void PlayRndBeginGame()
-    //{
-    //    string[] arr = new string[] { StaticParam.poke_emo, StaticParam.emo2, StaticParam.tamgiac_emo_begin, StaticParam.tamgiac_emo_loop, StaticParam.smile_emo };
-    //    int rnd = UnityEngine.Random.Range(0, 5);
-    //    enum_emo(arr[rnd]);
-    //}
-    //public void PlayEmoRun()
-    //{
-    //    string[] arr = new string[] { StaticParam.run_emo, StaticParam.hurry_up, StaticParam.tamgiac_emo_begin, StaticParam.tamgiac_emo_loop, StaticParam.smile_emo };
-    //    int rnd = UnityEngine.Random.Range(0, 5);
-    //    enum_emo(arr[rnd]);
-    //}
-
 
 }

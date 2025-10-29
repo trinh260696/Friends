@@ -16,6 +16,22 @@ public class NPC : MonoBehaviour
     private Transform Target;//Player transform
     public int ID;
     protected StateFriend state = StateFriend.FRIEND_INIT;//If the friend has ceased to see the gift, he will follow on PlayerLastPos
+    
+    // Public property để cho phép access state từ các class khác (như BossBase)
+    public StateFriend State
+    {
+        get => state;
+        set => state = value;
+    }
+    
+    // Property để khóa vị trí NPC (sử dụng khi BossBase tấn công)
+    private bool _isPositionLocked = false;
+    public bool IsPositionLocked
+    {
+        get => _isPositionLocked;
+        set => _isPositionLocked = value;
+    }
+    
     public bool isDecoy = false;
     public float v_npc_normal = 1f;
     public float v_npc_decoy= 3f;
@@ -44,19 +60,19 @@ public class NPC : MonoBehaviour
     private int currentWaypointIndexChase = 0;
     private StateFriend previousState;
     protected const string RunProperties = "run_normal";
-    protected const string ReturnProperties = "run_return";
-    protected const string WinProperties = "WinTrigger";
+    protected const string WinTrigger = "WinTrigger";
     protected const string WinParams = "WinParams";
-    protected const string LoseProperties = "LoseTrigger";
-    protected const string LoseProperties2 = "LoseTrigger2";
+    protected const string LoseTrigger = "LoseTrigger";
+    protected const string LoseTrigger2 = "LoseTrigger2";
     protected const string FailTrigger = "FailTrigger";
-    protected const string DieProperties = "die";
+    protected const string DieTrigger = "DieTrigger";
     protected const string HitTrigger = "HitTrigger";
-    protected const string ReviveProperties = "ReviveTrigger";
-    protected const string ScareTrigger = "ScareTrigger";
+    protected const string ReviveTrigger = "ReviveTrigger";
+    protected const string ScareProperties = "Scare";
     protected const string RunBoosterProperties = "run_booster";
-
-    protected bool run = false;
+    protected const string ReturnProperties="box";
+    protected const bool booster = false;
+    public bool run = false;
     protected bool box = false;
     protected bool hide = false;
     protected bool run0 = false;
@@ -123,6 +139,7 @@ public class NPC : MonoBehaviour
         string[] arr = new string[] {StaticParam.tired_emo,StaticParam.hurry_up,StaticParam.scare_emo,StaticParam.run_emo };
         int rnd = UnityEngine.Random.Range(0, 4);
         enum_emo(arr[rnd]);
+        animator.SetTrigger(FailTrigger);
     }
     public void PlayRndBeginGame()
     {
@@ -249,8 +266,14 @@ public class NPC : MonoBehaviour
         run0 = run && boosterRun;
         animator.SetBool(RunProperties, run);
         animator.SetBool(RunBoosterProperties, run0);
-        animator.SetBool(ReturnProperties, run && box);      
-        animator.SetBool(DieProperties, die);
+        animator.SetBool(ReturnProperties, box);      
+
+        animator.SetBool(ScareProperties,run&&dangerous&&!box);
+    }
+    public virtual void Deal(int damage)
+    {
+        HP -= damage;
+        animator.SetTrigger(HitTrigger);        
     }
 
     protected void ReturnToBeginPoint()
@@ -351,6 +374,14 @@ public class NPC : MonoBehaviour
     {
 
         if (state == StateFriend.FRIEND_DIE) return;
+        
+        // Nếu vị trí bị khóa (đang bị tấn công), bỏ qua tất cả lệnh di chuyển
+        if (IsPositionLocked) 
+        {
+            SetKeyAnimations();
+            return;
+        }
+        
         else if(state==StateFriend.FRIEND_GO_TARGET)
         {
            
@@ -390,9 +421,38 @@ public class NPC : MonoBehaviour
       
     }
   
-    
+    public virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (state == StateFriend.FRIEND_DIE) return;
+        if (collision.collider.CompareTag("Wall"))
+        {
+            // Xử lý phản xạ khi va chạm với tường
+            HandleWallBounce(collision);
+        }
+    }
+     private void HandleWallBounce(Collision2D collision)
+    {
+        // Lấy vận tốc hiện tại
+        Vector2 currentVelocity = Body.linearVelocity;
+        
+        // Lấy hướng pháp tuyến (normal) của bề mặt va chạm
+        Vector2 normal = collision.relativeVelocity.normalized;
+        if (collision.contactCount > 0)
+        {
+            normal = -collision.GetContact(0).normal;
+        }
+        
+        // Tính toán hướng phản xạ: reflection = velocity - 2 * (velocity · normal) * normal
+        Vector2 reflection = currentVelocity - 2f * Vector2.Dot(currentVelocity, normal) * normal;
+        
+        // Áp dụng vận tốc phản xạ với một hệ số độ mạnh (bounce factor)
+        float bounceFactor = 0.7f; // Điều chỉnh giá trị này để thay đổi độ mạnh của phản xạ
+        Body.linearVelocity = reflection * bounceFactor;
+        
+        // Dịch chuyển gameobject ra ngoài tường một chút để tránh va chạm liên tục
+        transform.position -= (Vector3)normal ;
+    }
 
-  
     void enum_emo(string anim_name)
     {
         if (StaticData.GM_Mode == Mode.HostleMode) return;
@@ -409,7 +469,29 @@ public class NPC : MonoBehaviour
     int count = 0;
     public virtual void Death()
     {
+         state = StateFriend.FRIEND_DIE;
+        // StopCoroutine("DetectGift");
+        // StopCoroutine("DetectPathReturn");
+        // LeanTween.cancel(gameObject);
         
+        // Cancel box pickup if in progress
+
+        if (box && bodyPart != null)
+        {
+            BodyPart bp = bodyPart as BodyPart;
+            if (bp != null)
+            {
+                bp.ReActive();
+            }
+        }
+
+        
+        animator.SetTrigger(DieTrigger);
+        var colliders = GetComponents<Collider2D>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
     }
  
     void Die()
@@ -492,7 +574,7 @@ public class NPC : MonoBehaviour
     {
         state = StateFriend.FRIEND_END;
         int rnd = UnityEngine.Random.Range(1, 5);
-        animator.SetTrigger(NPC.WinProperties);
+        animator.SetTrigger(NPC.WinTrigger);
         animator.SetInteger(NPC.WinParams, rnd);
         PlayWinEmotion();
         frameBox.gameObject.SetActive(false);
@@ -501,7 +583,9 @@ public class NPC : MonoBehaviour
     public void TurnOnLose()
     {
         state = StateFriend.FRIEND_END;
-        animator.SetTrigger(NPC.FailTrigger);
+        int rnd = UnityEngine.Random.Range(0, 2);
+        string loseTrigger = rnd == 0 ? LoseTrigger : LoseTrigger2;
+        animator.SetTrigger(loseTrigger);
         PlayLoseEmotion();
         frameBox.gameObject.SetActive(false);
         decoyAnimator.gameObject.SetActive(false);
@@ -533,33 +617,20 @@ public class NPC : MonoBehaviour
             {
                 // Hoàn thành vòng tuần tra, reset chỉ số
                 currentWaypointIndexDetect = 0;
-                SetupDetectPath(); // Thiết lập lại đường đi
+                if (isDecoy)
+                {
+                   decoyAnimator.gameObject.SetActive(false);
+                   isDecoy = false;
+                   HideAndSneek(true);
+                }
+                FriendStartGame(); // Thiết lập lại đường đi
             }
         }
     }
     void OnPatrolGift()
     {
-        state= StateFriend.FRIEND_PATROL;
-        //yield return null;
-        //Vector2 currentPos = transform.position;
-        //while (state == StateFriend.FRIEND_PATROL)
-        //{
-        //    for (int i = 0; i < listPathDetect.Count; i++)
-        //    {
-        //        float distance = Vector2.Distance(currentPos, listPathDetect[i]);
-        //        var dir = listPathDetect[i] - currentPos;
-        //        animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-
-        //        LeanTween.move(gameObject, listPathDetect[i], distance / SpeedReal);
-        //        yield return new WaitForSeconds(distance / SpeedReal);
-        //        if (i >= listPathDetect.Count) yield break;
-        //        currentPos = listPathDetect[i];
-        //    }
-        //    SetupDetectPath();
-        //    currentPos = transform.position;
-        //    yield return new WaitForSeconds(0.1f);
-        //}
-
+        state= StateFriend.FRIEND_PATROL;     
+        dangerous=false;
     }
     void GoPathReturn()
     {
@@ -585,10 +656,18 @@ public class NPC : MonoBehaviour
             currentWaypointIndexReturn++;
             if (currentWaypointIndexReturn >= listPathReturn.Count)
             {
+
                 // Hoàn thành việc quay về
+                if (isDecoy)
+                {
+                    decoyAnimator.gameObject.SetActive(false);
+                    isDecoy = false;
+                    HideAndSneek(true);
+                }
                 currentWaypointIndexReturn = 0;
                 state = StateFriend.FRIEND_SORTING_FOOD;
                 run = false;
+                dangerous=false;
                 DirectionFriend = Vector2.zero;
                 
                 // Lấy Slot tương ứng với ID của bodyPart
@@ -625,8 +704,6 @@ public class NPC : MonoBehaviour
                             }
                         });
                 }
-                
-                TurnOnWin();
             }
         }
     }
@@ -656,7 +733,7 @@ public class NPC : MonoBehaviour
     void OnGoPathReturn()
     {
         state= StateFriend.FRIEND_GO_MAIN;
-        
+        dangerous=false;
     }
    
     public void DropBoxToSlot(Slot s)
@@ -739,6 +816,7 @@ public class NPC : MonoBehaviour
             // Chuyển sang state FRIEND_CHASED
             currentWaypointIndexChase = 0;
             state = StateFriend.FRIEND_CHASED;
+            dangerous=true;
         }
     }
 
@@ -803,39 +881,20 @@ public class NPC : MonoBehaviour
     {
         // Tính toán vị trí đối xứng của npcPos qua điểm enemyPos
         // Công thức: Symmetric_Point = 2 * enemyPos - npcPos
-        // Vector3 foodSpawnPos = 2 * enemyPos - npcPos;
-        
-        // Vector3 throwDirection = (Vector3)Random.insideUnitCircle.normalized;
-        // GameObject foodObj = Instantiate(Resources.Load<GameObject>("Item/Food"), foodSpawnPos + throwDirection, Quaternion.identity);
-        // Rigidbody2D rb = foodObj.GetComponent<Rigidbody2D>();
-        // if (rb != null)
-        // {
-        //     rb.linearVelocity = throwDirection * 5f;
-        // }
+        Vector3 foodSpawnPos = 2 * enemyPos - npcPos;
+
+        Vector3 throwDirection = (Vector3)UnityEngine.Random.insideUnitCircle.normalized;
+        Food foodObj = BaitManager.Instance.SpawnFood(foodSpawnPos, throwDirection);
+        //Rigidbody2D rb = foodObj.GetComponent<Rigidbody2D>();
+        //if (rb != null)
+        //{
+        //    rb.linearVelocity = throwDirection * 5f;
+        //}
     }
 
-    public void RecoverFriend()
+    public virtual void RecoverFriend()
     {
-        //foreach (var param in animator.parameters)
-        //{
-        //    animator.ResetTrigger(param.name);
-        //}
-        //animator.SetTrigger(NPC.RevivePropertis);
-
-        //if (box)
-        //{
-        //    hide = false;
-        //    state = StateFriend.FRIEND_GO_MAIN;
-        //    spriteRendererBox.gameObject.SetActive(true);
-        //    ReturnToBeginPoint();
-        //}
-        //else
-        //{
-        //    spriteRendererBox.gameObject.SetActive(false);
-        //    state = StateFriend.FRIEND_PATROL;
-        //    FriendStartGame();
-        //}
-        //Target = null;
+        
     }
 }
 

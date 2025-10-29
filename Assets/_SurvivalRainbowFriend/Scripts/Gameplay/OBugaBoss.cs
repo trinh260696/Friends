@@ -26,7 +26,7 @@ using UnityEngine;
         }
         public void Recover()
         {
-            killing = false;
+            beating = false;
             StartCoroutine("RaiseOrDown");
         }
         public override void OnCollisionEnter2D(Collision2D collision)
@@ -48,10 +48,10 @@ using UnityEngine;
                 yield return new WaitForSeconds(5f);
             }
         }
-        public override void Kill(Transform Destination)
+        public override void Beat(Transform Destination)
         {
             StopCoroutine("RaiseOrDown");
-            base.Kill(Destination);
+            base.Beat(Destination);
             ContainAssistant.Instance.GetItem("3D_Hit_05", Destination.transform.position + Vector3.up);
             Invoke("Recover", 5f);
         }

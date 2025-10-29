@@ -48,6 +48,14 @@ public class FriendNPC : NPC
             }
         }
     }
+    public override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+        Vector2 dir=(collision.transform.position - transform.position).normalized;
+        Vector2 reflection= Vector2.Reflect(dir, collision.contacts[0].normal);
+        transform.position= (Vector2)transform.position + reflection * 0.5f;
+
+    }
 
     public override void Update()
     {
@@ -171,20 +179,20 @@ public class FriendNPC : NPC
     {
         if (enemy.State == EnemyState.PATROL_STATE)
         {
-            ActivateDecoy(5f);
+            ActivateDecoyByTime(5f);
         }
     }
 
     private void HandleIQ3Behavior(BossBase enemy, bool isMultiEnemy)
     {
-        ActivateDecoy(float.MaxValue);
+        ActivateDecoyByTime(float.MaxValue);
     }
 
     private void HandleIQ4Behavior(BossBase enemy, bool isMultiEnemy)
     {
         if (enemy.State == EnemyState.PATROL_STATE)
         {
-            ActivateDecoy(float.MaxValue);
+            ActivateDecoyByEnemy(enemy);
         }
     }
 
@@ -206,7 +214,7 @@ public class FriendNPC : NPC
             }
             else if (enemyIQ == 1 || enemyIQ == 2)
             {
-                ActivateDecoy(float.MaxValue);
+                ActivateDecoyByEnemy(enemy);
             }
         }
     }
@@ -267,7 +275,7 @@ public class FriendNPC : NPC
         return true;
     }
 
-    private void ActivateDecoy(float duration)
+    private void ActivateDecoyByTime(float duration)
     {
         isDecoy = true;
         decoyDuration = duration;
@@ -277,8 +285,35 @@ public class FriendNPC : NPC
             decoyAnimator.gameObject.SetActive(true);
         }
         HideAndSneek(false);
+        if(duration< float.MaxValue)
+        {
+            Invoke("DeactivateDecoy", duration);
+        }
+        else
+        {
+            InvokeRepeating("DeactivateOnCall", 0.1f, 0.11f);
+        }
     }
-
+    private void ActivateDecoyByEnemy(BossBase enemy)
+    {
+        isDecoy = true;
+        
+        
+        if (decoyAnimator != null)
+        {
+            decoyAnimator.gameObject.SetActive(true);
+        }
+        HideAndSneek(false);
+        InvokeRepeating("DeactivateOnCall", 0.1f, 0.11f);
+    }
+    private void DeactivateOnCall()
+    {
+        if(detectedEnemies.Count==0)
+        {
+            DeactivateDecoy();
+            CancelInvoke("DeactivateOnCall");
+        }
+    }
     private void DeactivateDecoy()
     {
         isDecoy = false;
@@ -297,40 +332,21 @@ public class FriendNPC : NPC
 
     public override void Death()
     {
-        state = StateFriend.FRIEND_DIE;
-        // StopCoroutine("DetectGift");
-        // StopCoroutine("DetectPathReturn");
-        // LeanTween.cancel(gameObject);
-        
-        // Cancel box pickup if in progress
+        base.Death();
+  
         targetBodyPart = null;
-
-        if (box && bodyPart != null)
-        {
-            BodyPart bp = bodyPart as BodyPart;
-            if (bp != null)
-            {
-                bp.ReActive();
-            }
-        }
-
-        int hitTrigger = Random.Range(0, 2) == 0 ? 1 : 2;
-        animator.SetTrigger($"HitTrigger{hitTrigger}");
-        var colliders = GetComponents<Collider2D>();
-        foreach (var col in colliders)
-        {
-            col.enabled = false;
-        }
-
-        Invoke("DestroyGameObject", 5f);
+        Invoke("DestroyGameObject", 1f);
     }
-
+    public override void Deal(int damage)
+    {
+        base.Deal(damage);
+    }
     public override void HideAndSneek(bool isTransparent)
     {
        base.HideAndSneek(isTransparent);
     }
 
-    public void RecoverFriend()
+    public override void RecoverFriend()
     {
         animator.SetTrigger("ReviveTrigger");
         

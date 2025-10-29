@@ -101,7 +101,7 @@ public class CFriendObj
 }
 public enum FriendType
 {
-    Friend_0=0,Friend_1=1, Friend_2 = 2, Friend_3 = 3, Friend_4 = 4, Friend_5 = 5, Friend_6 = 6, Friend_7 = 7, Friend_8 = 8, Friend_9 = 9, Friend_10, Friend_11, Friend_12, Friend_13, Friend_14, Friend_15
+    Friend_0=0,Friend_1=1, Friend_2 = 2
 }
 [Serializable]
 public class LevelObject

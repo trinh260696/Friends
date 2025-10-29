@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
         playerNPC.animator.transform.localScale = moveStand.x > 0 ? Vector3.one*0.7f : StaticData.ScaleInverse*0.7f;
         //divide the vector by its length to get the angle
         run = direction.magnitude > 0;
+        playerNPC.run=run;
         if (run)
         {
             SpeedReal = hide ? SpeedBox : SpeedNormal;
@@ -106,7 +107,8 @@ public class Player : MonoBehaviour
                
             }
            
-        }      
+        }
+        playerNPC.run = run;
     }
     private void LateUpdate()
     {

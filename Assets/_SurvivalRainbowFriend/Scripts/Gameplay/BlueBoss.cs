@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public class CatBoss : BossBase
+    public class BlueBoss : BossBase
     {
         
         private void Start()
@@ -28,15 +28,15 @@ using UnityEngine;
         {
             if (!StaticData.IsPlay) return;
             base.OnTriggerEnter2D(col);
-            if (killing) return;
+            if (beating) return;
             if (col.gameObject.CompareTag("Player"))
             {
                
             }          
         }
-        public override void Kill(Transform Destination)
+        public override void Beat(Transform Destination)
         {
-            base.Kill(Destination);
+            base.Beat(Destination);
             ContentAssistant.Instance.GetItem("3D_Hit_03", Destination.transform.position+Vector3.right + Vector3.up);
             AudioManager.instance.Play("PowerPunch");
         }

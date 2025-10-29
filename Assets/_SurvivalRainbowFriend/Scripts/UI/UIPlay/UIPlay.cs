@@ -16,8 +16,8 @@ public class UIPlay :VKLayer
     public TextMeshProUGUI timeUp;
     public GameObject gameTimeObj;
     public VKCountDownLite timeCountDown;
-    public RectTransform parentMissionTransform;
-    public RectTransform findMissionTransform;
+    //public RectTransform parentMissionTransform;
+    //public RectTransform findMissionTransform;
     public Sprite[] sprites;
     private Dictionary<int, TextMeshProUGUI> missionTextList;
     public VariableJoystick variableJoystick;
@@ -138,10 +138,10 @@ public class UIPlay :VKLayer
         });
         StartCoroutine("Warning");
        
-        foreach (RectTransform tr in parentMissionTransform)
-        {
-            tr.gameObject.SetActive(false);
-        }
+        //foreach (RectTransform tr in parentMissionTransform)
+        //{
+        //    tr.gameObject.SetActive(false);
+        //}
         missionTextList = new Dictionary<int, TextMeshProUGUI>();
         //for(int i=0; i<ItemObjects.Count; i++)
         //{

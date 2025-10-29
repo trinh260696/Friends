@@ -5,7 +5,7 @@ public class BaitManager : MonoBehaviour
 {
     public static BaitManager Instance;
     private List<Food> activeFood = new List<Food>();
-
+    private const float maxDetectionRadius = 20f;
     private void Awake()
     {
         if (Instance == null)
@@ -36,7 +36,7 @@ public class BaitManager : MonoBehaviour
         if (activeFood.Count == 0) return null;
 
         Food nearestFood = null;
-        float closestDistance = float.MaxValue;
+        float closestDistance = maxDetectionRadius;
 
         foreach (Food food in activeFood)
         {
@@ -101,10 +101,16 @@ public class BaitManager : MonoBehaviour
 
         Vector2 direction = (food.transform.position - enemy.transform.position).normalized;
         float distance = Vector2.Distance(enemy.transform.position, food.transform.position);
-
+        if (distance < 0.5f)
+        {
+            enemy.EatFood();
+            food.Consume();
+            return;
+        }
         enemy.Target = food.transform;
         enemy.Body.linearVelocity = direction * food.attractionForce;
-        enemy.animator.transform.localScale = direction.x > 0 ? Vector3.one * 0.7f : new Vector3(-0.7f, 0.7f, 1f);
+        enemy.animator.transform.localScale = direction.x > 0 ? Vector3.one  : new Vector3(-1, 1, 1f);
+        
     }
 
     public Food GetRandomFood()
@@ -124,5 +130,12 @@ public class BaitManager : MonoBehaviour
             }
         }
         return nearbyFood;
+    }
+
+    internal Food SpawnFood(Vector3 foodSpawnPos, Vector3 throwDirection)
+    {
+        Food food = ContentAssistant.Instance.GetItem<Food>("Food", foodSpawnPos);
+        RegisterFood(food);
+        return food;
     }
 }

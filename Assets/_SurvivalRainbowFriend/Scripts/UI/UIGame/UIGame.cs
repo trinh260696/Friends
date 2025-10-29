@@ -1,4 +1,4 @@
-using Spine.Unity;
+﻿using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,19 +56,11 @@ public class UIGame : VKLayer
     }
     public RectTransform GetItemSkeleton(string name)
     {
-        foreach (RectTransform tr in transformParent)
-        {
-            if (tr.gameObject.name == name)
-            {
-                tr.gameObject.SetActive(true);
-                return tr;
-            }
-        }
-        var go = ContentAssistant.Instance.GetItem<RectTransform>(name);
-        go.SetParent(transformParent,false);
-        go.anchoredPosition = Vector2.zero;
-        go.name = name;
-        go.localScale = Vector3.one*2;
+        var go = transformParent.GetChild(0).GetComponent<RectTransform>();
+        var skeletonMecanim = go.GetComponent<SkeletonGraphic>();
+        skeletonMecanim.Skeleton.SetSkin(name);
+        skeletonMecanim.Skeleton.SetToSetupPose(); // Đặt về tư thế ban đầu nếu cần
+        skeletonMecanim.LateUpdate();
         return go;
     }
 

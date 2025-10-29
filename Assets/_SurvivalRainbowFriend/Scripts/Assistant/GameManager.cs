@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour
 
     public void Hideplayer()
     {
-        player.HideAndSneek();
+        player.playerNPC.ActiveDecoy();
     }
     public void OnPauseGame()
     {
@@ -410,7 +410,7 @@ public class GameManager : MonoBehaviour
         var go = ContentAssistant.Instance.GetItem("User",StartupTransform.position+Vector3.left*3f,Quaternion.identity);
         player = go.GetComponent<Player>();
         
-        player.playerNPC.Init("User_" + UserData.Instance.GameData.currentSkin.SkinObject.name);
+        player.playerNPC.Init( UserData.Instance.GameData.currentSkin.SkinObject.name);
         player.variableJoystick = uiPlay.variableJoystick;
         
         FieldAssistant.main.player = player;
@@ -427,7 +427,7 @@ public class GameManager : MonoBehaviour
         }
             
         int rnd = Random.Range(0, BoxPointGroup.childCount);
-
+        Sprite[] allSprites = Resources.LoadAll<Sprite>("Avatar/Avatar");
         for (int iIndex = 0; iIndex < levelData.WIDTH; iIndex++)
         {
             for (int j = 0; j < levelData.HEIGHT; j++)
@@ -435,7 +435,7 @@ public class GameManager : MonoBehaviour
                int ID= iIndex * levelData.WIDTH + j;
                 var go = ContentAssistant.Instance.GetItem<BodyPart>("BodyPart");
                 go.transform.SetParent(BoxPointGroup);
-                go.InitBodyPart(iIndex * levelData.WIDTH + j, Resources.Load<Sprite>("Avatar/Avatar_"+ID), BoxPointGroup);
+                go.InitBodyPart(iIndex * levelData.WIDTH + j, allSprites[ID], BoxPointGroup);
                 go.transform.position = BoxPoints[rnd];
                 rnd = (rnd + 1) % BoxPoints.Count;
             }
@@ -580,8 +580,8 @@ public class GameManager : MonoBehaviour
             Gizmos.DrawSphere(BossPointGroup.GetChild(i).position, 0.2f);
             for(int j= i+1; j< BossPointGroup.childCount; j++)
             {
-                //if(i<j)
-                //    Gizmos.DrawLine(BossPointGroup.GetChild(i).position, BossPointGroup.GetChild(j).position);
+                if (i < j)
+                    Gizmos.DrawLine(BossPointGroup.GetChild(i).position, BossPointGroup.GetChild(j).position);
             }          
         }
         for (int i = 0; i < AllyPointGroup.childCount - 1; i++)

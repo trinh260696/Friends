@@ -22,13 +22,12 @@ public class Food : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         circleCollider = GetComponent<CircleCollider2D>();
-        
-        if (rb == null)
-        {
-            rb = gameObject.AddComponent<Rigidbody2D>();
-            rb.isKinematic = false;
-            rb.gravityScale = 0;
-        }
+
+        //if (rb == null)
+        //{
+        //    rb = gameObject.AddComponent<Rigidbody2D>();
+        //    rb.gravityScale = 0;
+        //}
 
         if (circleCollider == null)
         {
@@ -50,6 +49,7 @@ public class Food : MonoBehaviour
     {
         if (isConsumed) return;
         isConsumed = true;
+        BaitManager.Instance.UnregisterFood(this);
         Destroy(gameObject);
     }
 
@@ -63,13 +63,13 @@ public class Food : MonoBehaviour
         return attractionRadius;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        BossBase boss = collision.GetComponent<BossBase>();
-        if (boss != null && !isConsumed)
-        {
-            boss.EatFood();
-            Consume();
-        }
-    }
+    //public void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    BossBase boss = collision.GetComponent<BossBase>();
+    //    if (boss != null && !isConsumed)
+    //    {
+    //        boss.EatFood();
+    //        Consume();
+    //    }
+    //}
 }

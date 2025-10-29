@@ -53,7 +53,7 @@ public class FieldAssistant : MonoBehaviour
                 );
 
                 GameObject slotObj = ContentAssistant.Instance.GetItem("Slot", slotPosition);
-                slotObj.transform.SetParent(SlotFolder.transform, false);
+                slotObj.transform.SetParent(SlotFolder.transform, true);
                 
                 Slot slot = slotObj.GetComponent<Slot>();
                 if (slot == null)
