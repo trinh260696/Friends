@@ -198,10 +198,12 @@ public class NPC : MonoBehaviour
     {
         // SetupWayPoints();
         if (state == StateFriend.FRIEND_DIE) return;
+        previousState = StateFriend.FRIEND_INIT;
         StopCoroutine("move_noise");
         LeanTween.cancel(gameObject);
         hide = false;
         run = false;
+        ResetWaypointIndices();
         SetupDetectPath();
         if (listPathDetect.Count > 0)
         {
