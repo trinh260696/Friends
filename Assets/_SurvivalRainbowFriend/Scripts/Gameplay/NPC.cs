@@ -33,8 +33,8 @@ public class NPC : MonoBehaviour
     }
     
     public bool isDecoy = false;
-    public float v_npc_normal = 1f;
-    public float v_npc_decoy= 3f;
+    public float v_npc_normal = 3f;
+    public float v_npc_decoy= 2f;
     public float SpeedReal;
     public float Range = 5;
     public BodyPart bodyPart;
@@ -95,6 +95,7 @@ public class NPC : MonoBehaviour
     public void Init(NPCObj friendObj, GameObject animator, int id)
     {
         this.ID = id;
+        this.IQ = friendObj.IQ;
         this.friendObj = friendObj;
         this.animator = animator.GetComponent<Animator>();
         this.animator.transform.localPosition = Vector3.zero;
@@ -205,8 +206,7 @@ public class NPC : MonoBehaviour
         if (listPathDetect.Count > 0)
         {
             run = true;
-            OnPatrolGift();
-            //StartCoroutine("DetectGift");
+            OnPatrolGift();           
         }
         else
         {
@@ -257,6 +257,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
+            Debug.LogWarning("No path found for NPC patrol.");
             run = false;
             listPathDetect.Clear();
         }
@@ -376,11 +377,11 @@ public class NPC : MonoBehaviour
         if (state == StateFriend.FRIEND_DIE) return;
         
         // Nếu vị trí bị khóa (đang bị tấn công), bỏ qua tất cả lệnh di chuyển
-        if (IsPositionLocked) 
-        {
-            SetKeyAnimations();
-            return;
-        }
+        // if (IsPositionLocked) 
+        // {
+        //     SetKeyAnimations();
+        //     return;
+        // }
         
         else if(state==StateFriend.FRIEND_GO_TARGET)
         {
@@ -594,7 +595,19 @@ public class NPC : MonoBehaviour
     void PatrolGift()
     {
         if (listPathDetect == null || listPathDetect.Count == 0) return;
-        
+        if (currentWaypointIndexDetect >= listPathDetect.Count)
+        {
+            // Hoàn thành vòng tuần tra, reset chỉ số
+            currentWaypointIndexDetect = 0;
+            if (isDecoy)
+            {
+                decoyAnimator.gameObject.SetActive(false);
+                isDecoy = false;
+                HideAndSneek(true);
+            }
+            FriendStartGame(); // Thiết lập lại đường đi
+            return;
+        }
         Vector2 targetWaypoint = listPathDetect[currentWaypointIndexDetect];
         Vector2 currentPosition = (Vector2)transform.position;
         float distance = Vector2.Distance(currentPosition, targetWaypoint);
@@ -700,6 +713,7 @@ public class NPC : MonoBehaviour
                             {
                                 // Còn slot trống → setup đường đi tuần mới
                                 bodyPart.DestroyNow();
+                                bodyPart = null;
                                 FriendStartGame();
                             }
                         });

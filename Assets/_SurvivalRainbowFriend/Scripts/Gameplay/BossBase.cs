@@ -52,7 +52,7 @@ public class BossBase : MonoBehaviour
    
     //If the enemy has ceased to see the player, he will follow on PlayerLastPos
     public float Range;
-    public float Speed=5.0f;     
+    public float Speed=4.0f;     
     //blood sprites (GameObjects)
    
    
@@ -304,9 +304,9 @@ public class BossBase : MonoBehaviour
     Vector3 Direction;
     public virtual void Update()
     {
-        
-        if (!isMoveWayPoint) return;
         SetKeyAnimation();
+        if (!isMoveWayPoint) return;
+       
 
         if (!StaticData.IsPlay) return;
        
@@ -396,7 +396,12 @@ public class BossBase : MonoBehaviour
         {
             return;
         }
-
+        if(_travelPointIndex>=DetectPoints.Count)
+        {
+            _travelPointIndex = 0;
+            SetupPointDetect(); // Tính toán lại đường đi
+            return;
+        }
         // Lấy điểm waypoint hiện tại
         Vector2 currentPos = transform.position;
         Vector2 targetPoint = DetectPoints[_travelPointIndex];
@@ -516,7 +521,7 @@ public class BossBase : MonoBehaviour
 
     private void AttackTarget()
     {
-        Debug.LogWarning("AttackTarget");
+        
         targetNPC = Target.GetComponent<NPC>();
        // State = EnemyState.FIGHT_STATE;
         Follow = true;
@@ -524,7 +529,7 @@ public class BossBase : MonoBehaviour
         Vector2 direction = (Target.position - transform.position).normalized;
        
         
-        Body.linearVelocity = Vector2.zero;
+       // Body.linearVelocity = Vector2.zero;
         if(targetNPC==null)
         {
             targetNPC = Target.GetComponent<NPC>();
@@ -550,8 +555,9 @@ public class BossBase : MonoBehaviour
        
 
         // Kiểm tra khoảng cách từ Boss đến Target
-        float distanceToTarget = Vector2.Distance(transform.position, Target.position);
-        
+        //float distanceToTarget = Vector2.Distance(transform.position, Target.position);
+        Vector3 direction = (Target.position - transform.position).normalized;
+        transform.position = Target.position - direction*2f; 
        
         
       

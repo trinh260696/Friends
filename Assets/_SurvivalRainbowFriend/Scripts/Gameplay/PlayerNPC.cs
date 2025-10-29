@@ -35,7 +35,8 @@ public class PlayerNPC : NPC
     public override void OnTriggerEnter2D(Collider2D collision)
     {
         if (state == StateFriend.FRIEND_DIE) return;
-
+        if(state==StateFriend.FRIEND_GO_TARGET) return;
+        if (state==StateFriend.FRIEND_GO_MAIN) return;
         if (collision.CompareTag("Box"))
         {
             BodyPart bodyPart = collision.GetComponent<BodyPart>();

@@ -18,8 +18,9 @@ public class FriendNPC : NPC
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (state == StateFriend.FRIEND_DIE) return;
-
+        if (state == StateFriend.FRIEND_GO_MAIN) return;
+        if(state==StateFriend.FRIEND_DIE) return;
+        if (box) return;
         if (collision.CompareTag("Box") && state == StateFriend.FRIEND_PATROL)
         {
             BodyPart bodyPart = collision.GetComponent<BodyPart>();
@@ -51,10 +52,18 @@ public class FriendNPC : NPC
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
-        Vector2 dir=(collision.transform.position - transform.position).normalized;
-        Vector2 reflection= Vector2.Reflect(dir, collision.contacts[0].normal);
-        transform.position= (Vector2)transform.position + reflection * 0.5f;
+       
+        if (collision.collider.CompareTag("Wall"))
+        {
+            if (State == StateFriend.FRIEND_PATROL || State == StateFriend.FRIEND_GO_MAIN || State== StateFriend.FRIEND_CHASED)
+            {
+                GetComponent<Collider2D>().isTrigger = true;
+                // Xử lý phản xạ khi va chạm với tường
+                Invoke(nameof(HandleCollisionWall), 0.3f);
+            }
 
+
+        }
     }
 
     public override void Update()
@@ -125,15 +134,19 @@ public class FriendNPC : NPC
             }
         }
     }
+    private bool DetectionWall=false;
+  
+    public void HandleCollisionWall()
+    {
+        GetComponent<Collider2D>().isTrigger=false;
+    }
 
     private void HandleEnemyEncounter(BossBase enemy)
     {
         bool isMultiEnemy = HandleMultipleEnemies();
         detectedEnemies.Add(enemy);
-        if (state == StateFriend.FRIEND_BEATEN) return;
-        
+        if (state == StateFriend.FRIEND_CHASED) return;       
        
-
         switch (IQ)
         {
             case 1:

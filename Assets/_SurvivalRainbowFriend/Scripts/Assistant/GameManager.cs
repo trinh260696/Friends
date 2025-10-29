@@ -580,8 +580,8 @@ public class GameManager : MonoBehaviour
             Gizmos.DrawSphere(BossPointGroup.GetChild(i).position, 0.2f);
             for(int j= i+1; j< BossPointGroup.childCount; j++)
             {
-                if (i < j)
-                    Gizmos.DrawLine(BossPointGroup.GetChild(i).position, BossPointGroup.GetChild(j).position);
+                // if (i < j)
+                //     Gizmos.DrawLine(BossPointGroup.GetChild(i).position, BossPointGroup.GetChild(j).position);
             }          
         }
         for (int i = 0; i < AllyPointGroup.childCount - 1; i++)
@@ -590,8 +590,8 @@ public class GameManager : MonoBehaviour
             Gizmos.DrawSphere(AllyPointGroup.GetChild(i).position, 0.2f);
             for (int j = i + 1; j < AllyPointGroup.childCount; j++)
             {
-                //if (i < j)
-                //    Gizmos.DrawLine(AllyPointGroup.GetChild(i).position, AllyPointGroup.GetChild(j).position);
+                if (i < j)
+                    Gizmos.DrawLine(AllyPointGroup.GetChild(i).position, AllyPointGroup.GetChild(j).position);
             }
         }
     }
