@@ -39,7 +39,7 @@ public class UIFriendManager : MonoBehaviour
         {
             if (UIFriends[i].cFriendObj.id == name)
             {
-                UIFriends[i].AddItem();
+                UIFriends[i].ClearItem();
                 break;
             }
         }

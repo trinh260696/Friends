@@ -30,7 +30,7 @@ public class SGameData
         ruby = 0;
         level = 1;
         world = 1;
-        vip = 0;
+        vip = 1;
         TIME_SPIN_CURRENT = 0;
         TIME_SPIN_FLAG = 0;
         currentSkin = SkinInitData.Instance.GetSkinDefault();              

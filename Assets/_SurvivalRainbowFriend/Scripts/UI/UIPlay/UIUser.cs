@@ -13,7 +13,7 @@ public class UIUser : MonoBehaviour
     public void InitStatusUser()
     {
        
-        this.imgIcon.sprite = Resources.Load<Sprite>("Avatar/" + UserData.Instance.GameData.currentSkin.SkinObject.name);
+        this.imgIcon.sprite = Resources.Load<Sprite>("Skin/" + UserData.Instance.GameData.currentSkin.SkinObject.name);
         this.textNumber.text = "0";
         xObject.SetActive(false);
     }

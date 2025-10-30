@@ -18,6 +18,7 @@ public class FriendNPC : NPC
 
     public override void OnTriggerEnter2D(Collider2D collision)
     {
+        if(state==StateFriend.FRIEND_INIT) return;
         if (state == StateFriend.FRIEND_GO_MAIN) return;
         if(state==StateFriend.FRIEND_DIE) return;
         if (box) return;
@@ -55,11 +56,11 @@ public class FriendNPC : NPC
        
         if (collision.collider.CompareTag("Wall"))
         {
-            if (State == StateFriend.FRIEND_PATROL || State == StateFriend.FRIEND_GO_MAIN || State== StateFriend.FRIEND_CHASED)
+            if (State == StateFriend.FRIEND_PATROL || State == StateFriend.FRIEND_GO_MAIN || State== StateFriend.FRIEND_CHASED|| State==StateFriend.FRIEND_GO_TARGET)
             {
                 GetComponent<Collider2D>().isTrigger = true;
                 // Xử lý phản xạ khi va chạm với tường
-                Invoke(nameof(HandleCollisionWall), 0.3f);
+                Invoke(nameof(HandleCollisionWall), 1f);
             }
 
 
@@ -387,6 +388,7 @@ public class FriendNPC : NPC
 
     void DestroyGameObject()
     {
+        GameManager.Instance.RemoveFriend(ID);
         gameObject.SetActive(false);
     }
 

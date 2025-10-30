@@ -28,7 +28,7 @@ public class PlayerAIM : MonoBehaviour
     }
     void Update()
     {
-#if UNITY_WEBGL || UNITY_WEBGL_API
+#if UNITY_EDITOR
         OnDesktop();
 #else
         OnMobile();
@@ -51,7 +51,7 @@ public class PlayerAIM : MonoBehaviour
 
                 if (hit.collider != null)
                 {
-                    Debug.Log("Chạm vào: " + hit.collider.name);
+                    Debug.LogWarning("Chạm vào: " + hit.collider.name);
 
                     var slot = hit.collider.gameObject.GetComponent<Slot>();
                     if (slot != null)
@@ -77,7 +77,7 @@ public class PlayerAIM : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Debug.Log("Chạm vào: " + hit.collider.name);
+                Debug.LogWarning("Chạm vào: " + hit.collider.name);
 
                 var slot = hit.collider.gameObject.GetComponent<Slot>();
                 if (slot != null)

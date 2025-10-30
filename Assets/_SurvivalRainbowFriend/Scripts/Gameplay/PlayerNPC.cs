@@ -36,7 +36,17 @@ public class PlayerNPC : NPC
     {
         if (state == StateFriend.FRIEND_DIE) return;
         if(state==StateFriend.FRIEND_GO_TARGET) return;
-        if (state==StateFriend.FRIEND_GO_MAIN) return;
+        if (state==StateFriend.FRIEND_GO_MAIN)
+        {
+            if (collision.CompareTag("EnBul"))
+            {
+                if (state == StateFriend.FRIEND_GO_MAIN && box)
+                {
+                    state = StateFriend.FRIEND_SORTING_FOOD;
+                }
+            }
+            return;
+        }
         if (collision.CompareTag("Box"))
         {
             BodyPart bodyPart = collision.GetComponent<BodyPart>();
@@ -55,12 +65,6 @@ public class PlayerNPC : NPC
                 {
                     frameBox.gameObject.SetActive(false);
                 }
-            }
-        }else if(collision.CompareTag("Finish"))
-        {
-            if(state == StateFriend.FRIEND_GO_MAIN && box)
-            {
-                state = StateFriend.FRIEND_SORTING_FOOD;                
             }
         }
     }   
@@ -154,6 +158,10 @@ public class PlayerNPC : NPC
     {
         player.ProccessDie("");
     }
-   
+    public void UserComeback()
+    {
+        state= StateFriend.FRIEND_PATROL;
+        box = false;
+    }
 
 }

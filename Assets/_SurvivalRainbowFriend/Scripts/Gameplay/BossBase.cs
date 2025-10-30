@@ -201,6 +201,7 @@ public class BossBase : MonoBehaviour
             emoAnimation.SetActive(false);
         }    
         DetectionCollider=GetComponent<Collider2D>();
+        State=EnemyState.IDLE_STATE;
     }
     
     public virtual void OnInit()
@@ -306,7 +307,7 @@ public class BossBase : MonoBehaviour
     {
         SetKeyAnimation();
         if (!isMoveWayPoint) return;
-       
+        if(State==EnemyState.IDLE_STATE) return;
 
         if (!StaticData.IsPlay) return;
        

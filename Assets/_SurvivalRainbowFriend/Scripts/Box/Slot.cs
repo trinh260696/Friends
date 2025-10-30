@@ -4,6 +4,7 @@ public class Slot : MonoBehaviour
 {
     public int x;
     public int y;
+    public int Index;
     public Chip chip;
     private string layerName = "Slot";
 
@@ -12,10 +13,11 @@ public class Slot : MonoBehaviour
         SetLayerName();
     }
 
-    public void Initialize(int posX, int posY)
+    public void Initialize(int posX, int posY,int iIndex)
     {
         x = posX;
         y = posY;
+        Index= iIndex;
         chip = null;
     }
 

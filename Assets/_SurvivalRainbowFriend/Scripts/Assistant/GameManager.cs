@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     // List<int[]> HamiltonBossCycle;
     List<Vector2> BoxPoints;
     
-   
+    public Sprite[] allSprites;
     public int world=1;
     public int level=1;
     public LevelData levelData;
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             gameObject.AddComponent<BaitManager>();
         }
-
+        allSprites = Resources.LoadAll<Sprite>("Avatar/Avatar");
         levelData = InitData.Instance.GetLevelData(StaticData.LEVEL, 1);
         Field field = new Field();
         field.width = levelData.WIDTH;
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         NotificationCenter.DefaultCenter().AddObserver(this, "ChipPlaced");
         
         BeginGame();
-        Invoke("ReadyGame", 0.1f);       
+        Invoke("ReadyGame", 0.2f);       
     }
     // Update is called once per frame
    
@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
     {
         //GenerateHamiltonBossPath();
         // GenerateHamiltonAllyPath();
-        StaticData.IsPlay = true;
+       
         NotificationCenter.DefaultCenter().PostNotification(this, "PopulatePos");
         GenerateFriends();    
         uiPlay = VKLayerController.Instance.ShowLayer("UIPlay") as UIPlay;
@@ -376,7 +376,7 @@ public class GameManager : MonoBehaviour
     }
     public void ReadyGame()
     {
-        //StaticData.IsPlay = true;
+        StaticData.IsPlay = true;
 
         friendManager.NotifyMakeNoise();
     }
@@ -427,14 +427,14 @@ public class GameManager : MonoBehaviour
         }
             
         int rnd = Random.Range(0, BoxPointGroup.childCount);
-        Sprite[] allSprites = Resources.LoadAll<Sprite>("Avatar/Avatar");
+        // Sprite[] allSprites = Resources.LoadAll<Sprite>("Avatar/Avatar");
         for (int iIndex = 0; iIndex < levelData.WIDTH; iIndex++)
         {
             for (int j = 0; j < levelData.HEIGHT; j++)
             {
                int ID= iIndex * levelData.WIDTH + j;
                 var go = ContentAssistant.Instance.GetItem<BodyPart>("BodyPart");
-                go.transform.SetParent(BoxPointGroup);
+                
                 go.InitBodyPart(iIndex * levelData.WIDTH + j, allSprites[ID], BoxPointGroup);
                 go.transform.position = BoxPoints[rnd];
                 rnd = (rnd + 1) % BoxPoints.Count;
@@ -484,6 +484,11 @@ public class GameManager : MonoBehaviour
     }
    
     int count = 0;
+    public void ChipPlaced(Notification notification)
+    {
+        player.playerNPC.PlayEmotionGetItem();
+        player.playerNPC.UserComeback();
+    }
     public void OnSortComplete()
     {
         if (!StaticData.IsPlay) return;

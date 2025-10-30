@@ -528,6 +528,7 @@ public class NPC : MonoBehaviour
     }
     public void MakeNoise(Vector2 center)
     {
+        
         run = true;
         StartCoroutine("move_noise", center);
 
@@ -699,7 +700,7 @@ public class NPC : MonoBehaviour
                         {
                             // Tạo Chip tại slot
                             Chip chip = ContentAssistant.Instance.GetItem<Chip>("Chip");
-                            Sprite avatarSprite = Resources.Load<Sprite>($"Avatar/Avatar_{bodyPart.ID}");
+                            Sprite avatarSprite = GameManager.Instance.allSprites[bodyPart.ID];
                             chip.Initialize(targetSlot, avatarSprite);
                             
                             // Ẩn box

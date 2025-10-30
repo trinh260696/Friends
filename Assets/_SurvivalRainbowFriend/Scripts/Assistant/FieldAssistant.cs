@@ -61,7 +61,7 @@ public class FieldAssistant : MonoBehaviour
                     slot = slotObj.AddComponent<Slot>();
                 }
                 
-                slot.Initialize(col, row);
+                slot.Initialize(col, row,row*field.height+col);
                 string key = $"{row}_{col}";
                 slots[key] = slot;
             }
@@ -116,18 +116,18 @@ public class FieldAssistant : MonoBehaviour
     {       
         if (clickedSlot == null) return;
         if(player.playerNPC.State!= StateFriend.FRIEND_SORTING_FOOD) return;
-        if (player != null && player.playerNPC.bodyPart != null && player.playerNPC.State == StateFriend.FRIEND_GO_MAIN)
+        if (player != null && player.playerNPC.bodyPart != null )
         {
-            if (player.playerNPC.bodyPart.ID == clickedSlot.x)
+            if (player.playerNPC.bodyPart.ID == clickedSlot.Index)
             {
                 Chip chip = ContentAssistant.Instance.GetItem<Chip>("Chip");
                 
-                Sprite avatarSprite = Resources.Load<Sprite>($"Avatar/Avatar_{player.playerNPC.bodyPart.ID}");
+                Sprite avatarSprite = GameManager.Instance.allSprites[player.playerNPC.bodyPart.ID];
                 chip.Initialize(clickedSlot, avatarSprite);
                 
                 clickedSlot.SetChip(chip);
-                
-                Destroy(player.playerNPC.bodyPart.gameObject);
+
+                player.playerNPC.bodyPart.DestroyNow();
                 player.playerNPC.bodyPart = null;
                 
                 NotificationCenter.DefaultCenter().PostNotification(this, "ChipPlaced");
@@ -139,6 +139,7 @@ public class FieldAssistant : MonoBehaviour
             }
             else
             {
+                Debug.LogWarning("Lắp sai vật phẩm!");
                 VKNotifyController.Instance.AddNotify("Lắp sai vật phẩm!", VKNotifyController.TypeNotify.Normal);
             }
         }
