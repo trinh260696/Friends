@@ -272,6 +272,11 @@ public class UIPlay :VKLayer
         AudioManager.instance.Play("ButtonClick");
         GameManager.Instance.Hideplayer();
     }
+    public void OnClickAvatar()
+    {
+        AudioManager.instance.Play("ButtonClick");
+        VKLayerController.Instance.ShowLayer("UIAvatar");
+    }
     public void OnEndGame()
     {
         var uiSetting = VKLayerController.Instance.GetLayer("UISetting");
