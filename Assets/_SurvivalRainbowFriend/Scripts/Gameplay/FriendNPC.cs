@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
 public class FriendNPC : NPC
 {
@@ -16,8 +18,11 @@ public class FriendNPC : NPC
     private float boxReachDistance = 0.3f;
     private float boxMoveSpeed = 3f;
 
+    
+
     public override void OnTriggerEnter2D(Collider2D collision)
     {
+        base.OnTriggerEnter2D(collision);
         if(state==StateFriend.FRIEND_INIT) return;
         if (state == StateFriend.FRIEND_GO_MAIN) return;
         if(state==StateFriend.FRIEND_DIE) return;
@@ -28,6 +33,7 @@ public class FriendNPC : NPC
             if (bodyPart != null && bodyPart.Free)
             {
                 // Set target and change state to move towards box
+                
                 targetBodyPart = bodyPart;
                 targetBoxPosition = (Vector2)frameBox.transform.position;
                 state = StateFriend.FRIEND_GO_TARGET;
@@ -50,6 +56,7 @@ public class FriendNPC : NPC
             }
         }
     }
+    
     public override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
@@ -64,6 +71,20 @@ public class FriendNPC : NPC
             }
 
 
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Wall"))
+        {
+            Vector2 dir = transform.position - collision.transform.position;
+            float angle = Vector2.SignedAngle(dir, Vector2.up);
+            Vector2 forceDir = Vector2.up;
+            if (angle < -135 || angle > 135) forceDir = Vector2.down;
+            else if (angle > -45 && angle < 45) forceDir = Vector2.up;
+            else if (angle < -45 && angle < -135) forceDir = Vector2.left;
+            else forceDir = Vector2.right;
+            Body.AddForce(forceDir * 5f);
         }
     }
 
@@ -86,7 +107,11 @@ public class FriendNPC : NPC
             state = StateFriend.FRIEND_PATROL;
             return;
         }
-        
+        if (!targetBodyPart.Free)
+        {
+            StartCoroutine(nameof(SetupDetectPath));
+            return;
+        }
         Vector2 currentPos = (Vector2)transform.position;
         float distance = Vector2.Distance(currentPos, targetBoxPosition);
         
@@ -117,15 +142,16 @@ public class FriendNPC : NPC
             animator.SetBool("run_normal", false);
             state = StateFriend.FRIEND_GO_MAIN;
             PlayEmotionGetItem();
-            ReturnToBeginPoint();
+            StartCoroutine(nameof(ReturnToBeginPoint));
             
             // Clear target
             targetBodyPart = null;
         }
     }
 
-    public  void OnTriggerExit2D(Collider2D collision)
+    public override void OnTriggerExit2D(Collider2D collision)
     {
+        base.OnTriggerExit2D(collision);
         if (collision.CompareTag("Enemy"))
         {
             BossBase enemy = collision.GetComponent<BossBase>();
@@ -147,7 +173,7 @@ public class FriendNPC : NPC
         bool isMultiEnemy = HandleMultipleEnemies();
         detectedEnemies.Add(enemy);
         if (state == StateFriend.FRIEND_CHASED) return;       
-       
+        
         switch (IQ)
         {
             case 1:
@@ -178,12 +204,13 @@ public class FriendNPC : NPC
     {
         if (enemy.State == EnemyState.PATROL_STATE)
         {
+            dangerous = true;
             Vector2 oppositeDir = -(enemy.transform.position - transform.position).normalized;
             if (isMultiEnemy)
             {
                 oppositeDir=escapeDirection;
             }
-            MoveTo((Vector2)transform.position + oppositeDir * 10f);
+            MoveTo((Vector2)transform.position + oppositeDir * 15f,oppositeDir);
             
            
         }
@@ -223,7 +250,7 @@ public class FriendNPC : NPC
                 {
                     escapeDir=escapeDirection;
                 }
-                MoveTo((Vector2)transform.position + escapeDir * 15f);
+                MoveTo((Vector2)transform.position + escapeDir * 20f,escapeDir);
                 
             }
             else if (enemyIQ == 1 || enemyIQ == 2)
@@ -239,7 +266,7 @@ public class FriendNPC : NPC
         {
             if (foodCount > 0)
             {
-                ThrowFood(transform.position, enemy.transform.position);
+                ThrowFood(transform.position, enemy);
                 foodCount--;
             }
             else
@@ -255,7 +282,7 @@ public class FriendNPC : NPC
         {
             if (foodCount > 0)
             {
-                ThrowFood(transform.position, enemy.transform.position);
+                ThrowFood(transform.position, enemy);
                 foodCount--;
             }
             else if (enemy.State == EnemyState.PATROL_STATE)
@@ -338,9 +365,9 @@ public class FriendNPC : NPC
         HideAndSneek(true);
     }
 
-    public override void ThrowFood(Vector3 npcPos, Vector3 enemyPos)
+    public override void ThrowFood(Vector3 npcPos, BossBase enemy)
     {
-        base.ThrowFood(npcPos, enemyPos);
+        base.ThrowFood(npcPos, enemy);
     }
 
 
@@ -362,8 +389,16 @@ public class FriendNPC : NPC
 
     public override void RecoverFriend()
     {
-        animator.SetTrigger("ReviveTrigger");
-        
+        for (int i = 0; i < animator.parameterCount; i++)
+        {
+            AnimatorControllerParameter param = animator.GetParameter(i);
+            if (param.type == AnimatorControllerParameterType.Trigger)
+            {
+                animator.ResetTrigger(param.name);
+            }
+        }
+        animator.SetTrigger(ReviveTrigger);
+        this.HP = 100;
         // Cancel box pickup if in progress
         targetBodyPart = null;
 
@@ -372,13 +407,12 @@ public class FriendNPC : NPC
             hide = false;
             state = StateFriend.FRIEND_GO_MAIN;
             frameBox.gameObject.SetActive(true);
-            ReturnToBeginPoint();
+            StartCoroutine(nameof(ReturnToBeginPoint));
         }
         else
         {
             frameBox.gameObject.SetActive(false);
-            state = StateFriend.FRIEND_PATROL;
-            FriendStartGame();
+            StartCoroutine(nameof(SetupDetectPath));
         }
 
         detectedEnemies.Clear();

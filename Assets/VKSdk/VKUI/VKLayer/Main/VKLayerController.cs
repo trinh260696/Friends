@@ -74,7 +74,7 @@ namespace VKSdk.UI
                     {
                         uiCamera = Camera.main;
                     }
-                    VKNotifyController.Instance.SetCamera(uiCamera);
+                   // VKNotifyController.Instance.SetCamera(uiCamera);
                 }
                 DontDestroyOnLoad(this);
 

@@ -9,7 +9,7 @@ using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
-    
+    public static int HP=30;
     public Light2D LightObject;
     public TextMeshProUGUI nameText;
     public VariableJoystick variableJoystick;
@@ -298,6 +298,7 @@ public class Player : MonoBehaviour
     }
     public void RevivePlayer()
     {
+        playerNPC.RecoverFriend();
         gameObject.tag = "Wall";
         transform.position = transform.position + Vector3.right * 3f;
         IsAlivePlayer = true;   

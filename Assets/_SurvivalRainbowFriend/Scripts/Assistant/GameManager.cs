@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VKSdk.UI;
 using System.Linq;
+using VKSdk.Notify;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;  
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     private Vector2[] AllyWaypoints;
     private Stack<Vector2> BossPointsStack;
     private List<Vector2> BossListPos;
-    private Stack<Vector2> AllyPointsStack;
+    private List<Vector2> AllyPointsStack;
     
     //List<int[]> HamiltonAllyCycle;
     // List<int[]> HamiltonBossCycle;
@@ -38,12 +39,15 @@ public class GameManager : MonoBehaviour
     public float rateMoreItem = 0f;
     public float currentTime = 0f;
     public float totalTime = 0f;
+   
     private void Awake()
     {
         Instance = this;
         cCamera = Camera.main;
         BossWaypoints = new Vector2[BossPointGroup.childCount];
         AllyWaypoints = new Vector2[AllyPointGroup.childCount];
+        winAreaObject = GameObject.Find("WinArea");
+        GameManager.Win_Pos = (Vector2)winAreaObject.transform.position;
         BossListPos = new List<Vector2>();
         for(int i=0; i<BossPointGroup.childCount; i++)
         {
@@ -54,11 +58,11 @@ public class GameManager : MonoBehaviour
         {
             AllyWaypoints[i] = (Vector2)AllyPointGroup.GetChild(i).position;
         }
+        
         BoxPoints = new List<Vector2>();
         BossPointsStack = new Stack<Vector2>();
-        AllyPointsStack = new Stack<Vector2>();
-        winAreaObject = GameObject.Find("WinArea");
-        GameManager.Win_Pos = (Vector2)winAreaObject.transform.position;
+        AllyPointsStack = new List<Vector2>();
+        
         count = 0;
         StaticData.ISREADY = false;
     }
@@ -83,20 +87,21 @@ public class GameManager : MonoBehaviour
         StaticData.TIME_MAX = levelData.timeout;             
         StaticData.IsPlay = false;
         StaticData.startUpPoint = (Vector2)StartupTransform.position;
-       
+        
         NotificationCenter.DefaultCenter().AddObserver(this, "Victory");
         NotificationCenter.DefaultCenter().AddObserver(this, "ChipPlaced");
-        
+       
         BeginGame();
         Invoke("ReadyGame", 0.2f);       
     }
     // Update is called once per frame
    
     #region Method
-    
+
+  
     public List<Vector2> GetAllyWaypoints()
-    {
-        return new List<Vector2>(AllyWaypoints);
+    {       
+        return AllyWaypoints.ToList();
     }
     public Vector2 GetBossPos()
     {
@@ -145,7 +150,7 @@ public class GameManager : MonoBehaviour
     }
     public void OnPauseGame()
     {
-        StopCoroutine("SessionGame");
+        StopCoroutine(nameof(SessionGame));
         StopCoroutine("ReviveSession");
         uiPlay.StopTimeCountdown();
         friendManager.Stop();
@@ -165,6 +170,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SessionGame()
     {
+        VKNotifyController.Instance.AddNotify("Please find all parts of the picture to complete your mission!", VKNotifyController.TypeNotify.Normal);
         StaticData.ISREADY = true;
         currentTime = StaticData.TIME_MAX + GameManager.Instance.addTime;
         totalTime = currentTime;
@@ -273,28 +279,28 @@ public class GameManager : MonoBehaviour
         NotificationCenter.DefaultCenter().PostNotification(this, "BossStartGame");
         StaticData.IsPlay = true;
         uiPlay.UIReviveGame(15);
-        StartCoroutine("RecoverTime");
+        StartCoroutine(nameof(RecoverTime));
      //   RegenerateBox();
         //revive
         
     }
-    public void ProcessLose()
-    {
-        if (!StaticData.IsPlay) return;
-        var uiSetting = VKLayerController.Instance.GetLayer("UISetting");
-        if (uiSetting)
-        {
-            uiSetting.Close();
-        }
-        player.playerNPC.PlayLoseEmotion();
-        friendManager.PlayEmotionLose();
-        uiPlay.OnEndGame();
-        StopCoroutine("SessionGame");
-        StopCoroutine("RecoverTime");
-        StopCoroutine("ReviveSession");
-        StartCoroutine("process_lose");
-        StaticData.IsPlay = false;
-    }
+    //public void ProcessLose()
+    //{
+    //    if (!StaticData.IsPlay) return;
+    //    var uiSetting = VKLayerController.Instance.GetLayer("UISetting");
+    //    if (uiSetting)
+    //    {
+    //        uiSetting.Close();
+    //    }
+    //    player.playerNPC.PlayLoseEmotion();
+    //    friendManager.PlayEmotionLose();
+    //    uiPlay.OnEndGame();
+    //    StopCoroutine(nameof(SessionGame));
+    //    StopCoroutine("RecoverTime");
+    //    StopCoroutine("ReviveSession");
+    //    StartCoroutine("process_lose");
+    //    StaticData.IsPlay = false;
+    //}
     public void ProcessDeath()
     {
         if (!StaticData.IsPlay) return;
@@ -305,57 +311,39 @@ public class GameManager : MonoBehaviour
         }
         uiPlay.ClearUser();
         uiPlay.OnEndGame();
-        StopCoroutine("SessionGame");
-        StopCoroutine("RecoverTime");
-        StopCoroutine("ReviveSession");
-        StartCoroutine("process_lose");
+        StopCoroutine(nameof(SessionGame));
+        StopCoroutine(nameof(RecoverTime));
+        StopCoroutine(nameof(ReviveSession));
+        StartCoroutine(nameof(process_lose));
         StaticData.IsPlay = false;
     }
-    public List<Vector2> GetAllyWaypoints(Transform allyTransform, out Vector2 BoxPos,out Vector2 centerPos)
+    
+    public List<Vector2> GetAllyWaypoints( out Vector2 BoxPos)
     {
-            
-        List<Vector2> result = new List<Vector2>(AllyWaypoints);
 
-        if(AllyPointsStack.Count==0)
+        BoxPos = Vector2.zero; 
+        if (AllyPointsStack.Count==0)
         {
             GenerateDesAlly();
         }
         if (AllyPointsStack.Count == 0)
 
         {
-            centerPos = (Vector2)StartupTransform.position;
             BoxPos = Vector2.zero;
-            return result;
+            return GetAllyWaypoints();
         }
-                
-        BoxPos = AllyPointsStack.Pop();
-        centerPos = (Vector2)StartupTransform.position;
-        return result;
+
+        BoxPos = AllyPointsStack[Random.Range(0, AllyPointsStack.Count)];
+       
+        return GetAllyWaypoints();
     }
-    private int GetIndexPositionByAlly(Vector2 allyPos)
-    {
-        float minDistance = 10000f;
-        int Index = -1;
-        for (int i = 0; i < AllyWaypoints.Length; i++)
-        {
-            float distance = Vector2.Distance(allyPos, AllyWaypoints[i]);
-            var raycastHit = Physics2D.Raycast(allyPos, AllyWaypoints[i] - allyPos, distance, 1<<13|1<<1);
-            if (raycastHit.collider == null)
-            {
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    Index = i;
-                }
-            }
-        }
-        return Index;
-    }
+    
+ 
     public void BeginGame()
     {
         //GenerateHamiltonBossPath();
         // GenerateHamiltonAllyPath();
-       
+        
         NotificationCenter.DefaultCenter().PostNotification(this, "PopulatePos");
         GenerateFriends();    
         uiPlay = VKLayerController.Instance.ShowLayer("UIPlay") as UIPlay;
@@ -382,18 +370,20 @@ public class GameManager : MonoBehaviour
     }
     public void EnterGame()
     {
-        StartCoroutine("enum_enter");
-        
+        StartCoroutine(nameof(enum_enter));
+        // GenerateBox();
+        // GenerateDesAlly();
+        GenerateDesBoss();
     }
     IEnumerator enum_enter()
     {
         AudioManager.instance.Play("OpenDoor");
         NotificationCenter.DefaultCenter().PostNotification(this, "OpenDoor");
         yield return new WaitForSeconds(1f);
-        GenerateBox();
-        GenerateDesAlly();
-        GenerateDesBoss();
-        StartCoroutine("SessionGame");
+         GenerateBox();
+         GenerateDesAlly();
+        // GenerateDesBoss();
+        StartCoroutine(nameof(SessionGame));
         NotificationCenter.DefaultCenter().PostNotification(this, "FriendStartGame");
         
         uiPlay.UIEnterGame();
@@ -469,7 +459,7 @@ public class GameManager : MonoBehaviour
             if (go.Free)
             {
                 var pos_vect2 = (Vector2)go.transform.position;
-                AllyPointsStack.Push(pos_vect2);
+                AllyPointsStack.Add(pos_vect2);
             }             
         }
     }
@@ -508,7 +498,7 @@ public class GameManager : MonoBehaviour
         NotificationCenter.DefaultCenter().PostNotification(this, "TurnOnWin");
         NotificationCenter.DefaultCenter().PostNotification(this, "OnFinish");
         player.TurnOnWin();
-        StopCoroutine("SessionGame");
+        StopCoroutine(nameof(SessionGame));
         uiPlay.OnEndGame();
         LeanTween.move(cCamera.gameObject, winAreaObject.transform.position - Vector3.forward * 10, 2f);
         winAreaObject.GetComponent<WinAreaScript>().WinEffect();
@@ -544,20 +534,6 @@ public class GameManager : MonoBehaviour
         uiPlay.OnClose();
     }
     #endregion
-    
-  
-
-    public void OnVictory(Notification notification = null)
-    {
-        StaticData.IsPlay = false;
-        StopCoroutine("SessionGame");
-        
-        friendManager.PlayEmotionWin();
-        player.playerNPC.PlayWinEmotion();
-        
-        NotificationCenter.DefaultCenter().PostNotification(this, "TurnOnWin");
-        uiPlay.OnVictory();
-    }
 
     #region Booster
     public void MoreSpeed()
@@ -595,8 +571,8 @@ public class GameManager : MonoBehaviour
             Gizmos.DrawSphere(AllyPointGroup.GetChild(i).position, 0.2f);
             for (int j = i + 1; j < AllyPointGroup.childCount; j++)
             {
-                if (i < j)
-                    Gizmos.DrawLine(AllyPointGroup.GetChild(i).position, AllyPointGroup.GetChild(j).position);
+                //if (i < j)
+                //    Gizmos.DrawLine(AllyPointGroup.GetChild(i).position, AllyPointGroup.GetChild(j).position);
             }
         }
     }

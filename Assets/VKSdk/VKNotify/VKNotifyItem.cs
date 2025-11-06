@@ -88,7 +88,7 @@ namespace VKSdk.Notify
                 {
                     isActive = false;
                     LeanTween.moveLocalY(this.gameObject, 150, 0.5f).setEase(LeanTweenType.easeInOutBack);
-                    yield return new WaitForSeconds(0.6f);
+                    yield return new WaitForSeconds(1.6f);
                     gameObject.SetActive(false);
                     break;
                 }

@@ -26,6 +26,7 @@ public class BodyPart : MonoBehaviour
         this.ID = id;
         this.Free = true;
         this.m_parent = Pr;
+        transform.parent = Pr;
         spriteRender.sprite = sprite;
     }
     public void Hide()

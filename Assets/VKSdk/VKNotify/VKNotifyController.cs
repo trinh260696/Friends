@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VKSdk.UI;
 
 namespace VKSdk.Notify
 {
@@ -15,14 +14,10 @@ namespace VKSdk.Notify
             Other = 3
         }
 
-        public Canvas canvas;
         public GameObject gNoti;
         public Transform content;
         public RectTransform rectMain;
         List<VKNotifyItem> notis;
-
-        public GameObject goTextRun;
-        public VKTextRun vkTextRun;
 
         #region Sinleton
         private static VKNotifyController instance;
@@ -52,11 +47,6 @@ namespace VKSdk.Notify
             DontDestroyOnLoad(this.transform);
         }
         #endregion
-
-        public void SetCamera(Camera cam)
-        {
-            canvas.worldCamera = cam;
-        }
 
         public void AddNotify(string content, TypeNotify type)
         {
@@ -97,35 +87,14 @@ namespace VKSdk.Notify
 
         public Vector2 GetRectSize()
         {
-            if(rectMain != null) return rectMain.sizeDelta;
+            if (rectMain != null) return rectMain.sizeDelta;
             return Vector2.zero;
         }
 
         public void ReloadCanvasScale(float screenRatio, float screenScale)
         {
             UnityEngine.UI.CanvasScaler canvasScaler = GetComponent<UnityEngine.UI.CanvasScaler>();
-            canvasScaler.scaleFactor = screenScale;
-
-        }
-
-
-        // notify run
-        public void ShowNotifyRun(string msg)
-        {
-            if(goTextRun != null)
-            {
-                goTextRun.SetActive(true);
-                vkTextRun.Init(msg);
-            }
-        }
-
-        public void HideNotifyRun()
-        {
-            if(goTextRun != null)
-            {
-                vkTextRun.StopMove();
-                goTextRun.SetActive(false);
-            }
+            canvasScaler.matchWidthOrHeight = screenScale;
         }
     }
 

@@ -61,7 +61,7 @@ public class BossBase : MonoBehaviour
     
 
     private RaycastHit2D hit;
-    public bool beating = false;
+    
     private List<Vector2> Waypoints;
     private List<Vector2> DetectPoints;
     private int wallCollisionCount = 0; // Đếm số lần va chạm với tường để phát hiện tắc
@@ -76,6 +76,8 @@ public class BossBase : MonoBehaviour
     private bool run = false;
     protected bool eat = false;
     protected bool stun = false;
+    protected bool chase = false;
+    protected bool beating = false;
     public float RANGE_FAR = 10f;
     public float RANGE_NEAR = 1f;
     public float v_slow = 2f;
@@ -114,18 +116,25 @@ public class BossBase : MonoBehaviour
                 break;
 
             case EnemyState.CHASE_STATE:
+                chase = true;
                 animator.SetBool(BossChaseProperties, true);
                 break;
 
             case EnemyState.FIGHT_STATE:
+                beating = true;
                 animator.SetBool(BossBeatProperties, beating);
                 break;
 
             case EnemyState.EAT_STATE:
+                eat = true;
                 animator.SetBool(BossEatProperties, eat);
                 break;
-
+            case EnemyState.CHASE_EAT_STATE:
+                chase = true;
+                animator.SetBool(BossChaseProperties, chase);
+                break;
             case EnemyState.STUN_STATE:
+                stun = true;
                 animator.SetBool(BossDamageProperties, stun);
                 break;
 
@@ -137,20 +146,17 @@ public class BossBase : MonoBehaviour
 
     public void PlayRunAnimation()
     {
-        run = true;
-        animator.SetBool(BossRunProperties, true);
+        run = true;eat = false;stun=false;chase = false;
+       
     }
 
     public void PlayChaseAnimation()
     {
-        animator.SetBool(BossChaseProperties, true);
+        chase = true;
+        stun=false;eat = false;
     }
 
-    public void PlayBeatAnimation()
-    {
-        beating = true;
-        animator.SetBool(BossBeatProperties, true);
-    }
+   
 
     public void PlayAttackTrigger()
     {
@@ -160,13 +166,14 @@ public class BossBase : MonoBehaviour
     public void PlayEatAnimation()
     {
         eat = true;
-        animator.SetBool(BossEatProperties, true);
+        chase = false;
+        stun = false; 
     }
 
     public void PlayStunAnimation()
     {
         stun = true;
-        animator.SetBool(BossDamageProperties, true);
+        eat = false; chase = false;
     }
 
     public void PlayReviveAnimation()
@@ -195,7 +202,6 @@ public class BossBase : MonoBehaviour
         NotificationCenter.DefaultCenter().AddObserver(this, "BossStartGame");
         NotificationCenter.DefaultCenter().AddObserver(this, "OnFinish");
         DetectPoints = new List<Vector2>();
-        OnFinishTravel();
         if (emoAnimation != null)
         {
             emoAnimation.SetActive(false);
@@ -284,24 +290,16 @@ public class BossBase : MonoBehaviour
     }
     public void BossReturn()
     {
-        attackTimer=0;
-        beating = false;
+        Target = null;
+        attackTimer=0;       
         Follow = false;
         _travelPointIndex = 0; // Reset về điểm đầu tiên
         // Reset attack timer
         PlayRunAnimation();
         BossStartGame();
     }
-    public void BossEnd()
-    {
-
-    }
-    public void StopDetect()
-    {
-        run = false;
-        //Stop Travel Point
-        
-    }
+   
+   
     Vector3 Direction;
     public virtual void Update()
     {
@@ -310,13 +308,23 @@ public class BossBase : MonoBehaviour
         if(State==EnemyState.IDLE_STATE) return;
 
         if (!StaticData.IsPlay) return;
-       
+     
         if (State == EnemyState.PATROL_STATE && run)
         {
             TravelPoint();
         }else if (State == EnemyState.CHASE_STATE)
         {
             DetectTargets();
+        }
+        else if (State == EnemyState.STUN_STATE)
+        {
+            stunTimer += Time.deltaTime;
+            if (stunTimer >= stunDuration)
+            {
+                State = EnemyState.PATROL_STATE;
+                StartDetect();
+            }
+         
         }
         //check of reaching the last pos 
 
@@ -332,12 +340,40 @@ public class BossBase : MonoBehaviour
         
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
+         if(State==EnemyState.IDLE_STATE) return;
+        if (State == EnemyState.EAT_STATE || State == EnemyState.CHASE_EAT_STATE) return;
         if (col.CompareTag("Player"))
         {
             Target = col.transform;
             targetNPC = Target.GetComponent<NPC>();
             State = EnemyState.CHASE_STATE;
+        }else if (col.CompareTag("Food"))
+        {
+            Debug.LogWarning("Collision food");
+            FoodType foodType = NPC.GetAttractiveFoodForEnemy(nameBoss);
+            var food=col.GetComponent<Food>();
+            if (food.foodType == foodType){
+                Debug.LogWarning("See food");
+                float distance=Vector2.Distance(transform.position,col.transform.position);
+                var raycast = Physics2D.Raycast(transform.position, col.transform.position - transform.position, distance, 1 << 13);
+                if (raycast.collider == null)
+                {
+                    Debug.LogWarning("Go food");
+                    targetNPC = null;
+                    Target = null;
+                    State = EnemyState.CHASE_EAT_STATE;
+                    LeanTween.move(gameObject, col.transform.position, 0.5f).setOnComplete(() => {
+                        Debug.LogWarning("Eat food");
+                        EatFood();
+                        food.Consume();
+                    });
+                    
+                }
+            }
+           
         }
+
+
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {
@@ -345,7 +381,8 @@ public class BossBase : MonoBehaviour
     }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-       if (collision.collider.CompareTag("Finish"))
+        if (State == EnemyState.EAT_STATE || State == EnemyState.CHASE_EAT_STATE) return;
+        if (collision.collider.CompareTag("Finish"))
         {
             BossReturn();
         }
@@ -359,24 +396,29 @@ public class BossBase : MonoBehaviour
         }
 
     }
-    
-   
-    
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!isMoveWayPoint) return;
+        if (collision.collider.CompareTag("Wall"))
+        {
+            Vector2 dir= transform.position-collision.transform.position;
+            float angle = Vector2.SignedAngle(dir, Vector2.up);
+            Vector2 forceDir = Vector2.up;
+            if (angle <-135 || angle > 135) forceDir = Vector2.down;
+            else if (angle > -45 && angle < 45) forceDir = Vector2.up;
+            else if(angle<-45 && angle<-135) forceDir = Vector2.left;
+            else forceDir = Vector2.right;
+            Body.AddForce(forceDir * 5f);
+        }
+           
+    }
+
+
     private void HandleWallBounce()
     {
         DetectionCollider.isTrigger=false;
     }
-    public virtual void Beat(Transform Destination)
-    {
-        _follow = false;
-        // Stop TravelPoint
-
-        State = EnemyState.FIGHT_STATE;
-        PlayBeatAnimation();
-        Vector3 dir = Destination.position - transform.position;
-
-        ContentAssistant.Instance.PlayEffectDeath(Destination, Destination.position+Vector3.right*Mathf.Sign(dir.x)+Vector3.up);
-    }
+   
     void OnTravelPoint()
     {
         State = EnemyState.PATROL_STATE;
@@ -434,13 +476,7 @@ public class BossBase : MonoBehaviour
         animator.transform.localScale = direction.x < 0 ? Vector3.one  : StaticData.ScaleInverse;
     }
     
-    public void OnFinishTravel()
-    {
-        //run = false;
-        //StopCoroutine("TravelPoint");
-        //Target = null;
-        //_follow = false;
-    }
+   
     public void Stun(float duration)
     {
         State = EnemyState.STUN_STATE;
@@ -453,29 +489,25 @@ public class BossBase : MonoBehaviour
 
     public void DetectTargets()
     {
-        if (State == EnemyState.STUN_STATE)
-        {
-            stunTimer += Time.deltaTime;
-            if (stunTimer >= stunDuration)
-            {
-                State = EnemyState.PATROL_STATE;
-                StartDetect();
-            }
-            return;
-        }
+       
 
-        Food nearestFood = BaitManager.Instance.FindNearestFoodForEnemy(this);
-        if (nearestFood != null && IQ <= 3 && State!=EnemyState.EAT_STATE)
+        //Food nearestFood = BaitManager.Instance.FindNearestFoodForEnemy(this);
+        //if (nearestFood != null && IQ <= 3 && State != EnemyState.EAT_STATE)
+        //{
+        //    BaitManager.Instance.MoveEnemyTowardFood(this, nearestFood);
+        //    //State = EnemyState.EAT_STATE;
+        //    return;
+        //}
+        if (Target == null)
         {
-            BaitManager.Instance.MoveEnemyTowardFood(this, nearestFood);
-            //State = EnemyState.EAT_STATE;
+            BossReturn();
             return;
         }
-        //  if (Target == null&&attackTimer>5f)
-        // {         
-        //     BossReturn();
-        //     return;
-        // }
+        if (!Target.gameObject.activeSelf)
+        {
+            BossReturn();
+            return;
+        }
         if (Target != null)
         {
             float distanceToTarget = Vector2.Distance(transform.position, Target.position);
@@ -483,6 +515,12 @@ public class BossBase : MonoBehaviour
             if (distanceToTarget < RANGE_NEAR)
             {
                 // Sử dụng HandleTimedAttack() để quản lý tấn công theo thời gian
+                if(Target.gameObject.tag!="Player")
+                {
+                    Target=null;
+                    BossReturn();
+                    return;
+                }
                 HandleTimedAttack();
             }
             else if (distanceToTarget < RANGE_FAR)
@@ -493,14 +531,14 @@ public class BossBase : MonoBehaviour
             }
             else
             {
-                PatrolState();
-               // Reset attack timer khi mục tiêu ra ngoài tầm
-               
+               BossReturn();
+                // Reset attack timer khi mục tiêu ra ngoài tầm
+
             }
         }
         else
         {
-            PatrolState();
+            BossReturn();
             // Reset attack timer khi không có mục tiêu
            
         }
@@ -613,8 +651,9 @@ public class BossBase : MonoBehaviour
         SetupPointDetect();
         State = EnemyState.PATROL_STATE;
         Follow = false;
-        
-        Body.linearVelocity = Vector2.zero;
+        run = true;
+        Target = null;
+        // Body.linearVelocity = Vector2.zero;
     }
 
     private void DealDamage()
@@ -625,7 +664,7 @@ public class BossBase : MonoBehaviour
         }
         attackTimer=0;
         targetNPC.IsPositionLocked = false;
-        animator.SetTrigger(AttackTrigger);
+        //animator.SetTrigger(AttackTrigger);
         if (targetNPC != null)
         {
             targetNPC.Deal(damage);
@@ -647,7 +686,6 @@ public class BossBase : MonoBehaviour
         State = EnemyState.EAT_STATE;
         Follow = false;
         Body.linearVelocity = Vector2.zero;
-        PlayEatAnimation();
         Invoke(nameof(BossReturn), 5f);
     }
 

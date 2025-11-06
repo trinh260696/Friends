@@ -7,6 +7,9 @@ public class PlayerAIM : MonoBehaviour
 {
     public Transform cCamera;//main camera
     public static float CamZoom = 6;//Zoom
+    
+    private Vector3 velocity = Vector3.zero;
+    public float smoothTime = 0.15f; // Điều chỉnh giá trị này để thay đổi độ mịn
      
     void Awake()
     {
@@ -22,9 +25,9 @@ public class PlayerAIM : MonoBehaviour
     {
         if (!StaticData.IsPlay) return;
         //  if (Marker.activeInHierarchy) Marker.transform.position = nearest.transform.position;//moving marker to target pos
-        cCamera.transform.position = new Vector3(transform.position.x, transform.position.y, -CamZoom);//moving camera to player pos 
         
-
+        Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, -CamZoom);
+        cCamera.transform.position = Vector3.SmoothDamp(cCamera.transform.position, targetPosition, ref velocity, smoothTime);
     }
     void Update()
     {

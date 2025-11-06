@@ -3,12 +3,13 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using VKSdk.Notify;
 
 public class PlayerNPC : NPC
 {
     public StateFriend State { get => state; set => state = value; }
     public Player player;
-   
+    public BossBase Enemy;
     public void Init(string skinName)
     {
         skeletonMecanim = animator.GetComponent<SkeletonMecanim>();
@@ -21,11 +22,16 @@ public class PlayerNPC : NPC
         player = GetComponent<Player>();
         decoyAnimator=decoyTransform.GetComponent<Animator>();
     }
+    public override void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
     public override void Update()
     {
         SetKeyAnimation();
         if (Input.GetKeyDown(KeyCode.Space)) {
-            ThrowFood(transform.position, (Vector2)transform.position+UnityEngine.Random.insideUnitCircle*3f);
+            if(Enemy!=null)
+            ThrowFood(transform.position,Enemy);
         }
     }
     public override void FixedUpdate()
@@ -34,6 +40,7 @@ public class PlayerNPC : NPC
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
+        base.OnTriggerEnter2D (collision);
         if (state == StateFriend.FRIEND_DIE) return;
         if(state==StateFriend.FRIEND_GO_TARGET) return;
         if (state==StateFriend.FRIEND_GO_MAIN)
@@ -43,6 +50,8 @@ public class PlayerNPC : NPC
                 if (state == StateFriend.FRIEND_GO_MAIN && box)
                 {
                     state = StateFriend.FRIEND_SORTING_FOOD;
+                    FieldAssistant.main.FlashSlotsYellow();
+                    VKNotifyController.Instance.AddNotify(" Touch to a slot matching your piece to sort exactly!", VKNotifyController.TypeNotify.Normal);
                 }
             }
             return;
@@ -66,9 +75,15 @@ public class PlayerNPC : NPC
                     frameBox.gameObject.SetActive(false);
                 }
             }
+        }else if (collision.CompareTag("Enemy"))
+        {
+            Enemy = collision.GetComponent<BossBase>();
         }
-    }   
-
+    }
+    public override void OnTriggerExit2D(Collider2D collision)
+    {
+        base.OnTriggerExit2D(collision);
+    }
     
     private void SetKeyAnimation()
     {       
@@ -82,6 +97,7 @@ public class PlayerNPC : NPC
     }
     public override void Death()
     {
+        
         state = StateFriend.FRIEND_DIE;
         // StopCoroutine("DetectGift");
         // StopCoroutine("DetectPathReturn");
@@ -102,8 +118,7 @@ public class PlayerNPC : NPC
         {
             col.enabled = false;
         }
-
-        Invoke("DestroyGameObject", 5f);
+        DestroyGameObject();
     }
     public void ActiveDecoy()
     {
@@ -121,23 +136,33 @@ public class PlayerNPC : NPC
         base.HideAndSneek(isTransparent);
     }
 
-    public override void ThrowFood(Vector3 npcPos, Vector3 enemyPos)
+    public override void ThrowFood(Vector3 npcPos,BossBase enemy)
     {
-        base.ThrowFood(npcPos, enemyPos);
+        base.ThrowFood(npcPos, enemy);
     }
 
 
     public override void RecoverFriend()
     {
+        HP=Player.HP;
         foreach (var param in animator.parameters)
         {
             animator.ResetTrigger(param.name);
         }
-        animator.SetTrigger("ReviveTrigger");
-       
-        if (box && !isDecoy)
+        animator.SetTrigger(NPC.ReviveTrigger);
+        if(previousState==StateFriend.FRIEND_SORTING_FOOD)
+        {
+            state = StateFriend.FRIEND_SORTING_FOOD;
+            frameBox.gameObject.SetActive(true);
+        }
+       else
+        if (box)
         {
             frameBox.gameObject.SetActive(true);
+            state=StateFriend.FRIEND_GO_MAIN;
+        }else
+        {
+            state = StateFriend.FRIEND_PATROL;
         }
     }
     public void Balance()

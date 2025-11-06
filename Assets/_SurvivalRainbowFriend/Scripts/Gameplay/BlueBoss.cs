@@ -9,6 +9,7 @@ using UnityEngine;
         private void Start()
         {
             NotificationCenter.DefaultCenter().AddObserver(this, "PopulatePos");
+            
         }
         public override void FixedUpdate()
         {
@@ -33,12 +34,6 @@ using UnityEngine;
             {
                
             }          
-        }
-        public override void Beat(Transform Destination)
-        {
-            base.Beat(Destination);
-            ContentAssistant.Instance.GetItem("3D_Hit_03", Destination.transform.position+Vector3.right + Vector3.up);
-            AudioManager.instance.Play("PowerPunch");
         }
       
    

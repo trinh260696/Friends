@@ -82,7 +82,7 @@ public class BaitManager : MonoBehaviour
     {
         return food.IsFoodType(FoodType.BEAN) || 
                food.IsFoodType(FoodType.CHICKEN_LEG) || 
-               food.IsFoodType(FoodType.BANANA);
+               food.IsFoodType(FoodType.CHEESE);
     }
 
     private bool IsChainAttraction(BossBase enemy, Food food)
@@ -132,9 +132,9 @@ public class BaitManager : MonoBehaviour
         return nearbyFood;
     }
 
-    internal Food SpawnFood(Vector3 foodSpawnPos, Vector3 throwDirection)
+    internal Food SpawnFood(Vector3 foodSpawnPos, Vector3 throwDirection,FoodType foodType=FoodType.BEAN)
     {
-        Food food = ContentAssistant.Instance.GetItem<Food>("Food", foodSpawnPos);
+        Food food = ContentAssistant.Instance.GetItem<Food>("Food_"+foodType, foodSpawnPos);
         RegisterFood(food);
         return food;
     }

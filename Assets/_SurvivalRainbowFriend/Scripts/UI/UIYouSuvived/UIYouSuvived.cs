@@ -17,7 +17,7 @@ public class UIYouSuvived : VKLayer
     [SerializeField] private TextMeshProUGUI namePlayer;
     [SerializeField] private Button btnVideo;
     [SerializeField] private Button btnNoThank;
-    [SerializeField] private Image processImg;
+    //[SerializeField] private Image processImg;
     [SerializeField] private TextMeshProUGUI proccessText;
     [SerializeField] private LeanTweenSurvived leanTweenSurvived;
     private int reward = 500;
@@ -124,22 +124,22 @@ public class UIYouSuvived : VKLayer
     public void Init(string str)
     {
         UIYouSuvived.rate = 1;
-        processImg.fillAmount = (float)(Proccess) / 100f;
+       // processImg.fillAmount = (float)(Proccess) / 100f;
         if (UIYouSuvived.Proccess+25 < 100)
             PlayerPrefs.SetInt("Proccess", UIYouSuvived.Proccess + 25);
         else
             PlayerPrefs.SetInt("Proccess", 0);
-        proccessText.text = Proccess.ToString() + "%";
+       // proccessText.text = Proccess.ToString() + "%";
         int from = UIYouSuvived.Proccess;
         LeanTween.value(proccessText.gameObject, (value) =>
         {
-            proccessText.text = string.Format("{0}%", (int)(value));
-            processImg.fillAmount = (float)(value) / 100f;
+            //proccessText.text = string.Format("{0}%", (int)(value));
+           // processImg.fillAmount = (float)(value) / 100f;
         }, from, from + 25, 1f).setDelay(1.5f).setOnComplete(()=> 
         {
             Proccess += 25;
-            proccessText.text = string.Format("{0}%", Proccess);
-            processImg.fillAmount= (float)(Proccess) / 100f;
+           // proccessText.text = string.Format("{0}%", Proccess);
+            //processImg.fillAmount= (float)(Proccess) / 100f;
             if (Proccess >= 99)
             {
                 var skin = SkinItemData.Instance.GetSkinRndNotSet();
@@ -164,8 +164,8 @@ public class UIYouSuvived : VKLayer
         {
             LeanTween.value(proccessText.gameObject, (value) =>
             {
-                proccessText.text = string.Format("{0}%", (int)(value));
-                processImg.fillAmount = (float)(value) / 100f;
+                //proccessText.text = string.Format("{0}%", (int)(value));
+                //processImg.fillAmount = (float)(value) / 100f;
             }, 100, 0, 1f).setDelay(.5f);
             isSkin= false;
         }
@@ -198,11 +198,7 @@ public class UIYouSuvived : VKLayer
     public void OnClickVideo()
     {
         AudioManager.instance.Play("ButtonClick");
-        if (!AdsManager.Instance.CheckAdsReady())
-        {
-            UIPopup.OpenPopup("Error", "Video is not available!", false);
-            return;
-        }
+        
         StopAllCoroutines();
         BtnInter();      
         LeanTween.cancel(StickObject.gameObject);

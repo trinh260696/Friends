@@ -258,13 +258,13 @@ namespace Crystal
             {
                 OnApplySafeArea.Invoke();
             }
-            if (UserData.Instance.GameData.vip == 0 && !isStandard)
-            {
+            //if (UserData.Instance.GameData.vip == 0 && !isStandard)
+            //{
                 
-              //  Panel.sizeDelta -= Vector2.up * StaticData.HEIGHT_BANNER;
-              //  Panel.localPosition = new Vector2(0, StaticData.HEIGHT_BANNER / 2);
-                isStandard = true;
-            }
+            //  //  Panel.sizeDelta -= Vector2.up * StaticData.HEIGHT_BANNER;
+            //  //  Panel.localPosition = new Vector2(0, StaticData.HEIGHT_BANNER / 2);
+            //    isStandard = true;
+            //}
             //if (!isSafe)
             //{
 

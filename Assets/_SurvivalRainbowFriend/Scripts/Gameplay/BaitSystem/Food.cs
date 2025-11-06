@@ -4,7 +4,7 @@ public enum FoodType
 {
     BEAN = 0,
     CHICKEN_LEG = 1,
-    BANANA = 2
+    CHEESE = 2
 }
 
 public class Food : MonoBehaviour
@@ -62,14 +62,6 @@ public class Food : MonoBehaviour
     {
         return attractionRadius;
     }
-
-    //public void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    BossBase boss = collision.GetComponent<BossBase>();
-    //    if (boss != null && !isConsumed)
-    //    {
-    //        boss.EatFood();
-    //        Consume();
-    //    }
-    //}
+    
+   
 }

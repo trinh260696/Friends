@@ -15,7 +15,7 @@ public class UIGame : VKLayer
     private void Start()
     {
         NotificationCenter.DefaultCenter().AddObserver(this, "ChangeSkin");
-        NotificationCenter.DefaultCenter().AddObserver(this, "ChangeSkin");
+       
         NotificationCenter.DefaultCenter().AddObserver(this, "HideBanner");
         var scaleFactor = VKLayerController.GetScale(Screen.width, Screen.height, new Vector2(1920, 1080));
 
@@ -93,7 +93,12 @@ public class UIGame : VKLayer
     {
         AudioManager.instance.Play("ButtonClick");
     }
-    
+    public void OnClickPlay()
+    {
+        AudioManager.instance.Play("ButtonClick");
+        LoadScene.Instance.LoadSceneAndLoading("Level_1");
+
+    }
     public override void ReloadCanvasScale(float screenRatio, float screenScale)
     {
         base.ReloadCanvasScale(screenRatio, screenScale);

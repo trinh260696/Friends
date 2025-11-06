@@ -1,4 +1,4 @@
-using com.adjust.sdk;
+
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,13 +9,13 @@ public class VkAdjustTracker
     public static void AdjustTrack(string eventcode, Dictionary<string, object> param=null)
     {
 
-        AdjustEvent adjustEvent = new AdjustEvent(eventcode); // progress_level_start
-        if (param != null)
-        {
-            adjustEvent.addCallbackParameter("event_params", JsonConvert.SerializeObject(param));
-        }
+        //AdjustEvent adjustEvent = new AdjustEvent(eventcode); // progress_level_start
+        //if (param != null)
+        //{
+        //    adjustEvent.addCallbackParameter("event_params", JsonConvert.SerializeObject(param));
+        //}
        
-        Adjust.trackEvent(adjustEvent);
+        //Adjust.trackEvent(adjustEvent);
     }
 
     public static void TrackResourceGain(string resource_type, int amount, int total, string source)

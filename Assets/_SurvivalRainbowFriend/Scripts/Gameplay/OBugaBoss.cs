@@ -38,22 +38,7 @@ using UnityEngine;
         {
 
         }
-        IEnumerator RaiseOrDown()
-        {
-            while (StaticData.IsPlay)
-            {
-                animator.SetTrigger(OBugaBoss.RaiseProperties);
-                yield return new WaitForSeconds(5f);
-                animator.SetTrigger(OBugaBoss.DownProperties);
-                yield return new WaitForSeconds(5f);
-            }
-        }
-        public override void Beat(Transform Destination)
-        {
-            StopCoroutine("RaiseOrDown");
-            base.Beat(Destination);
-            ContainAssistant.Instance.GetItem("3D_Hit_05", Destination.transform.position + Vector3.up);
-            Invoke("Recover", 5f);
-        }
+      
+      
     }
 

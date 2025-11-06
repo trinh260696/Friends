@@ -120,7 +120,7 @@ public class UIProfileUser : VKLayer
             return;
         }
         UserData.Instance.GameData.name = NameUser.text;
-        UIPopup.OpenPopup("Congratulation!", string.Format("Hello {0}, Welcome to Sus imposter Rainbow Monsters! ", UserData.Instance.GameData.name),(isOK)=> {
+        UIPopup.OpenPopup("Congratulation!", string.Format("Hello {0}, Welcome to Tom & Friend Survival! ", UserData.Instance.GameData.name),(isOK)=> {
             VKLayerController.Instance.ShowLayer("UIDailyReward");
         },false);
         Close();

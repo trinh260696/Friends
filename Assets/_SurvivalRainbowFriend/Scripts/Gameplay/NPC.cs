@@ -58,10 +58,11 @@ public class NPC : MonoBehaviour
     private int currentWaypointIndexReturn = 0;
     private List<Vector2> listPathChase;
     private int currentWaypointIndexChase = 0;
-    private StateFriend previousState;
+    protected StateFriend previousState;
     protected const string RunProperties = "run_normal";
     protected const string WinTrigger = "WinTrigger";
     protected const string WinParams = "WinParams";
+    protected const string HitParams = "HitParams";
     protected const string LoseTrigger = "LoseTrigger";
     protected const string LoseTrigger2 = "LoseTrigger2";
     protected const string FailTrigger = "FailTrigger";
@@ -79,8 +80,12 @@ public class NPC : MonoBehaviour
     protected bool boosterRun = false;
     protected bool die = false;
     protected int walk = -1;
+    protected int hitParam = 0;
     protected bool dangerous = false;
     protected float time_wait = 0f;
+    protected bool canThrow = false;
+    private FieldMini fieldMini;
+    private FieldMini fieldMiniReturn;
     private Dictionary<string, bool> DecoyDictionary = new Dictionary<string, bool>
     {
         {"carton",false },{"drum_box",false},{"shove",false},{"snow",false},{ "tree",false},{"tnt_box",false},{"gift_box",false},{"toe",false }
@@ -141,6 +146,7 @@ public class NPC : MonoBehaviour
         int rnd = UnityEngine.Random.Range(0, 4);
         enum_emo(arr[rnd]);
         animator.SetTrigger(FailTrigger);
+        state = StateFriend.FRIEND_DIE;
     }
     public void PlayRndBeginGame()
     {
@@ -196,6 +202,13 @@ public class NPC : MonoBehaviour
     }
     public void FriendStartGame()
     {
+        if (Waypoints == null)
+        {
+            if (StaticData.GM_Mode == Mode.SurvivalMode)
+            {
+                Waypoints = GameManager.Instance.GetAllyWaypoints();
+            }
+        }
         // SetupWayPoints();
         if (state == StateFriend.FRIEND_DIE) return;
         previousState = StateFriend.FRIEND_INIT;
@@ -203,8 +216,8 @@ public class NPC : MonoBehaviour
         LeanTween.cancel(gameObject);
         hide = false;
         run = false;
-        ResetWaypointIndices();
-        SetupDetectPath();
+
+        StartCoroutine(nameof(SetupDetectPath));
         if (listPathDetect.Count > 0)
         {
             run = true;
@@ -215,39 +228,47 @@ public class NPC : MonoBehaviour
             run = false;
         }
     }
-    void SetupDetectPath()
+  
+    public IEnumerator SetupDetectPath()
     {
-        Vector2 FPos=Vector2.zero;
-        if (StaticData.GM_Mode == Mode.SurvivalMode)
-        {
-            Waypoints = GameManager.Instance.GetAllyWaypoints(transform, out FPos, out centerPos);
-        }
-        
-        //int count = Waypoints.Count;
-        //Vector2 dirLast = (FPos - Waypoints[count - 1]).normalized;
+        ResetWaypointIndices();
+        Vector2 FPos= Vector2.zero;
+        Waypoints = GameManager.Instance.GetAllyWaypoints(out FPos);
         Waypoints.Add(FPos);
-        state = StateFriend.FRIEND_PATROL;
-        SetCurrentIndex((Vector2)transform.position);
-        field = new FieldMini();
-        field.WIDTH = Waypoints.Count;
-        field.joints = new float[field.WIDTH, field.WIDTH];
+        Waypoints.Insert(0, (Vector2)transform.position);
+        fieldMini = new FieldMini();
+        fieldMini.WIDTH = Waypoints.Count;
+        fieldMini.joints = new float[fieldMini.WIDTH, fieldMini.WIDTH];
         for (int i = 0; i < Waypoints.Count; i++)
-            for (int j = i + 1; j < Waypoints.Count; j++)
+            for (int j = 0; j < Waypoints.Count; j++)
             {
                 float distance = Vector2.Distance((Vector2)Waypoints[i], Waypoints[j]);
                 var raycastHit = Physics2D.Raycast(Waypoints[i], Waypoints[j] - Waypoints[i], distance, 1 << 13 | 1 << 1);
+                if (i == j)
+                {
+                    fieldMini.joints[i, j] = 0;
+                }
+                else
                 if (raycastHit.collider == null)
                 {
-                    field.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
+                    fieldMini.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
                 }
                 else
                 {
-                    field.joints[i, j] = DIJKTRA.MAXC;
+                    fieldMini.joints[i, j] = DIJKTRA.MAXC;
                 }
 
             }
-        DIJKTRA.Init(field);
-        DIJKTRA.InputSecond(currentIndex, Waypoints.Count - 1);
+        //int count = Waypoints.Count;
+        //Vector2 dirLast = (FPos - Waypoints[count - 1]).normalized;
+
+          
+       
+        
+
+        
+        DIJKTRA.Init(fieldMini);
+        DIJKTRA.InputSecond(0,Waypoints.Count-1);
         var resultSecond = DIJKTRA.Output();
         if (resultSecond != null)
         {
@@ -256,84 +277,55 @@ public class NPC : MonoBehaviour
             {
                 listPathDetect.Add(Waypoints[resultSecond[i]]);
             }
+            yield return null;
+            state = StateFriend.FRIEND_PATROL;
         }
         else
         {
-            Debug.LogWarning("No path found for NPC patrol.");
-            run = false;
-            listPathDetect.Clear();
+            Debug.LogWarning(animator.name + ". No path found for NPC patrol.");
+            listPathDetect = new List<Vector2>();
+            yield return new WaitForSeconds(0.1f);
+            yield return StartCoroutine(SetupDetectPath());
+            state = StateFriend.FRIEND_PATROL;
         }
     }
     void SetKeyAnimations()
     {
+        run = false;dangerous = false;
+        switch(state)
+        {
+            case StateFriend.FRIEND_INIT:
+                run = true;
+                break;
+            case StateFriend.FRIEND_PATROL:
+                run = true;
+                break;
+            case StateFriend.FRIEND_GO_MAIN:
+                run = true;
+                break;
+            case StateFriend.FRIEND_CHASED:
+                run = true;
+                dangerous = true;
+                break;
+            default:
+                break;
+        }
         run0 = run && boosterRun;
         animator.SetBool(RunProperties, run);
         animator.SetBool(RunBoosterProperties, run0);
         animator.SetBool(ReturnProperties, box);      
-
-        animator.SetBool(ScareProperties,run&&dangerous&&!box);
+        animator.SetInteger(HitParams, hitParam);
+        animator.SetBool(ScareProperties,dangerous);
     }
     public virtual void Deal(int damage)
     {
+
         HP -= damage;
-        animator.SetTrigger(HitTrigger);        
+        hitParam=UnityEngine.Random.Range(1,3);
+        animator.SetTrigger(HitTrigger+hitParam.ToString());        
     }
 
-    protected void ReturnToBeginPoint()
-    {
-        if (state == StateFriend.FRIEND_DIE) return;
-        if (box)
-        {
-            if(!hide)
-                frameBox.gameObject.SetActive(true);
-            else
-                frameBox.gameObject.SetActive(false);
-        }
-        
-        if (StaticData.GM_Mode == Mode.SurvivalMode)
-        {
-            Waypoints = GameManager.Instance.GetAllyWaypoints();
-            Waypoints.Add(GameManager.Win_Pos);
-        }
-        
-        SetCurrentIndex((Vector2)transform.position);
-        field = new FieldMini();
-        field.WIDTH = Waypoints.Count;
-        field.joints = new float[field.WIDTH, field.WIDTH];
-        for (int i = 0; i < Waypoints.Count; i++)
-            for (int j = i + 1; j < Waypoints.Count; j++)
-            {
-                float distance = Vector2.Distance((Vector2)Waypoints[i], Waypoints[j]);
-                var raycastHit = Physics2D.Raycast(Waypoints[i], Waypoints[j] - Waypoints[i], distance, 1 << 13 | 1 << 1);
-                if (raycastHit.collider == null)
-                {
-                    field.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
-                }
-                else
-                {
-                    field.joints[i, j] = DIJKTRA.MAXC;
-                }
-
-            }
-        DIJKTRA.Init(field);
-        DIJKTRA.InputSecond(currentIndex, Waypoints.Count - 1);
-        var resultSecond = DIJKTRA.Output();
-        if (resultSecond != null)
-        {
-            listPathReturn.Clear();
-            for (int i = 0; i < resultSecond.Length; i++)
-            {
-                listPathReturn.Add(Waypoints[resultSecond[i]]);
-            }
-            run = true;
-            OnGoPathReturn();
-            //StartCoroutine("DetectPathReturn");
-        }
-        else
-        {
-            run = false;
-        }
-    }
+    
     private void SetCurrentIndex(Vector2 currentPosition)
     {
 
@@ -360,14 +352,10 @@ public class NPC : MonoBehaviour
         for (int i = 0; i < Waypoints.Count; i++)
         {
             float distance = Vector2.Distance(currentPosition, Waypoints[i]);
-            var raycastHit = Physics2D.Raycast(currentPosition, Waypoints[i] - currentPosition, distance, 1 << 13 | 1 << 1);
-            if (raycastHit.collider == null)
+            if (distance < minDistance)
             {
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    result = i;
-                }
+                minDistance = distance;
+                result = i;
             }
         }
         return result;
@@ -375,37 +363,35 @@ public class NPC : MonoBehaviour
     Vector2 DirectionFriend;
     public virtual void Update()
     {
-
+        SetKeyAnimations();
         if (state == StateFriend.FRIEND_DIE) return;
-        
+        if (!StaticData.IsPlay) return;
         // Nếu vị trí bị khóa (đang bị tấn công), bỏ qua tất cả lệnh di chuyển
         // if (IsPositionLocked) 
         // {
         //     SetKeyAnimations();
         //     return;
         // }
-        
+
         else if(state==StateFriend.FRIEND_GO_TARGET)
         {
            
         }
         else if (state == StateFriend.FRIEND_PATROL)
         {
-            if (run)
-                PatrolGift();
+            PatrolGift();
         }
         else if (state == StateFriend.FRIEND_GO_MAIN)
         {
-            if (run)
-                GoPathReturn();
+            GoPathReturn();
         }
         else if (state == StateFriend.FRIEND_CHASED)
         {
             ChasePath();
         }
         
-        SetKeyAnimations();
-        if (!StaticData.IsPlay) return;
+       
+      
       
 
     }
@@ -420,17 +406,33 @@ public class NPC : MonoBehaviour
   
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (state == StateFriend.FRIEND_DIE) return;
-      
+        if (collision.CompareTag("EnBul"))
+        {
+            canThrow = false;
+        }
+
     }
-  
+    public virtual void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EnBul"))
+        {
+            canThrow = true;
+        }
+
+    }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (state == StateFriend.FRIEND_DIE) return;
         if (collision.collider.CompareTag("Wall"))
         {
-            // Xử lý phản xạ khi va chạm với tường
-            HandleWallBounce(collision);
+            Vector2 dir = transform.position - collision.transform.position;
+            float angle = Vector2.SignedAngle(dir, Vector2.up);
+            Vector2 forceDir = Vector2.up;
+            if (angle < -135 || angle > 135) forceDir = Vector2.down;
+            else if (angle > -45 && angle < 45) forceDir = Vector2.up;
+            else if (angle < -45 && angle < -135) forceDir = Vector2.left;
+            else forceDir = Vector2.right;
+            Body.AddForce(forceDir * 5f);
         }
     }
      private void HandleWallBounce(Collision2D collision)
@@ -472,6 +474,7 @@ public class NPC : MonoBehaviour
     int count = 0;
     public virtual void Death()
     {
+        previousState=state;
          state = StateFriend.FRIEND_DIE;
         // StopCoroutine("DetectGift");
         // StopCoroutine("DetectPathReturn");
@@ -586,7 +589,7 @@ public class NPC : MonoBehaviour
     }
     public void TurnOnLose()
     {
-        state = StateFriend.FRIEND_END;
+        state = StateFriend.FRIEND_DIE;
         int rnd = UnityEngine.Random.Range(0, 2);
         string loseTrigger = rnd == 0 ? LoseTrigger : LoseTrigger2;
         animator.SetTrigger(loseTrigger);
@@ -597,9 +600,11 @@ public class NPC : MonoBehaviour
     }
     void PatrolGift()
     {
-        if (listPathDetect == null || listPathDetect.Count == 0) return;
+        
+        if (listPathDetect == null || listPathDetect.Count <=1) return;
         if (currentWaypointIndexDetect >= listPathDetect.Count)
         {
+            
             // Hoàn thành vòng tuần tra, reset chỉ số
             currentWaypointIndexDetect = 0;
             if (isDecoy)
@@ -608,7 +613,7 @@ public class NPC : MonoBehaviour
                 isDecoy = false;
                 HideAndSneek(true);
             }
-            FriendStartGame(); // Thiết lập lại đường đi
+            StartCoroutine(nameof(SetupDetectPath)); // Thiết lập lại đường đi
             return;
         }
         Vector2 targetWaypoint = listPathDetect[currentWaypointIndexDetect];
@@ -618,6 +623,7 @@ public class NPC : MonoBehaviour
         // Nếu chưa đến waypoint, di chuyển tới
         if (distance > 0.2f)
         {
+            
             Vector2 direction = (targetWaypoint - currentPosition).normalized;
             DirectionFriend = direction;
             animator.transform.localScale = direction.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
@@ -627,6 +633,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
+            
             // Đã đến waypoint, chuyển sang waypoint tiếp theo
             currentWaypointIndexDetect++;
             if (currentWaypointIndexDetect >= listPathDetect.Count)
@@ -639,18 +646,18 @@ public class NPC : MonoBehaviour
                    isDecoy = false;
                    HideAndSneek(true);
                 }
-                FriendStartGame(); // Thiết lập lại đường đi
+                Debug.LogWarning("debug "+listPathDetect.Count);
+                StartCoroutine(nameof(SetupDetectPath)); // Thiết lập lại đường đi
             }
         }
     }
     void OnPatrolGift()
     {
         state= StateFriend.FRIEND_PATROL;     
-        dangerous=false;
     }
     void GoPathReturn()
     {
-        if (listPathReturn == null || listPathReturn.Count == 0) return;
+        if (listPathReturn == null || listPathReturn.Count <=1) return;
         
         Vector2 targetWaypoint = listPathReturn[currentWaypointIndexReturn];
         Vector2 currentPosition = (Vector2)transform.position;
@@ -717,7 +724,7 @@ public class NPC : MonoBehaviour
                                 // Còn slot trống → setup đường đi tuần mới
                                 bodyPart.DestroyNow();
                                 bodyPart = null;
-                                FriendStartGame();
+                                StartCoroutine(nameof(SetupDetectPath));
                             }
                         });
                 }
@@ -750,90 +757,170 @@ public class NPC : MonoBehaviour
     void OnGoPathReturn()
     {
         state= StateFriend.FRIEND_GO_MAIN;
-        dangerous=false;
     }
-   
-    public void DropBoxToSlot(Slot s)
+    protected IEnumerator ReturnToBeginPoint()
     {
-        
-    }
+        if (state == StateFriend.FRIEND_DIE) yield break;
+        if (box)
+        {
+            if (!hide)
+                frameBox.gameObject.SetActive(true);
+            else
+                frameBox.gameObject.SetActive(false);
+        }
 
+
+        ResetWaypointIndices();
+        Waypoints = GameManager.Instance.GetAllyWaypoints();
+        Waypoints.Add(GameManager.Win_Pos);
+        Waypoints.Insert(0, (Vector2)transform.position);
+        // Lấy danh sách waypoints (phải là danh sách mà chúng ta đang tuần tra/quay về)
+        if (Waypoints == null || Waypoints.Count == 0)
+        {
+            yield break;
+        }
+        fieldMini = new FieldMini();
+        fieldMini.WIDTH = Waypoints.Count;
+        fieldMini.joints = new float[fieldMini.WIDTH, fieldMini.WIDTH];
+        for (int i = 0; i < Waypoints.Count; i++)
+            for (int j = 0; j < Waypoints.Count; j++)
+            {
+                float distance = Vector2.Distance((Vector2)Waypoints[i], Waypoints[j]);
+                var raycastHit = Physics2D.Raycast(Waypoints[i], Waypoints[j] - Waypoints[i], distance, 1 << 13 | 1 << 1);
+                if (i == j)
+                {
+                    fieldMini.joints[i, j] = 0;
+                }
+                else
+                if (raycastHit.collider == null)
+                {
+                    fieldMini.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
+                }
+                else
+                {
+                    fieldMini.joints[i, j] = DIJKTRA.MAXC;
+                }
+
+            }
+        DIJKTRA.Init(fieldMini);
+        DIJKTRA.InputSecond(0, Waypoints.Count - 1);
+        var resultSecond = DIJKTRA.Output();
+
+        if (resultSecond != null)
+        {
+            run = true;
+            listPathReturn.Clear();
+            for (int i = 0; i < resultSecond.Length; i++)
+            {
+                listPathReturn.Add(Waypoints[resultSecond[i]]);
+            }
+
+            OnGoPathReturn();
+        }
+        else
+        {
+            Debug.LogWarning(animator.name + ". No path found for NPC return.");
+            listPathReturn = new List<Vector2>();
+            yield return new WaitForSeconds(0.1f);
+            yield return StartCoroutine(nameof(ReturnToBeginPoint));
+            OnGoPathReturn();
+
+        }
+
+    }
     /// <summary>
     /// Hàm public để gọi di chuyển NPC đến vị trí targetPos một cách an toàn
     /// Sẽ tìm waypoint gần nhất và setup đường đi qua DIJKSTRA
     /// </summary>
-    public void MoveTo(Vector2 targetPos)
+    public void MoveTo(Vector2 targetPos,Vector2 dir)
     {
         // Tìm waypoint gần nhất với targetPos
-        int targetWaypointIndex = GetIndex(targetPos);
-        if (targetWaypointIndex == -1)
-        {
-            return;
-        }
+        //int targetWaypointIndex = GetIndex(targetPos);
+        //if (targetWaypointIndex == -1)
+        //{
+        //    return;
+        //}
         
         // Setup đường đi an toàn thông qua DIJKSTRA
-        SetupChasePath(targetWaypointIndex);
+        StartCoroutine(SetupChasePath(targetPos,dir));
     }
-
+  
     /// <summary>
     /// Setup đường đi an toàn từ vị trí hiện tại đến waypoint target
     /// </summary>
-    private void SetupChasePath(int targetWaypointIndex)
+    /// 
+    protected IEnumerator SetupChasePath(Vector2 targetPos,Vector2 dir)
     {
         // Lưu state trước khi vào FRIEND_CHASED để quay lại sau
         previousState = state;
-        
+        Waypoints = GameManager.Instance.GetAllyWaypoints();
+        Waypoints.Insert(0, (Vector2)(transform.position));
+        Waypoints.Add(targetPos);
         // Lấy danh sách waypoints (phải là danh sách mà chúng ta đang tuần tra/quay về)
         if (Waypoints == null || Waypoints.Count == 0)
         {
-            return;
+            yield break;
         }
-        
-        // Thiết lập graph waypoints với collision detection
-        field = new FieldMini();
-        field.WIDTH = Waypoints.Count;
-        field.joints = new float[field.WIDTH, field.WIDTH];
-        
+        fieldMini = new FieldMini();
+        fieldMini.WIDTH = Waypoints.Count;
+        fieldMini.joints = new float[fieldMini.WIDTH, fieldMini.WIDTH];
         for (int i = 0; i < Waypoints.Count; i++)
-        {
-            for (int j = i + 1; j < Waypoints.Count; j++)
+            for (int j = 0; j < Waypoints.Count; j++)
             {
                 float distance = Vector2.Distance((Vector2)Waypoints[i], Waypoints[j]);
                 var raycastHit = Physics2D.Raycast(Waypoints[i], Waypoints[j] - Waypoints[i], distance, 1 << 13 | 1 << 1);
+                if (i == j)
+                {
+                    fieldMini.joints[i, j] = 0;
+                }
+                else
                 if (raycastHit.collider == null)
                 {
-                    field.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
+                    fieldMini.joints[i, j] = Vector2.Distance(Waypoints[i], Waypoints[j]);
                 }
                 else
                 {
-                    field.joints[i, j] = DIJKTRA.MAXC;
+                    fieldMini.joints[i, j] = DIJKTRA.MAXC;
                 }
+
             }
-        }
-        
-        // Nếu đã ở vị trí target, không cần di chuyển, quay lại state cũ ngay
-        if (currentIndex == targetWaypointIndex)
-        {
-            return;
-        }
-        
+
+
+       
+
         // Dùng DIJKSTRA để tìm đường đi từ waypoint hiện tại đến target waypoint
-        DIJKTRA.Init(field);
-        DIJKTRA.InputSecond(currentIndex, targetWaypointIndex);
+        DIJKTRA.Init(fieldMini);
+        DIJKTRA.InputSecond(0,Waypoints.Count-1);
         var resultPath = DIJKTRA.Output();
-        
+
         if (resultPath != null)
         {
+            
             listPathChase = new List<Vector2>();
             for (int i = 0; i < resultPath.Length; i++)
             {
                 listPathChase.Add(Waypoints[resultPath[i]]);
             }
-            
+
             // Chuyển sang state FRIEND_CHASED
             currentWaypointIndexChase = 0;
+            yield return null;
             state = StateFriend.FRIEND_CHASED;
-            dangerous=true;
+        }
+        else
+        {
+
+            if (previousState == StateFriend.FRIEND_PATROL)
+            {
+                Debug.LogWarning(animator.name + ". No path found for NPC chased with patrol.");
+                StartCoroutine(nameof(SetupDetectPath));
+            }
+            else
+            {
+                Debug.LogWarning(animator.name + ". No path found for NPC chased with return.");
+                StartCoroutine(nameof(ReturnToBeginPoint));
+            }
+
         }
     }
 
@@ -842,12 +929,11 @@ public class NPC : MonoBehaviour
     /// </summary>
     private void ChasePath()
     {
-        if (listPathChase == null || listPathChase.Count == 0)
+        if (listPathChase == null || listPathChase.Count <=1)
         {
             state = previousState;
             return;
         }
-
         Vector2 targetWaypoint = listPathChase[currentWaypointIndexChase];
         Vector2 currentPosition = (Vector2)transform.position;
         float distance = Vector2.Distance(currentPosition, targetWaypoint);
@@ -871,19 +957,19 @@ public class NPC : MonoBehaviour
                 // Hoàn thành FRIEND_CHASED, quay lại state trước đó
                 currentWaypointIndexChase = 0;
                 state = previousState;
-
+               
                 // Cập nhật waypoint index hiện tại cho state tiếp theo
-                SetCurrentIndex((Vector2)transform.position);
+               // SetCurrentIndex((Vector2)transform.position);
 
                 // Nếu quay lại FRIEND_PATROL, setup lại detect path
                 if (previousState == StateFriend.FRIEND_PATROL)
                 {
-                    SetupDetectPath();
+                    StartCoroutine(nameof(SetupDetectPath));
                 }
                 // Nếu quay lại FRIEND_GO_MAIN, setup lại return path
                 else if (previousState == StateFriend.FRIEND_GO_MAIN)
                 {
-                    ReturnToBeginPoint();
+                    StartCoroutine(nameof(ReturnToBeginPoint));
                 }
             }
         }
@@ -894,14 +980,16 @@ public class NPC : MonoBehaviour
     /// </summary>
     
 
-    public virtual void ThrowFood(Vector3 npcPos, Vector3 enemyPos)
+    public virtual void ThrowFood(Vector3 npcPos, BossBase enemy)
     {
+        if (!canThrow) return;
+        if (enemy == null) return;
         // Tính toán vị trí đối xứng của npcPos qua điểm enemyPos
         // Công thức: Symmetric_Point = 2 * enemyPos - npcPos
-        Vector3 foodSpawnPos = 2 * enemyPos - npcPos;
+        Vector3 foodSpawnPos = ( enemy.transform.position+npcPos)/2f;
 
-        Vector3 throwDirection = (Vector3)UnityEngine.Random.insideUnitCircle.normalized;
-        Food foodObj = BaitManager.Instance.SpawnFood(foodSpawnPos, throwDirection);
+        Vector3 throwDirection = npcPos-enemy.transform.position;
+        Food foodObj = BaitManager.Instance.SpawnFood(foodSpawnPos, throwDirection.normalized,FoodType.CHEESE);
         //Rigidbody2D rb = foodObj.GetComponent<Rigidbody2D>();
         //if (rb != null)
         //{
@@ -912,6 +1000,18 @@ public class NPC : MonoBehaviour
     public virtual void RecoverFriend()
     {
         
+    }
+    public static FoodType GetAttractiveFoodForEnemy(string nameBoss)
+    {
+        nameBoss= nameBoss.ToLower();
+        switch (nameBoss)
+        {
+            case "mouse": return FoodType.CHEESE;
+            case "dog": return FoodType.CHICKEN_LEG;
+            case "bat": return FoodType.BEAN;
+            case "snake": return FoodType.BEAN;
+            default: return FoodType.BEAN;
+        }
     }
 }
 
