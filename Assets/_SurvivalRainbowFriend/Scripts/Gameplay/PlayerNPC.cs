@@ -1,15 +1,22 @@
 ﻿using Spine.Unity;
 using System;
+using System.Collections;
 using System.Security.Cryptography.X509Certificates;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using VKSdk.Notify;
 
 public class PlayerNPC : NPC
 {
-    public StateFriend State { get => state; set => state = value; }
+    // public StateFriend State { get => state; set => state = value; }
+    public bool isAttacking = false;
     public Player player;
     public BossBase Enemy;
+    public const string WhisperProperties = "WhispTrigger";
+    public const string PushProperties = "Push";
+    public const string GayTrigger = "GayTrigger";
+    public const string TurtleProperties = "Turtle";
     public void Init(string skinName)
     {
         skeletonMecanim = animator.GetComponent<SkeletonMecanim>();
@@ -33,6 +40,37 @@ public class PlayerNPC : NPC
             if(Enemy!=null)
             ThrowFood(transform.position,Enemy);
         }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (Enemy != null)
+            {
+                if (Enemy.State == EnemyState.STUN_STATE) return;
+                ThrowFood(transform.position, Enemy);
+                // isAttacking = true;
+                // animator.SetTrigger(PlayerNPC.GayTrigger);
+                // Invoke(nameof(AttackBoss), 0.5f);
+            }
+        }
+        //if (isAttacking && Enemy)
+        //{
+        //    if (Vector2.Distance(transform.position, Enemy.transform.position) < 5f)
+        //    {
+        //        Vector3 dir = (Enemy.transform.position - transform.position).normalized;
+        //        float sign = dir.x;
+               
+        //        Vector3 targetPos = Enemy.transform.position - Vector3.right*sign * 1f;
+        //        transform.position= targetPos;
+        //        animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
+        //    }
+            
+        //}
+    }
+    private Vector3 velocity = Vector3.zero;
+    public float smoothTime = 0.15f;
+    void AttackBoss()
+    {
+        Enemy.AttackedBoss();
+        isAttacking = false;
     }
     public override void FixedUpdate()
     {
@@ -42,7 +80,11 @@ public class PlayerNPC : NPC
     {
         base.OnTriggerEnter2D (collision);
         if (state == StateFriend.FRIEND_DIE) return;
-        if(state==StateFriend.FRIEND_GO_TARGET) return;
+        if (collision.CompareTag("Enemy") && !isAttacking)
+        {
+            this.Enemy = collision.GetComponent<BossBase>();
+        }
+        if (state==StateFriend.FRIEND_GO_TARGET) return;
         if (state==StateFriend.FRIEND_GO_MAIN)
         {
             if (collision.CompareTag("EnBul"))
@@ -78,6 +120,17 @@ public class PlayerNPC : NPC
         }else if (collision.CompareTag("Enemy"))
         {
             Enemy = collision.GetComponent<BossBase>();
+        }
+    }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+       
+        if (collision.CompareTag("EnBul")|| collision.CompareTag("Finish"))
+        {
+            if (box)
+            {
+                state = StateFriend.FRIEND_SORTING_FOOD;
+            }
         }
     }
     public override void OnTriggerExit2D(Collider2D collision)

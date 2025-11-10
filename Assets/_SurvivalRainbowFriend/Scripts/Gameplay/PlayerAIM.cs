@@ -10,12 +10,13 @@ public class PlayerAIM : MonoBehaviour
     
     private Vector3 velocity = Vector3.zero;
     public float smoothTime = 0.15f; // Điều chỉnh giá trị này để thay đổi độ mịn
-     
+    private Player player;
     void Awake()
     {
     // Marker.SetActive(false);//marker deactivation
         cCamera = Camera.main.transform;
         Camera.main.orthographicSize = 8;
+        player = GetComponent<Player>();
     }
     private void OnEnable()
     {
@@ -23,6 +24,10 @@ public class PlayerAIM : MonoBehaviour
     }
     void LateUpdate()
     {
+        if (player.playerNPC.isAttacking)
+        {
+            return;
+        }
         if (!StaticData.IsPlay) return;
         //  if (Marker.activeInHierarchy) Marker.transform.position = nearest.transform.position;//moving marker to target pos
         
@@ -30,7 +35,7 @@ public class PlayerAIM : MonoBehaviour
         cCamera.transform.position = Vector3.SmoothDamp(cCamera.transform.position, targetPosition, ref velocity, smoothTime);
     }
     void Update()
-    {
+    {     
 #if UNITY_EDITOR
         OnDesktop();
 #else

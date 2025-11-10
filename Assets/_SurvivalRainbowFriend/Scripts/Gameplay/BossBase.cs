@@ -66,17 +66,21 @@ public class BossBase : MonoBehaviour
     private List<Vector2> DetectPoints;
     private int wallCollisionCount = 0; // Đếm số lần va chạm với tường để phát hiện tắc
     private const string BossRunProperties = "bossrun";
-    private const string BossChaseProperties = "bosschase";
+    private const string BossChaseProperties1 = "bosschase1";
+    private const string BossChaseProperties2 = "bosschase2";
     public const string BossBeatProperties = "bosskill";
-    private const string BossDamageProperties = "bossattacked";
-    private const string TriggerDie = "dietrigger";
+    private const string AttackedTrigger = "attackedtrigger";
+    private const string AttractiveTrigger = "attractivetrigger";
+    private const string CrashTrigger = "crashtrigger";
+    private const string BossStunProperties = "stun";
     private const string BossEatProperties = "bosseat";
     private const string ReviveTrigger = "revivetrigger";
     private const string AttackTrigger = "attacktrigger";
     private bool run = false;
     protected bool eat = false;
     protected bool stun = false;
-    protected bool chase = false;
+    protected bool chase1 = false;
+    protected bool chase2 = false;
     protected bool beating = false;
     public float RANGE_FAR = 10f;
     public float RANGE_NEAR = 1f;
@@ -102,10 +106,11 @@ public class BossBase : MonoBehaviour
     {
         // Reset tất cả các boolean trước tiên để tránh xung đột
         animator.SetBool(BossRunProperties, false);
-        animator.SetBool(BossChaseProperties, false);
+        animator.SetBool(BossChaseProperties1, false);
+        animator.SetBool(BossChaseProperties2, false);
         animator.SetBool(BossEatProperties, false);
         animator.SetBool(BossBeatProperties, false);
-        animator.SetBool(BossDamageProperties, false);
+        animator.SetBool(BossStunProperties, false);
 
         // Set parameter dựa trên state hiện tại
         switch (State)
@@ -116,8 +121,8 @@ public class BossBase : MonoBehaviour
                 break;
 
             case EnemyState.CHASE_STATE:
-                chase = true;
-                animator.SetBool(BossChaseProperties, true);
+                chase1 = true;
+                animator.SetBool(BossChaseProperties1, true);
                 break;
 
             case EnemyState.FIGHT_STATE:
@@ -130,12 +135,12 @@ public class BossBase : MonoBehaviour
                 animator.SetBool(BossEatProperties, eat);
                 break;
             case EnemyState.CHASE_EAT_STATE:
-                chase = true;
-                animator.SetBool(BossChaseProperties, chase);
+                chase2 = true;
+                animator.SetBool(BossChaseProperties2, chase2);
                 break;
             case EnemyState.STUN_STATE:
                 stun = true;
-                animator.SetBool(BossDamageProperties, stun);
+                animator.SetBool(BossStunProperties, stun);
                 break;
 
             case EnemyState.IDLE_STATE:
@@ -146,13 +151,13 @@ public class BossBase : MonoBehaviour
 
     public void PlayRunAnimation()
     {
-        run = true;eat = false;stun=false;chase = false;
+        run = true;eat = false;stun=false;chase1 = false;chase2 = false;
        
     }
 
     public void PlayChaseAnimation()
     {
-        chase = true;
+        chase1 = true;
         stun=false;eat = false;
     }
 
@@ -166,14 +171,14 @@ public class BossBase : MonoBehaviour
     public void PlayEatAnimation()
     {
         eat = true;
-        chase = false;
+        chase2 = true;
         stun = false; 
     }
 
     public void PlayStunAnimation()
     {
         stun = true;
-        eat = false; chase = false;
+        eat = false; chase1 = false;
     }
 
     public void PlayReviveAnimation()
@@ -188,10 +193,10 @@ public class BossBase : MonoBehaviour
         eat = false;
         stun = false;
         animator.SetBool(BossRunProperties, false);
-        animator.SetBool(BossChaseProperties, false);
+        animator.SetBool(BossChaseProperties1, false);
         animator.SetBool(BossBeatProperties, false);
         animator.SetBool(BossEatProperties, false);
-        animator.SetBool(BossDamageProperties, false);
+        animator.SetBool(BossStunProperties, false);
     }
     int currentIndex;
     private int _travelPointIndex = 0;
@@ -321,6 +326,7 @@ public class BossBase : MonoBehaviour
             stunTimer += Time.deltaTime;
             if (stunTimer >= stunDuration)
             {
+                stun = false;
                 State = EnemyState.PATROL_STATE;
                 StartDetect();
             }
@@ -340,7 +346,8 @@ public class BossBase : MonoBehaviour
         
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
-         if(State==EnemyState.IDLE_STATE) return;
+        if (State == EnemyState.STUN_STATE) return;
+        if(State==EnemyState.IDLE_STATE) return;
         if (State == EnemyState.EAT_STATE || State == EnemyState.CHASE_EAT_STATE) return;
         if (col.CompareTag("Player"))
         {
@@ -349,20 +356,20 @@ public class BossBase : MonoBehaviour
             State = EnemyState.CHASE_STATE;
         }else if (col.CompareTag("Food"))
         {
-            Debug.LogWarning("Collision food");
+           
             FoodType foodType = NPC.GetAttractiveFoodForEnemy(nameBoss);
             var food=col.GetComponent<Food>();
             if (food.foodType == foodType){
-                Debug.LogWarning("See food");
+               
                 float distance=Vector2.Distance(transform.position,col.transform.position);
                 var raycast = Physics2D.Raycast(transform.position, col.transform.position - transform.position, distance, 1 << 13);
                 if (raycast.collider == null)
                 {
-                    Debug.LogWarning("Go food");
+                    
                     targetNPC = null;
                     Target = null;
                     State = EnemyState.CHASE_EAT_STATE;
-                    LeanTween.move(gameObject, col.transform.position, 0.5f).setOnComplete(() => {
+                    LeanTween.move(gameObject, col.transform.position, 1.5f).setOnComplete(() => {
                         Debug.LogWarning("Eat food");
                         EatFood();
                         food.Consume();
@@ -486,7 +493,21 @@ public class BossBase : MonoBehaviour
         attackTimer = 0f; // Reset attack timer khi bị choáng
         PlayStunAnimation();
     }
-
+    public void AttractiveBoss(float duration=5f)
+    {
+        animator.SetTrigger(AttractiveTrigger);
+        Stun(duration);
+    }
+    public void AttackedBoss(float duration=5f)
+    {
+        animator.SetTrigger(AttackedTrigger);
+        Stun(duration);
+    }
+    public void CrashedBoss(float duration=5f)
+    {
+        animator.SetTrigger(CrashTrigger);
+        Stun(duration);
+    }
     public void DetectTargets()
     {
        
@@ -684,6 +705,7 @@ public class BossBase : MonoBehaviour
     public void EatFood()
     {
         State = EnemyState.EAT_STATE;
+        PlayEatAnimation();
         Follow = false;
         Body.linearVelocity = Vector2.zero;
         Invoke(nameof(BossReturn), 5f);
