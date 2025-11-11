@@ -87,6 +87,10 @@ public class BossBase : MonoBehaviour
     public float v_slow = 2f;
     public float v_fast = 6f;
     public float durationAttack = 1f; // Thời gian giữa các lần tấn công
+    [SerializeField] private float crashLiftHeight = 2f;
+    [SerializeField] private float crashLiftDuration = 0.35f;
+    [SerializeField] private float crashHangDuration = 0.1f;
+    [SerializeField] private float crashDropDuration = 0.45f;
     private float stunDuration = 0f;
     private float stunTimer = 0f;
     private float attackTimer = 0f; // Timer để đếm thời gian tấn công
@@ -432,6 +436,7 @@ public class BossBase : MonoBehaviour
         State = EnemyState.PATROL_STATE;
         crashed = false;
         Follow = false;
+        isAttractive=false;
     }
     void TravelPoint()
     {
@@ -496,8 +501,11 @@ public class BossBase : MonoBehaviour
         attackTimer = 0f; // Reset attack timer khi bị choáng
         PlayStunAnimation();
     }
+    bool isAttractive = false;
     public void AttractiveBoss(float duration=5f)
     {
+        if(isAttractive) return;
+        isAttractive = true;
         animator.SetTrigger(AttractiveTrigger);
         Stun(duration);
     }
@@ -513,6 +521,35 @@ public class BossBase : MonoBehaviour
         crashed = true;
         animator.SetTrigger(CrashTrigger);
         Stun(duration);
+        PlayCrashImpact();
+    }
+    private void PlayCrashImpact()
+    {
+        LeanTween.cancel(gameObject);
+        Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
+        bool simulated = Body.simulated;
+        Body.linearVelocity = Vector2.zero;
+        Body.angularVelocity = 0f;
+        Body.simulated = false;
+        float totalDuration = crashLiftDuration + crashHangDuration + crashDropDuration;
+        var sequence = LeanTween.sequence();
+        sequence.append(LeanTween.moveY(gameObject, startPosition.y + crashLiftHeight, crashLiftDuration).setEase(LeanTweenType.easeOutQuad));
+        if (crashHangDuration > 0f)
+        {
+            sequence.append(crashHangDuration);
+        }
+        sequence.append(LeanTween.moveY(gameObject, startPosition.y, crashDropDuration).setEase(LeanTweenType.easeInQuad));
+        sequence.append(() =>
+        {
+            transform.position = startPosition;
+            transform.rotation = startRotation;
+            Body.simulated = simulated;
+        });
+        LeanTween.rotateZ(gameObject, startRotation.eulerAngles.z + 360f, totalDuration).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() =>
+        {
+            transform.rotation = startRotation;
+        });
     }
     public void DetectTargets()
     {

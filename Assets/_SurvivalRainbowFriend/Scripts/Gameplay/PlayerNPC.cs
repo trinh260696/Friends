@@ -15,7 +15,9 @@ public class PlayerNPC : NPC
     public BossBase Enemy;
     [HideInInspector]
     public TurtleItem turtleItem = null;
-    public const string WhisperProperties = "WhispTrigger";
+    public bool isWhisper = false;
+    public const string WhisperProperties = "Whisper";
+    public const string WhisperTrigger="WhispTrigger";
     public const string PushProperties = "Push";
     public const string GayTrigger = "GayTrigger";
     public const string TurtleProperties = "Turtle";
@@ -81,6 +83,11 @@ public class PlayerNPC : NPC
         gameObject.tag = "Player";
         this.turtleItem = null;
     }
+    void CancelWhisper()
+    {
+        isWhisper = false;
+
+    }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D (collision);
@@ -120,9 +127,10 @@ public class PlayerNPC : NPC
                     frameBox.gameObject.SetActive(false);
                 }
             }
-        }else if (collision.CompareTag("Enemy"))
+        }else if (collision.CompareTag("Enemy") && isWhisper)
         {
             Enemy = collision.GetComponent<BossBase>();
+            Enemy.AttractiveBoss();
         }
     }
     public void OnTriggerStay2D(Collider2D collision)
@@ -157,7 +165,25 @@ public class PlayerNPC : NPC
             //else if (angle > -45 && angle < 45) return;
             this.Enemy = collision.GetComponent<BossBase>();
             this.Enemy.CrashedBoss();
+        }else if (collision.CompareTag("Whisper") && !isWhisper)
+        {
+            dir = (collision.transform.position - transform.position).normalized;
+            angle = Vector2.SignedAngle(dir, Vector2.up);
+            distance = Vector2.Distance(collision.transform.position, transform.position);
+            if (distance > 2f) return;
+           isWhisper=true;
+           collision.GetComponent<Whisper>().DeactivateWhisper();
+           animator.SetTrigger(WhisperTrigger);
+           Invoke(nameof(TurnOffWhisper), 20f);
+        }else if (collision.CompareTag("Enemy") && isWhisper)
+        {
+            Enemy = collision.GetComponent<BossBase>();
+            Enemy.AttractiveBoss();
         }
+    }
+    void TurnOffWhisper()
+    {
+        isWhisper = false;
     }
     public override void OnTriggerExit2D(Collider2D collision)
     {
@@ -169,7 +195,7 @@ public class PlayerNPC : NPC
         run0 = run & boosterRun;
         animator.SetBool(RunProperties, run);
         animator.SetBool(ReturnProperties,  box);
-       
+        animator.SetBool(WhisperProperties, isWhisper);
         animator.SetBool(RunBoosterProperties, run0);
             
        
