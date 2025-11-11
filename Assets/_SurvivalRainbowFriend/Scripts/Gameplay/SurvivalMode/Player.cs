@@ -86,6 +86,10 @@ public class Player : MonoBehaviour
         {
             moveStand=direction;
         }
+        if (playerNPC.turtleItem)
+        {
+            playerNPC.turtleItem.transform.localScale = moveStand.x > 0 ? Vector3.one : StaticData.ScaleInverse;
+        }       
         playerNPC.animator.transform.localScale = moveStand.x > 0 ? Vector3.one*0.7f : StaticData.ScaleInverse*0.7f;
         //divide the vector by its length to get the angle
         run = direction.magnitude > 0;
@@ -93,6 +97,11 @@ public class Player : MonoBehaviour
         if (run)
         {
             SpeedReal = hide ? SpeedBox : SpeedNormal;
+            if(playerNPC.
+                turtleItem)
+            {
+                SpeedReal *= 3f;
+            }
             Body.AddForce(direction / direction.magnitude * SpeedReal);
             if (Time.frameCount % 11 == 0)
             {

@@ -13,6 +13,8 @@ public class PlayerNPC : NPC
     public bool isAttacking = false;
     public Player player;
     public BossBase Enemy;
+    [HideInInspector]
+    public TurtleItem turtleItem = null;
     public const string WhisperProperties = "WhispTrigger";
     public const string PushProperties = "Push";
     public const string GayTrigger = "GayTrigger";
@@ -31,7 +33,16 @@ public class PlayerNPC : NPC
     }
     public override void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (turtleItem && collision.collider.CompareTag("Enemy"))
+        {
+            collision.collider.GetComponent<BossBase>().CrashedBoss();
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            Invoke(nameof(HandleCollsionEnemy), 0.2f);
+        }
+    }
+    void HandleCollsionEnemy()
+    {
+        GetComponent<CapsuleCollider2D>().enabled = true;
     }
     public override void Update()
     {
@@ -46,24 +57,10 @@ public class PlayerNPC : NPC
             {
                 if (Enemy.State == EnemyState.STUN_STATE) return;
                 ThrowFood(transform.position, Enemy);
-                // isAttacking = true;
-                // animator.SetTrigger(PlayerNPC.GayTrigger);
-                // Invoke(nameof(AttackBoss), 0.5f);
+                
             }
         }
-        //if (isAttacking && Enemy)
-        //{
-        //    if (Vector2.Distance(transform.position, Enemy.transform.position) < 5f)
-        //    {
-        //        Vector3 dir = (Enemy.transform.position - transform.position).normalized;
-        //        float sign = dir.x;
-               
-        //        Vector3 targetPos = Enemy.transform.position - Vector3.right*sign * 1f;
-        //        transform.position= targetPos;
-        //        animator.transform.localScale = dir.x > 0 ? Vector3.one * 0.7f : StaticData.ScaleInverse * 0.7f;
-        //    }
-            
-        //}
+     
     }
     private Vector3 velocity = Vector3.zero;
     public float smoothTime = 0.15f;
@@ -76,14 +73,20 @@ public class PlayerNPC : NPC
     {
         base.FixedUpdate();
     }
+    void CancelTurtle()
+    {
+        boosterRun = false;
+        animator.transform.localPosition=Vector3.zero;
+        turtleItem.DeactivateTurtle();
+        gameObject.tag = "Player";
+        this.turtleItem = null;
+    }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D (collision);
         if (state == StateFriend.FRIEND_DIE) return;
-        if (collision.CompareTag("Enemy") && !isAttacking)
-        {
-            this.Enemy = collision.GetComponent<BossBase>();
-        }
+        
+        
         if (state==StateFriend.FRIEND_GO_TARGET) return;
         if (state==StateFriend.FRIEND_GO_MAIN)
         {
@@ -124,13 +127,36 @@ public class PlayerNPC : NPC
     }
     public void OnTriggerStay2D(Collider2D collision)
     {
-       
+        float distance;
+        float angle;
+        Vector2 dir;
         if (collision.CompareTag("EnBul")|| collision.CompareTag("Finish"))
         {
             if (box)
             {
                 state = StateFriend.FRIEND_SORTING_FOOD;
             }
+        }
+        else if(collision.CompareTag("Turtle") && this.turtleItem == null) {
+            
+
+            LeanTween.moveLocalY(animator.gameObject, 0.8f, 0.5f);
+            boosterRun = true;
+            gameObject.tag = "Hide";
+            this.turtleItem = collision.GetComponent<TurtleItem>();
+            turtleItem.ActivateTurtle(this, transform.position - Vector3.up * 0.22f);
+            Invoke(nameof(CancelTurtle), 30f);
+        }
+        else if (collision.CompareTag("Enemy") && turtleItem != null)
+        {
+            dir = (collision.transform.position - transform.position).normalized;
+            angle = Vector2.SignedAngle(dir, Vector2.up);
+            distance = Vector2.Distance(collision.transform.position, transform.position);
+            if (distance > 2f) return;
+            //if (angle < -135 || angle > 135) return;
+            //else if (angle > -45 && angle < 45) return;
+            this.Enemy = collision.GetComponent<BossBase>();
+            this.Enemy.CrashedBoss();
         }
     }
     public override void OnTriggerExit2D(Collider2D collision)

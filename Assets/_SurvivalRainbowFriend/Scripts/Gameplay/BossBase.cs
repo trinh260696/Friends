@@ -327,6 +327,7 @@ public class BossBase : MonoBehaviour
             if (stunTimer >= stunDuration)
             {
                 stun = false;
+
                 State = EnemyState.PATROL_STATE;
                 StartDetect();
             }
@@ -388,7 +389,7 @@ public class BossBase : MonoBehaviour
     }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (State == EnemyState.EAT_STATE || State == EnemyState.CHASE_EAT_STATE) return;
+        if (State == EnemyState.EAT_STATE || State == EnemyState.IDLE_STATE || State==EnemyState.STUN_STATE) return;
         if (collision.collider.CompareTag("Finish"))
         {
             BossReturn();
@@ -429,6 +430,8 @@ public class BossBase : MonoBehaviour
     void OnTravelPoint()
     {
         State = EnemyState.PATROL_STATE;
+        crashed = false;
+        Follow = false;
     }
     void TravelPoint()
     {
@@ -503,8 +506,11 @@ public class BossBase : MonoBehaviour
         animator.SetTrigger(AttackedTrigger);
         Stun(duration);
     }
+    bool crashed = false;
     public void CrashedBoss(float duration=5f)
     {
+        if(crashed) return;
+        crashed = true;
         animator.SetTrigger(CrashTrigger);
         Stun(duration);
     }

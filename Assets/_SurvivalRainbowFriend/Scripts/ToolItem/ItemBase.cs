@@ -13,4 +13,8 @@ public class ItemBase : MonoBehaviour
     {
         
     }
+    public virtual void UseItem()
+    {
+        Debug.LogWarning("Using item: " + gameObject.name);
+    }
 }
