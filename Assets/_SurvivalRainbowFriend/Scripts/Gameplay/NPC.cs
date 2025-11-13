@@ -144,9 +144,7 @@ public class NPC : MonoBehaviour
     {
         string[] arr = new string[] {StaticParam.tired_emo,StaticParam.hurry_up,StaticParam.scare_emo,StaticParam.run_emo };
         int rnd = UnityEngine.Random.Range(0, 4);
-        enum_emo(arr[rnd]);
-        animator.SetTrigger(FailTrigger);
-        state = StateFriend.FRIEND_DIE;
+        enum_emo(arr[rnd]);       
     }
     public void PlayRndBeginGame()
     {
@@ -189,6 +187,8 @@ public class NPC : MonoBehaviour
         run = false;
         currentWaypointIndexDetect = 0;
         currentWaypointIndexReturn = 0;
+        animator.SetTrigger(FailTrigger);
+        state = StateFriend.FRIEND_DIE;
         // StopCoroutine("DetectGift");
         // StopCoroutine("DetectPathReturn");
         //LeanTween.cancel(gameObject);

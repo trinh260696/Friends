@@ -50,8 +50,7 @@ public class PlayerNPC : NPC
     {
         SetKeyAnimation();
         if (Input.GetKeyDown(KeyCode.Space)) {
-            if(Enemy!=null)
-            ThrowFood(transform.position,Enemy);
+          
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -93,7 +92,10 @@ public class PlayerNPC : NPC
         base.OnTriggerEnter2D (collision);
         if (state == StateFriend.FRIEND_DIE) return;
         
-        
+        if(collision.CompareTag("Enemy"))
+        {
+            dangerous = true;
+        }
         if (state==StateFriend.FRIEND_GO_TARGET) return;
         if (state==StateFriend.FRIEND_GO_MAIN)
         {
@@ -110,6 +112,7 @@ public class PlayerNPC : NPC
         }
         if (collision.CompareTag("Box"))
         {
+            if (box) return;
             BodyPart bodyPart = collision.GetComponent<BodyPart>();
             if (bodyPart != null && bodyPart.Free)
             {
@@ -179,6 +182,9 @@ public class PlayerNPC : NPC
         {
             Enemy = collision.GetComponent<BossBase>();
             Enemy.AttractiveBoss();
+        }else if (collision.CompareTag("Enemy") && !isWhisper && !turtleItem)
+        {
+           dangerous = true;
         }
     }
     void TurnOffWhisper()
@@ -188,6 +194,10 @@ public class PlayerNPC : NPC
     public override void OnTriggerExit2D(Collider2D collision)
     {
         base.OnTriggerExit2D(collision);
+        if (collision.CompareTag("Enemy"))
+        {
+            dangerous = false;
+        }
     }
     
     private void SetKeyAnimation()
@@ -197,8 +207,8 @@ public class PlayerNPC : NPC
         animator.SetBool(ReturnProperties,  box);
         animator.SetBool(WhisperProperties, isWhisper);
         animator.SetBool(RunBoosterProperties, run0);
-            
-       
+        animator.SetBool(ScareProperties, dangerous);
+
     }
     public override void Death()
     {

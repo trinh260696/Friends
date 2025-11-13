@@ -364,16 +364,18 @@ public class BossBase : MonoBehaviour
            
             FoodType foodType = NPC.GetAttractiveFoodForEnemy(nameBoss);
             var food=col.GetComponent<Food>();
-            if (food.foodType == foodType){
+            if (food.foodType == foodType && food.IsActive){
                
+                Vector2 dir= col.transform.position - transform.position;
                 float distance=Vector2.Distance(transform.position,col.transform.position);
                 var raycast = Physics2D.Raycast(transform.position, col.transform.position - transform.position, distance, 1 << 13);
                 if (raycast.collider == null)
                 {
-                    
+                    food.IsActive = false;
                     targetNPC = null;
                     Target = null;
                     State = EnemyState.CHASE_EAT_STATE;
+                    animator.transform.localScale = dir.x < 0 ? Vector3.one : StaticData.ScaleInverse;
                     LeanTween.move(gameObject, col.transform.position, 1.5f).setOnComplete(() => {
                         Debug.LogWarning("Eat food");
                         EatFood();
@@ -393,6 +395,10 @@ public class BossBase : MonoBehaviour
     }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.CompareTag("Enemy")) { 
+            Vector2 Dir= transform.position - collision.transform.position;
+            Body.AddForce(Dir.normalized);
+        }
         if (State == EnemyState.EAT_STATE || State == EnemyState.IDLE_STATE || State==EnemyState.STUN_STATE) return;
         if (collision.collider.CompareTag("Finish"))
         {

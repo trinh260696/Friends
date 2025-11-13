@@ -17,6 +17,7 @@ public class Food : MonoBehaviour
     private bool isConsumed = false;
     private float lifeDuration = 30f;
     private float lifeTimer = 0f;
+    internal bool IsActive=true;
 
     private void Start()
     {
