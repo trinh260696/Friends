@@ -7,4 +7,5 @@ public enum EnemyState
     CHASE_STATE = 4,
     IDLE_STATE = 5,
     CHASE_EAT_STATE = 6,
+    ATTACKED_STATE = 7
 }

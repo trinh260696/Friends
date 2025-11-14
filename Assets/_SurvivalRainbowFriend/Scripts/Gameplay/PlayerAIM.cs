@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -85,7 +86,7 @@ public class PlayerAIM : MonoBehaviour
 
             if (hit.collider != null)
             {
-                Debug.LogWarning("Chạm vào: " + hit.collider.name);
+               
 
                 var slot = hit.collider.gameObject.GetComponent<Slot>();
                 if (slot != null)
@@ -94,6 +95,17 @@ public class PlayerAIM : MonoBehaviour
                     FieldAssistant.main.HandleSlotClick(slot);
                 }
 
+            }
+            RaycastHit2D[] hits = Physics2D.RaycastAll(touchPos, Vector2.zero, Mathf.Infinity, 1 << 9);
+            if(hits.Length == 0) return;
+            var list=hits.Where(hits => hits.collider != null).OrderBy(h => Vector2.Distance(touchPos, h.collider.transform.position)).ToList();
+            var hit2 = list[0];
+            if (hit2.collider != null)
+            {
+                Debug.LogWarning("Chạm vào: " + hit2.collider.name);
+                var enemy = hit2.collider.gameObject.GetComponent<BossBase>();
+                player.playerNPC.MoveToAttack(enemy);
+                
             }
         }
     }

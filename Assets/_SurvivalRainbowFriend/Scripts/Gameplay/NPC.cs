@@ -63,7 +63,7 @@ public class NPC : MonoBehaviour
     protected const string WinTrigger = "WinTrigger";
     protected const string WinParams = "WinParams";
     protected const string HitParams = "HitParams";
-    protected const string LoseTrigger = "LoseTrigger";
+    protected const string LoseTrigger = "LoseTrigger1";
     protected const string LoseTrigger2 = "LoseTrigger2";
     protected const string FailTrigger = "FailTrigger";
     protected const string DieTrigger = "DieTrigger";

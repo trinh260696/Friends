@@ -315,7 +315,7 @@ public class BossBase : MonoBehaviour
         SetKeyAnimation();
         if (!isMoveWayPoint) return;
         if(State==EnemyState.IDLE_STATE) return;
-
+        if(State==EnemyState.ATTACKED_STATE) return;
         if (!StaticData.IsPlay) return;
      
         if (State == EnemyState.PATROL_STATE && run)
@@ -351,6 +351,7 @@ public class BossBase : MonoBehaviour
         
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
+        if(State==EnemyState.ATTACKED_STATE) return;
         if (State == EnemyState.STUN_STATE) return;
         if(State==EnemyState.IDLE_STATE) return;
         if (State == EnemyState.EAT_STATE || State == EnemyState.CHASE_EAT_STATE) return;
@@ -395,6 +396,7 @@ public class BossBase : MonoBehaviour
     }
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
+        if(State==EnemyState.ATTACKED_STATE) return;
         if (collision.collider.CompareTag("Enemy")) { 
             Vector2 Dir= transform.position - collision.transform.position;
             Body.AddForce(Dir.normalized);
@@ -416,7 +418,9 @@ public class BossBase : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
+
         if (!isMoveWayPoint) return;
+        if(State==EnemyState.ATTACKED_STATE) return;
         if (collision.collider.CompareTag("Wall"))
         {
             Vector2 dir= transform.position-collision.transform.position;

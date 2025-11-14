@@ -11,16 +11,20 @@ public class PlayerNPC : NPC
 {
     // public StateFriend State { get => state; set => state = value; }
     public bool isAttacking = false;
+
     public Player player;
     public BossBase Enemy;
+    public BossBase EnemyTarget;
     [HideInInspector]
     public TurtleItem turtleItem = null;
     public bool isWhisper = false;
     public const string WhisperProperties = "Whisper";
     public const string WhisperTrigger="WhispTrigger";
     public const string PushProperties = "Push";
-    public const string GayTrigger = "GayTrigger";
+    public const string GayProperties = "Gay";
     public const string TurtleProperties = "Turtle";
+    public const string AttackTrigger = "AttackTrigger";
+    public const string AttackedTrigger = "attackedtrigger";
     public void Init(string skinName)
     {
         skeletonMecanim = animator.GetComponent<SkeletonMecanim>();
@@ -48,10 +52,7 @@ public class PlayerNPC : NPC
     }
     public override void Update()
     {
-        SetKeyAnimation();
-        if (Input.GetKeyDown(KeyCode.Space)) {
-          
-        }
+        SetKeyAnimation();             
         if (Input.GetKeyDown(KeyCode.A))
         {
             if (Enemy != null)
@@ -95,6 +96,8 @@ public class PlayerNPC : NPC
         if(collision.CompareTag("Enemy"))
         {
             dangerous = true;
+            Enemy = collision.GetComponent<BossBase>();
+           
         }
         if (state==StateFriend.FRIEND_GO_TARGET) return;
         if (state==StateFriend.FRIEND_GO_MAIN)
@@ -132,7 +135,7 @@ public class PlayerNPC : NPC
             }
         }else if (collision.CompareTag("Enemy") && isWhisper)
         {
-            Enemy = collision.GetComponent<BossBase>();
+           
             Enemy.AttractiveBoss();
         }
     }
@@ -184,7 +187,8 @@ public class PlayerNPC : NPC
             Enemy.AttractiveBoss();
         }else if (collision.CompareTag("Enemy") && !isWhisper && !turtleItem)
         {
-           dangerous = true;
+            Enemy = collision.GetComponent<BossBase>();
+            dangerous = true;
         }
     }
     void TurnOffWhisper()
@@ -194,21 +198,23 @@ public class PlayerNPC : NPC
     public override void OnTriggerExit2D(Collider2D collision)
     {
         base.OnTriggerExit2D(collision);
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") && !isAttacking)
         {
             dangerous = false;
+            EnemyTarget = null;
         }
     }
     
     private void SetKeyAnimation()
-    {       
+    {
+       
         run0 = run & boosterRun;
         animator.SetBool(RunProperties, run);
         animator.SetBool(ReturnProperties,  box);
         animator.SetBool(WhisperProperties, isWhisper);
         animator.SetBool(RunBoosterProperties, run0);
         animator.SetBool(ScareProperties, dangerous);
-
+        animator.SetBool(GayProperties, isAttacking);
     }
     public override void Death()
     {
@@ -302,6 +308,64 @@ public class PlayerNPC : NPC
     {
         state= StateFriend.FRIEND_PATROL;
         box = false;
+    }
+
+    public void MoveToAttack( BossBase enemy)
+    {
+        if(HP<=0) return;
+        if (isAttacking) return;
+        EnemyTarget = enemy;
+        if (EnemyTarget == null || EnemyTarget.State==EnemyState.ATTACKED_STATE) {
+            
+            return; }
+
+        float distance = Vector2.Distance(EnemyTarget.transform.position, transform.position);
+        if (distance > 7f)
+        {
+            animator.SetTrigger(AttackTrigger);
+            return;
+        }
+        RaycastHit2D hit=Physics2D.Raycast(transform.position, (EnemyTarget.transform.position - transform.position).normalized, distance, LayerMask.GetMask("Wall"));
+        if (hit.collider != null)
+        {
+            animator.SetTrigger(AttackTrigger);
+            return;
+        }
+        EnemyTarget.State= EnemyState.ATTACKED_STATE;
+        isAttacking = true;
+        previousState = state;
+
+        Vector2 dir = (EnemyTarget.transform.position - transform.position).normalized;
+       
+        Vector3 targetPosition = EnemyTarget.transform.position - Vector3.right*dir.x*2f;
+        animator.transform.localScale = dir.x > 0 ? Vector3.one*0.7f : StaticData.ScaleInverse*0.7f;
+        EnemyTarget.Follow = false;
+        EnemyTarget.Body.linearVelocity = Vector2.zero;
+        Invoke(nameof(playAnimationGay), distance*0.15f);
+        LeanTween.move(gameObject, targetPosition, distance*0.25f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() =>
+        {
+            
+            Invoke(nameof(PlayEnemyAttackedAnimation), 0.5f);
+        });
+    }
+    void playAnimationGay()
+    {
+         animator.SetTrigger(AttackTrigger);
+    }
+    void PlayEnemyAttackedAnimation()
+    {
+        if (EnemyTarget == null)
+        {
+            isAttacking = false;
+            state = previousState;
+            return;
+        }
+
+        EnemyTarget.animator.SetTrigger(AttackedTrigger);
+        EnemyTarget.Stun(5f);
+        EnemyTarget = null;
+        isAttacking = false;
+        state = previousState;
     }
 
 }

@@ -80,7 +80,12 @@ public class Player : MonoBehaviour
         if (!StaticData.IsPlay)
         {
             return;
-        }     
+        }
+        if (playerNPC.isAttacking)
+        {
+            Body.linearVelocity = Vector2.zero;
+            return;
+        }
         direction = Vector2.up * variableJoystick.Vertical + Vector2.right * variableJoystick.Horizontal;
         if (direction != Vector2.zero)
         {
