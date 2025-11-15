@@ -26,6 +26,7 @@ using Unity.VisualScripting;
 public class BossBase : MonoBehaviour
 {
     public string nameBoss = "Boss";
+    public GameObject starEffect;
     public int IQ = 1;
     public float attackSpeed = 1f;
     public int damage = 10;
@@ -217,6 +218,7 @@ public class BossBase : MonoBehaviour
         }    
         DetectionCollider=GetComponent<Collider2D>();
         State=EnemyState.IDLE_STATE;
+        starEffect.SetActive(false);
     }
     
     public virtual void OnInit()
@@ -331,7 +333,7 @@ public class BossBase : MonoBehaviour
             if (stunTimer >= stunDuration)
             {
                 stun = false;
-
+                starEffect.SetActive(false);
                 State = EnemyState.PATROL_STATE;
                 StartDetect();
             }
@@ -522,6 +524,7 @@ public class BossBase : MonoBehaviour
     public void AttackedBoss(float duration=5f)
     {
         animator.SetTrigger(AttackedTrigger);
+        Invoke(nameof(playStarEffect), 1f);
         Stun(duration);
     }
     bool crashed = false;
@@ -530,8 +533,13 @@ public class BossBase : MonoBehaviour
         if(crashed) return;
         crashed = true;
         animator.SetTrigger(CrashTrigger);
+        Invoke(nameof(playStarEffect), 1f);
         Stun(duration);
         PlayCrashImpact();
+    }
+    void playStarEffect()
+    {
+        starEffect.SetActive(true);
     }
     private void PlayCrashImpact()
     {

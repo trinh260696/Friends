@@ -62,6 +62,11 @@ public class PlayerNPC : NPC
                 
             }
         }
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+           ContentAssistant.Instance.GetItem<TrapItem>("TrapItem", transform.position);
+
+        }
      
     }
     private Vector3 velocity = Vector3.zero;
@@ -342,6 +347,7 @@ public class PlayerNPC : NPC
         EnemyTarget.Follow = false;
         EnemyTarget.Body.linearVelocity = Vector2.zero;
         Invoke(nameof(playAnimationGay), distance*0.15f);
+        LeanTween.cancel(EnemyTarget.gameObject);
         LeanTween.move(gameObject, targetPosition, distance*0.25f).setEase(LeanTweenType.easeInOutQuad).setOnComplete(() =>
         {
             
